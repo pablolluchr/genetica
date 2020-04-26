@@ -12,6 +12,8 @@ public class UnitMovement : MonoBehaviour
     public float minDistance = 1f;//stops moving when minDistance reached
     public float maxDistance = 6f; //only follow targets maxDistance appart
     public float speed;
+    public float animationSpeed = 10f;
+    public float animationTilt = 10f;
     private Rigidbody rb;
     private GravityAttractor planet;
 
@@ -26,6 +28,8 @@ public class UnitMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        //move towards target
         Vector3 moveDir = target.position - rb.position;
         moveDir = Vector3.ProjectOnPlane(moveDir, transform.up); //movement only tangent to the planet
 
@@ -40,6 +44,23 @@ public class UnitMovement : MonoBehaviour
             rb.MovePosition(rb.position + transform.forward * Time.fixedDeltaTime * speed);
         }
 
+        //effect of gravity
         planet.Attract(transform);
     }
+
+    private void Update()
+    {
+
+
+        //animate movement
+        Transform prefab = this.gameObject.transform.GetChild(0);
+
+        //the z rotation goes frrom -animationTilt to animationTilt according to a sine.
+        float currentRotation = Mathf.Sin(Time.time * animationSpeed) * animationTilt;
+        prefab.localRotation = Quaternion.Euler(new Vector3(0, 0, currentRotation));
+
+    }
+
+
+
 }
