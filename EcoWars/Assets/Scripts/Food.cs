@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
+    public float StomachFillPerSecond = 1f;
     // Start is called before the first frame update
     void Start()
     {

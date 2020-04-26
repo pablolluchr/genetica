@@ -77,9 +77,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDistance: 3
   maxDistance: 6
-  speed: 1
-  animationSpeed: 20
+  speed: 3
+  walkAnimationSpeed: 12
+  eatAnimationSpeed: 4
   animationTilt: 6
+  foodRange: 15
+  eatRange: 1.5
+  stomachSize: 10
+  stomachDecreasePerSecond: 0.4
+  stomachFilledAmount: 10
+  hungerThreshold: 7
   rotationSpeed: 1
 --- !u!1001 &3097672236547419415
 PrefabInstance:

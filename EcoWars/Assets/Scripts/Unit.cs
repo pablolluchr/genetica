@@ -8,17 +8,25 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
 
-    private Unit target; //unit moves towards target
+    private Transform target; //unit moves towards target
     public float minDistance = 3f;//stops moving when minDistance reached
     public float maxDistance = 20f; //only follow targets maxDistance appart
     public float speed =1f;
-    public float animationSpeed = 10f;
+    public float walkAnimationSpeed = 10f;
+    [SerializeField] private float eatAnimationSpeed = 1f;
     public float animationTilt = 10f;
     private Rigidbody rb;
     private Vector3 destination = Vector3.zero;
     private GravityAttractor planet;
     private UnitState unitState;
     private float destinationStampTime;
+    public float foodRange=5f;
+    public float originalEatRange = 1f;
+    public float eatRange=1f;
+    [SerializeField] private float stomachSize = 10f;
+    [SerializeField] private float stomachDecreasePerSecond = 0.1f;
+    private float stomachFilledAmount = 10f; //how much of the stomach is filled
+    [SerializeField] private float hungerThreshold = 5f;
     [SerializeField] private float rotationSpeed = 2f;
 
 
@@ -30,56 +38,36 @@ public class Unit : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    //private void FixedUpdate()
-    //{
-
-    //    //move towards target
-    //    Vector3 moveDir = target.position - rb.position;
-    //    moveDir = Vector3.ProjectOnPlane(moveDir, transform.up); //movement only tangent to the planet
-
-    //    if (moveDir.magnitude > minDistance && moveDir.magnitude < maxDistance) //target in reach and not too close
-    //    {
-    //        Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
-
-    //        //only change rotation of y axis
-    //        transform.rotation = targetRotation;
-
-    //        //move forward in the local axis
-    //        rb.MovePosition(rb.position + transform.forward * Time.fixedDeltaTime * speed);
-    //    }
-
-    //    //effect of gravity
-    //    planet.Attract(transform);
-    //}
-
     private void FixedUpdate()
     {
+        //get a bit hungry
+        stomachFilledAmount -= stomachDecreasePerSecond * Time.fixedDeltaTime;
+
+        if (stomachFilledAmount < 0)
+        {
+            unitState = UnitState.Dead;
+        }
 
         switch (unitState)
         {
             case UnitState.Wander:
                 {
+                    //get a new destination if appropriate
                     if (NeedsDestination())
                     {
                         GetDestination();
                     }
 
-                    //only rotate normal to the planet
-                    Vector3 projectedDestination = Vector3.ProjectOnPlane(destination, transform.up);
-                    Quaternion targetRotation = Quaternion.LookRotation(projectedDestination, Vector3.up);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.fixedDeltaTime * rotationSpeed);
-                    //move forward in the local axis
-                    rb.MovePosition(rb.position + transform.forward * Time.fixedDeltaTime * speed);
+                    Move(destination);
 
                     //TODO: check for blocked path and recalculate destination if so? 
-
-                    //TODO: CheckForFood. same as below.
 
                     //todo: maybe consider chase state (to chase food and enemy?) and once in reach transition to eat or attack
 
                     Food targetToEat = CheckForFood(); //enemy nearby?
                     if (targetToEat != null)
                     {
+                        target = targetToEat.GetComponent<Transform>();
                         unitState = UnitState.Eat;
 
                     }
@@ -87,7 +75,7 @@ public class Unit : MonoBehaviour
                     Unit targetToAggro = CheckForAggro(); //enemy nearby?
                     if (targetToAggro != null)
                     {
-                        target = targetToAggro;
+                        target = targetToAggro.GetComponent<Transform>();
                         unitState = UnitState.Attack;
 
                     }
@@ -102,21 +90,47 @@ public class Unit : MonoBehaviour
                 }
             case UnitState.Eat:
                 {
+                    if (stomachFilledAmount >= stomachSize) //unit is full
+                    {
+                        eatRange = originalEatRange; //reset eatRange
+                        unitState = UnitState.Wander;
+                    }
+                    else if ((target.transform.position - transform.position).magnitude <= eatRange)
+                    {
+                        eatRange = originalEatRange+1; //increase eatRange while eating
+                        //start eating until full
+                        stomachFilledAmount += target.GetComponent<Food>().StomachFillPerSecond * Time.fixedDeltaTime;
+                        AnimateEat();
+
+                    }
+                    else{Move(target.transform.position);}//chase food source
                     break;
-
                 }
-
-
+            case UnitState.Dead:
+                {
+                    Object.Destroy(this.gameObject);
+                    break;
+                }
         }
+    }
+
+    //Rotate, move unit towards destination, affect gravity and animate
+    private void Move(Vector3 destination)
+    {
+        //only rotate normal to the planet
+        Vector3 projectedDestination = Vector3.ProjectOnPlane(destination, transform.up);
+        Quaternion targetRotation = Quaternion.LookRotation(projectedDestination, Vector3.up);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.fixedDeltaTime * rotationSpeed);
+
+        //move forward in the local axis
+        rb.MovePosition(rb.position + transform.forward * Time.fixedDeltaTime * speed);
+
 
         //affect gravity
         planet.Attract(transform);
 
         //animate movement
-        Transform prefab = this.gameObject.transform.GetChild(0);
-        //the z rotation goes frrom -animationTilt to animationTilt according to a sine.
-        float currentRotation = Mathf.Sin(Time.time * animationSpeed) * animationTilt;
-        prefab.localRotation = Quaternion.Euler(new Vector3(0, 0, currentRotation));
+        AnimateWalk();
 
     }
 
@@ -127,20 +141,16 @@ public class Unit : MonoBehaviour
         if(destination == Vector3.zero){ return true;}
 
         ////destination too close
-        //Vector3 moveDir = target.GetComponent<Transform>().position - rb.position;
-        //moveDir = Vector3.ProjectOnPlane(moveDir, transform.up); //movement only tangent to the planet
-        if ((destination-transform.position).magnitude <= minDistance)
-        {
-            return true;
-        }
+        if ((destination-transform.position).magnitude <= minDistance){return true;}
 
-        //if its wandering and couldn't reach the destination in 10 sec
+        //if its wandering and couldn't reach the destination in 10 sec reset 
         if (Time.time -destinationStampTime > 10f && unitState == UnitState.Wander) { return true; }
+
         //otherwise
         return false;
     }
 
-    //Find a random point in front 
+    //Find a random point in planet's surface 
     private void GetDestination()
     {
         //random position somewhere on the surface of the planet
@@ -158,7 +168,50 @@ public class Unit : MonoBehaviour
     //Check for enemy units in range
     private Food CheckForFood()
     {
-        return null;
+        if(stomachFilledAmount > hungerThreshold) { return null; } //don't look for food if not hungry
+        //TODO: check for efficiency. Is it iterating through all gameobjects in scene?
+        GameObject[] foods = GameObject.FindGameObjectsWithTag("Food");
+
+        //find closest source of food and return it
+        float closestDistance = Mathf.Infinity;
+        Food closestFood = null;
+        foreach (GameObject food in foods)
+        {
+            float distance = (transform.position - food.transform.position).magnitude;
+            if (distance < foodRange && distance<closestDistance)
+            {
+                closestDistance = distance;
+                closestFood= food.GetComponent<Food>();
+            }
+        }
+
+        return closestFood;
+    }
+
+    private void AnimateWalk()
+    {
+        Transform prefab = this.gameObject.transform.GetChild(0);
+
+        //reset position from eat animation
+        prefab.localPosition = Vector3.Lerp(prefab.localPosition, new Vector3(0f, 0f, 0f),Time.deltaTime);
+
+        //the z rotation goes frrom -animationTilt to animationTilt according to a sine.
+        float currentRotation = Mathf.Sin(Time.time * walkAnimationSpeed) * animationTilt;
+        prefab.localRotation = Quaternion.Euler(new Vector3(0, 0, currentRotation));
+        return;
+    }
+
+    private void AnimateEat()
+    {
+        Transform prefab = this.gameObject.transform.GetChild(0);
+
+        //reset rotation from walk animation
+        prefab.localRotation = Quaternion.Lerp(prefab.localRotation, Quaternion.Euler(new Vector3(0, 0, 0)), Time.deltaTime);
+
+        //jump animation
+        float jumpHeight = Mathf.Abs(Mathf.Cos(Time.time * eatAnimationSpeed) * 2f)-.5f;
+        prefab.localPosition = Vector3.Lerp(prefab.localPosition,new Vector3(0f, jumpHeight, 0f),Time.deltaTime*eatAnimationSpeed);
+        return;
     }
 }
 
@@ -166,5 +219,6 @@ public enum UnitState
 {
     Wander,
     Eat,
-    Attack
+    Attack,
+    Dead
 }
