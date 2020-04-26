@@ -1,8 +1,8 @@
 ﻿<Properties StartupConfiguration="{1F1CD5C9-A757-1657-5877-464F954CFE62}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UnitMovement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Unit.cs">
     <Files>
-      <File FileName="Assets/Scripts/GravityAttractor.cs" Line="10" Column="54" />
-      <File FileName="Assets/Scripts/UnitMovement.cs" Line="54" Column="1" />
+      <File FileName="Assets/Scripts/GravityAttractor.cs" Line="3" Column="7" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -10,7 +10,7 @@
           <Node name="EcoWars" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="UnitMovement.cs" selected="True" />
+                <Node name="Unit.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -20,7 +20,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="688d591e-8224-4456-8bd2-6684c8ef9106" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="a13de0ef-3550-4875-8056-5cd513407f19" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
