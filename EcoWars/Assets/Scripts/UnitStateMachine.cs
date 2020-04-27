@@ -23,7 +23,7 @@ public static class UnitStateMachine
                 {
                     if (unit.isBeingOverride)
                     {
-                        ////destination too close TODO: create idle state and transition to that state
+                        ////destination too close
                         if ((unit.destination - unit.transform.position).magnitude <= unit.minDistance) { break; }
 
                         unit.Move(unit.destination);
@@ -71,7 +71,7 @@ public static class UnitStateMachine
                     {
                         unit.attackRange = unit.originalAttackRange + 1;
                         unit.target.GetComponent<Unit>().TakeDamage(unit.attackDamagePerSecond * Time.fixedDeltaTime);
-                        //destination = target.transform.position //TODO: CHange it welll
+                        //TODO: Change it so target destination is set to targets position.
                         unit.AnimateEat(); //todo: attack animation
                     }
                     else { unit.Move(unit.target.transform.position); }//chase target source
@@ -104,7 +104,6 @@ public static class UnitStateMachine
                     Object.Destroy(unit.gameObject);
                     break;
                 }
-                
         }
         return unit.unitState; //no state change
     }

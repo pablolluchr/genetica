@@ -1,8 +1,11 @@
 ﻿<Properties StartupConfiguration="{1F1CD5C9-A757-1657-5877-464F954CFE62}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UnitStateMachine.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/GravityAttractor.cs" Line="13" Column="34" />
-      <File FileName="Assets/Scripts/UnittateMachine.cs" Line="103" Column="18" />
+      <File FileName="Assets/Scripts/GravityAttractor.cs" Line="12" Column="30" />
+      <File FileName="Assets/Scripts/UnittateMachine.cs" Line="106" Column="18" />
+      <File FileName="Assets/Scripts/BioFuel.cs" Line="14" Column="6" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="64" Column="24" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="30" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -10,7 +13,7 @@
           <Node name="EcoWars" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="UnitStateMachine.cs" selected="True" />
+                <Node name="GameManager.cs" selected="True" />
               </Node>
             </Node>
           </Node>

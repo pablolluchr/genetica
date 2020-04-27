@@ -8,34 +8,34 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
 
-    public Transform target; //unit moves towards target
+    [System.NonSerialized] public Transform target; //unit moves towards target
     public float minDistance = 3f;//stops moving when minDistance reached
     public float maxDistance = 20f; //only follow targets maxDistance appart
     public float speed =1f;
     public float walkAnimationSpeed = 10f;
-    [SerializeField] public float eatAnimationSpeed = 1f;
+    public float eatAnimationSpeed = 1f;
     public float animationTilt = 10f;
-    public Rigidbody rb;
-    [SerializeField] public float maxHealth=10f;
-    public float health;
-    public bool isBeingOverride;
-    public Vector3 destination = Vector3.zero;
-    public GravityAttractor planet;
-    public UnitState unitState;
-    public float destinationStampTime;
+    [System.NonSerialized] public Rigidbody rb;
+    public float maxHealth=10f;
+    [System.NonSerialized] public float health;
+    [System.NonSerialized] public bool isBeingOverride;
+    [System.NonSerialized] public Vector3 destination = Vector3.zero;
+    [System.NonSerialized] public GravityAttractor planet;
+    [System.NonSerialized] public UnitState unitState;
+    [System.NonSerialized] public float destinationStampTime;
     public float foodRange=5f;
     [SerializeField] public float attackDamagePerSecond = 1f;
     public float originalEatRange = 1f;
     [SerializeField] public float enemyDetectionRange = 10f;
-    [SerializeField] public float originalAttackRange = 2f;
-    [SerializeField] public float attackRange = 2f;
-    public float eatRange=1f;
-    public string enemyTag;
-    [SerializeField] public float stomachSize = 10f;
-    [SerializeField] public float stomachDecreasePerSecond = 0.1f;
-    public float stomachFilledAmount = 10f; //how much of the stomach is filled
-    [SerializeField] public float hungerThreshold = 5f;
-    [SerializeField] public float rotationSpeed = 2f;
+    public float originalAttackRange = 2f;
+    public float attackRange = 2f;
+    [System.NonSerialized] public float eatRange=1f;
+    [System.NonSerialized] public string enemyTag;
+    public float stomachSize = 10f;
+    public float stomachDecreasePerSecond = 0.1f;
+    [System.NonSerialized] public float stomachFilledAmount = 10f; //how much of the stomach is filled
+    public float hungerThreshold = 5f;
+    public float rotationSpeed = 2f;
 
 
     public void Awake()
@@ -61,7 +61,7 @@ public class Unit : MonoBehaviour
     }
 
      
-    private void FixedUpdate()
+    private void Update()
     {
         unitState = UnitStateMachine.NextState(this);
     }

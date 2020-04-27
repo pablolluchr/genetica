@@ -9,6 +9,7 @@ public class GravityAttractor : MonoBehaviour
     
     //nake body stand up on planet (force + rotation)
     public void Attract(Transform body){
+
         Vector3 targetDir = (body.position-transform.position).normalized; //center of the planet
         Vector3 bodyUP = body.up;
 

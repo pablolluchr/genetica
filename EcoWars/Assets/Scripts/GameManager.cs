@@ -2,10 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
+    public static GameManager gameManager;
     private Unit controlledPet;
+    public float bioFuel;
 
+    private void Awake()
+    {
+        if (gameManager != null && gameManager != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            gameManager = this;
+        }
+    }
 
     private void Start()
     {
@@ -49,7 +63,7 @@ public class GameManager : MonoBehaviour
                     Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
                 if (hit)
                 {
-                    controlledPet.OverrideDestination(hitInfo.point);
+                        controlledPet.OverrideDestination(hitInfo.point);
                 }
 
                 }
