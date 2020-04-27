@@ -1,12 +1,8 @@
 ﻿<Properties StartupConfiguration="{1F1CD5C9-A757-1657-5877-464F954CFE62}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Unit.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UnitStateMachine.cs">
     <Files>
-      <File FileName="Assets/Scripts/GravityAttractor.cs" Line="3" Column="7" />
-      <File FileName="Assets/Scripts/Unit.cs" Line="287" Column="85" />
-      <File FileName="Assets/Scripts/Food.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="44" Column="123" />
-      <File FileName="Assets/Scripts/CameraController.cs" Line="16" Column="104" />
-      <File FileName="Assets/Scripts/Sun.cs" Line="17" Column="39" />
+      <File FileName="Assets/Scripts/GravityAttractor.cs" Line="13" Column="34" />
+      <File FileName="Assets/Scripts/UnittateMachine.cs" Line="103" Column="18" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,21 +10,22 @@
           <Node name="EcoWars" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="Unit.cs" selected="True" />
+                <Node name="UnitStateMachine.cs" selected="True" />
               </Node>
             </Node>
           </Node>
         </State>
       </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="91aeecea-f1e9-46fa-98e0-028d348c30a2" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="fc7a8265-4361-45e0-9f94-7886a60ae2d8" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/Unit.cs" relfile="Assets/Scripts/Unit.cs" line="156" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

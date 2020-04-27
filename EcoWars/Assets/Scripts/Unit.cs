@@ -8,34 +8,34 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
 
-    private Transform target; //unit moves towards target
+    public Transform target; //unit moves towards target
     public float minDistance = 3f;//stops moving when minDistance reached
     public float maxDistance = 20f; //only follow targets maxDistance appart
     public float speed =1f;
     public float walkAnimationSpeed = 10f;
-    [SerializeField] private float eatAnimationSpeed = 1f;
+    [SerializeField] public float eatAnimationSpeed = 1f;
     public float animationTilt = 10f;
-    private Rigidbody rb;
-    [SerializeField] private float maxHealth=10f;
+    public Rigidbody rb;
+    [SerializeField] public float maxHealth=10f;
     public float health;
-    private bool isBeingOverride;
-    private Vector3 destination = Vector3.zero;
-    private GravityAttractor planet;
-    private UnitState unitState;
-    private float destinationStampTime;
+    public bool isBeingOverride;
+    public Vector3 destination = Vector3.zero;
+    public GravityAttractor planet;
+    public UnitState unitState;
+    public float destinationStampTime;
     public float foodRange=5f;
-    [SerializeField] float attackDamagePerSecond = 1f;
+    [SerializeField] public float attackDamagePerSecond = 1f;
     public float originalEatRange = 1f;
-    [SerializeField] private float enemyDetectionRange = 10f;
-    [SerializeField] private float originalAttackRange = 2f;
-    [SerializeField] private float attackRange = 2f;
+    [SerializeField] public float enemyDetectionRange = 10f;
+    [SerializeField] public float originalAttackRange = 2f;
+    [SerializeField] public float attackRange = 2f;
     public float eatRange=1f;
-    private string enemyTag;
-    [SerializeField] private float stomachSize = 10f;
-    [SerializeField] private float stomachDecreasePerSecond = 0.1f;
-    private float stomachFilledAmount = 10f; //how much of the stomach is filled
-    [SerializeField] private float hungerThreshold = 5f;
-    [SerializeField] private float rotationSpeed = 2f;
+    public string enemyTag;
+    [SerializeField] public float stomachSize = 10f;
+    [SerializeField] public float stomachDecreasePerSecond = 0.1f;
+    public float stomachFilledAmount = 10f; //how much of the stomach is filled
+    [SerializeField] public float hungerThreshold = 5f;
+    [SerializeField] public float rotationSpeed = 2f;
 
 
     public void Awake()
@@ -63,104 +63,11 @@ public class Unit : MonoBehaviour
      
     private void FixedUpdate()
     {
-        //get a bit hungry
-        stomachFilledAmount -= stomachDecreasePerSecond * Time.fixedDeltaTime;
-
-        if (stomachFilledAmount < 0)
-        {
-            unitState = UnitState.Dead;
-        }
-
-        switch (unitState)
-        {
-            case UnitState.Wander:
-                {
-                    if (isBeingOverride)
-                    {
-                        ////destination too close TODO: create idle state and transition to that state
-                        if ((destination - transform.position).magnitude <= minDistance) { break; }
-
-                        Move(destination);
-                        break;
-                    }
-                    //get a new destination if appropriate
-                    if (NeedsDestination())
-                    {
-                        GetDestination();
-                    }
-
-                    Move(destination);
-
-                    //TODO: check for blocked path and recalculate destination if so? 
-
-                    //todo: maybe consider chase state (to chase food and enemy?) and once in reach transition to eat or attack
-
-                    Food targetToEat = CheckForFood(); //enemy nearby?
-                    if (targetToEat != null)
-                    {
-                        target = targetToEat.GetComponent<Transform>();
-                        unitState = UnitState.Eat;
-
-                    }
-
-                    Unit targetToAttack = CheckForEnemy(); //enemy nearby?
-                    if (targetToAttack != null)
-                    {
-                        target = targetToAttack.GetComponent<Transform>();
-                        unitState = UnitState.Attack;
-
-                    }
-
-                    break;
-
-                }
-            case UnitState.Attack:
-                {
-                    if (target == null) //enemy killed
-                    {
-                        attackRange = originalAttackRange;
-                        unitState = UnitState.Wander;
-                    }
-                    //attack enemy
-                    else if ((target.transform.position - transform.position).magnitude <= attackRange)
-                    {
-                        attackRange = originalAttackRange + 1;
-                        target.GetComponent<Unit>().TakeDamage(attackDamagePerSecond * Time.fixedDeltaTime);
-                        AnimateEat(); //todo: attack animation
-                    }else{Move(target.transform.position);}//chase target source
-
-                    break;
-
-
-                }
-            case UnitState.Eat:
-                {
-                    if (stomachFilledAmount >= stomachSize) //unit is full
-                    {
-                        eatRange = originalEatRange; //reset eatRange
-                        unitState = UnitState.Wander;
-                    }
-                    else if ((target.transform.position - transform.position).magnitude <= eatRange)
-                    {
-                        eatRange = originalEatRange+1; //increase eatRange while eating
-                        //start eating until full
-                        stomachFilledAmount += target.GetComponent<Food>().StomachFillPerSecond * Time.fixedDeltaTime;
-                        AnimateEat();
-
-                    }
-                    else{Move(target.transform.position);}//chase food source
-                    break;
-                }
-            case UnitState.Dead:
-                {
-                    Object.Destroy(this.gameObject);
-                    break;
-                }
-        }
+        unitState = UnitStateMachine.NextState(this);
     }
 
     //Rotate, move unit towards destination, affect gravity and animate
-    private void Move(Vector3 destination)
+    public void Move(Vector3 destination)
     {
         //only rotate normal to the planet
         Vector3 projectedDestination = Vector3.ProjectOnPlane(destination, transform.up);
@@ -180,12 +87,12 @@ public class Unit : MonoBehaviour
     }
 
     //does the unit require to be given a new destination
-    private bool NeedsDestination()
+    public bool NeedsDestination()
     {
-        //no destination
+        //no destination TODO: check maybe null
         if(destination == Vector3.zero){ return true;}
 
-        ////destination too close
+        ////destination already reached
         if ((destination-transform.position).magnitude <= minDistance){return true;}
 
         //if its wandering and couldn't reach the destination in 10 sec reset 
@@ -196,7 +103,7 @@ public class Unit : MonoBehaviour
     }
 
     //Find a random point in planet's surface 
-    private void GetDestination()
+    public void GetDestination()
     {
         //random position somewhere on the surface of the planet
         destination = UnityEngine.Random.onUnitSphere * 5f;
@@ -211,7 +118,7 @@ public class Unit : MonoBehaviour
     }
 
     //Check for enemy units in range
-    private Unit CheckForEnemy()
+    public Unit CheckForEnemy()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 
@@ -231,7 +138,7 @@ public class Unit : MonoBehaviour
     }
 
     //Check for enemy units in range
-    private Food CheckForFood()
+    public Food CheckForFood()
     {
         if(stomachFilledAmount > hungerThreshold) { return null; } //don't look for food if not hungry
         //TODO: check for efficiency. Is it iterating through all gameobjects in scene?
@@ -255,7 +162,7 @@ public class Unit : MonoBehaviour
 
 
     //TODO: REPLACE BY BLENDER-MADE ANIMATION SET UP IN ANIMATION HANDLER
-    private void AnimateWalk()
+    public void AnimateWalk()
     {
         Transform prefab = this.gameObject.transform.GetChild(0);
 
@@ -269,7 +176,7 @@ public class Unit : MonoBehaviour
     }
 
     //TODO: REPLACE BY BLENDER-MADE ANIMATION SET UP IN ANIMATION HANDLER
-    private void AnimateEat()
+    public void AnimateEat()
     {
         Transform prefab = this.gameObject.transform.GetChild(0);
 
@@ -288,6 +195,7 @@ public class Unit : MonoBehaviour
         destination = newDestination;
         isBeingOverride = true;
         unitState = UnitState.Wander;
+        //todo: override to false;
     }
 }
 
