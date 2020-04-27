@@ -243,6 +243,8 @@ public class Unit : MonoBehaviour
         return closestFood;
     }
 
+
+    //TODO: REPLACE BY BLENDER-MADE ANIMATION SET UP IN ANIMATION HANDLER
     private void AnimateWalk()
     {
         Transform prefab = this.gameObject.transform.GetChild(0);
@@ -256,6 +258,7 @@ public class Unit : MonoBehaviour
         return;
     }
 
+    //TODO: REPLACE BY BLENDER-MADE ANIMATION SET UP IN ANIMATION HANDLER
     private void AnimateEat()
     {
         Transform prefab = this.gameObject.transform.GetChild(0);
