@@ -1,10 +1,12 @@
 ﻿<Properties StartupConfiguration="{1F1CD5C9-A757-1657-5877-464F954CFE62}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CameraController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Sun.cs">
     <Files>
       <File FileName="Assets/Scripts/GravityAttractor.cs" Line="3" Column="7" />
-      <File FileName="Assets/Scripts/Unit.cs" Line="261" Column="74" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="287" Column="85" />
       <File FileName="Assets/Scripts/Food.cs" />
-      <File FileName="Assets/Scripts/CameraController.cs" Line="5" Column="30" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="44" Column="123" />
+      <File FileName="Assets/Scripts/CameraController.cs" Line="16" Column="104" />
+      <File FileName="Assets/Scripts/Sun.cs" Line="16" Column="27" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -12,7 +14,7 @@
           <Node name="EcoWars" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="CameraController.cs" selected="True" />
+                <Node name="Sun.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -22,10 +24,10 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="58128d77-c5f9-434f-935a-639e4f2f4ce8" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="91aeecea-f1e9-46fa-98e0-028d348c30a2" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/Unit.cs" relfile="Assets/Scripts/Unit.cs" line="146" column="1" />
+      <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/Unit.cs" relfile="Assets/Scripts/Unit.cs" line="156" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

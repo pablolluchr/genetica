@@ -18,6 +18,7 @@ public class Unit : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private float maxHealth=10f;
     public float health;
+    private bool isBeingOverride;
     private Vector3 destination = Vector3.zero;
     private GravityAttractor planet;
     private UnitState unitState;
@@ -52,6 +53,7 @@ public class Unit : MonoBehaviour
             throw new System.Exception("Wrong tag for unit");
         }
         health = maxHealth;
+        isBeingOverride = false;
         planet = GameObject.FindGameObjectWithTag("Planet").GetComponent<GravityAttractor>();
         GetComponent<Rigidbody>().useGravity = false; //deactivate built-in downwards gravity
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -73,6 +75,14 @@ public class Unit : MonoBehaviour
         {
             case UnitState.Wander:
                 {
+                    if (isBeingOverride)
+                    {
+                        ////destination too close TODO: create idle state and transition to that state
+                        if ((destination - transform.position).magnitude <= minDistance) { break; }
+
+                        Move(destination);
+                        break;
+                    }
                     //get a new destination if appropriate
                     if (NeedsDestination())
                     {
@@ -270,6 +280,14 @@ public class Unit : MonoBehaviour
         float jumpHeight = Mathf.Abs(Mathf.Cos(Time.time * eatAnimationSpeed) * 2f)-.5f;
         prefab.localPosition = Vector3.Lerp(prefab.localPosition,new Vector3(0f, jumpHeight, 0f),Time.deltaTime*eatAnimationSpeed);
         return;
+    }
+
+    public void OverrideDestination(Vector3 newDestination)
+    {
+        minDistance = 1f; //update minDistance as new destinations are more accurate
+        destination = newDestination;
+        isBeingOverride = true;
+        unitState = UnitState.Wander;
     }
 }
 
