@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Unit.cs">
     <Files>
       <File FileName="Assets/Scripts/GravityAttractor.cs" Line="3" Column="7" />
-      <File FileName="Assets/Scripts/Unit.cs" Line="221" Column="31" />
-      <File FileName="Assets/Scripts/Food.cs" Line="7" Column="44" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="211" Column="46" />
+      <File FileName="Assets/Scripts/Food.cs" Line="18" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -24,10 +24,10 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="4b14944d-c575-4d4f-a580-d0cf4252e9a5" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="50ee1bdb-6aff-4f0a-839a-2ab3b02acb04" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/Unit.cs" relfile="Assets/Scripts/Unit.cs" line="86" column="1" />
+      <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/Unit.cs" relfile="Assets/Scripts/Unit.cs" line="146" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

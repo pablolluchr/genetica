@@ -16,13 +16,20 @@ public class Unit : MonoBehaviour
     [SerializeField] private float eatAnimationSpeed = 1f;
     public float animationTilt = 10f;
     private Rigidbody rb;
+    [SerializeField] private float maxHealth=10f;
+    public float health;
     private Vector3 destination = Vector3.zero;
     private GravityAttractor planet;
     private UnitState unitState;
     private float destinationStampTime;
     public float foodRange=5f;
+    [SerializeField] float attackDamagePerSecond = 1f;
     public float originalEatRange = 1f;
+    [SerializeField] private float enemyDetectionRange = 10f;
+    [SerializeField] private float originalAttackRange = 2f;
+    [SerializeField] private float attackRange = 2f;
     public float eatRange=1f;
+    private string enemyTag;
     [SerializeField] private float stomachSize = 10f;
     [SerializeField] private float stomachDecreasePerSecond = 0.1f;
     private float stomachFilledAmount = 10f; //how much of the stomach is filled
@@ -32,6 +39,19 @@ public class Unit : MonoBehaviour
 
     public void Awake()
     {
+
+        if (transform.tag == "Pet")
+        {
+            enemyTag = "Hostile";
+        }else if (transform.tag == "Hostile")
+        {
+            enemyTag = "Pet";
+        }
+        else
+        {
+            throw new System.Exception("Wrong tag for unit");
+        }
+        health = maxHealth;
         planet = GameObject.FindGameObjectWithTag("Planet").GetComponent<GravityAttractor>();
         GetComponent<Rigidbody>().useGravity = false; //deactivate built-in downwards gravity
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -73,10 +93,10 @@ public class Unit : MonoBehaviour
 
                     }
 
-                    Unit targetToAggro = CheckForAggro(); //enemy nearby?
-                    if (targetToAggro != null)
+                    Unit targetToAttack = CheckForEnemy(); //enemy nearby?
+                    if (targetToAttack != null)
                     {
-                        target = targetToAggro.GetComponent<Transform>();
+                        target = targetToAttack.GetComponent<Transform>();
                         unitState = UnitState.Attack;
 
                     }
@@ -86,7 +106,21 @@ public class Unit : MonoBehaviour
                 }
             case UnitState.Attack:
                 {
+                    if (target == null) //enemy killed
+                    {
+                        attackRange = originalAttackRange;
+                        unitState = UnitState.Wander;
+                    }
+                    //attack enemy
+                    else if ((target.transform.position - transform.position).magnitude <= attackRange)
+                    {
+                        attackRange = originalAttackRange + 1;
+                        target.GetComponent<Unit>().TakeDamage(attackDamagePerSecond * Time.fixedDeltaTime);
+                        AnimateEat(); //todo: attack animation
+                    }else{Move(target.transform.position);}//chase target source
+
                     break;
+
 
                 }
             case UnitState.Eat:
@@ -160,10 +194,30 @@ public class Unit : MonoBehaviour
 
     }
 
-    //Check for enemy units in range
-    private Unit CheckForAggro()
+    public void TakeDamage(float damage)
     {
-        return null;
+        health -= damage;
+        if (health <= 0) { unitState = UnitState.Dead; }
+    }
+
+    //Check for enemy units in range
+    private Unit CheckForEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+
+        //find closest enemy and return it
+        float closestDistance = Mathf.Infinity;
+        Unit closestEnemy = null;
+        foreach (GameObject enemy in enemies)
+        {
+            float distance = (transform.position - enemy.transform.position).magnitude;
+            if (distance < enemyDetectionRange && distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestEnemy = enemy.GetComponent<Unit>();
+            }
+        }
+        return closestEnemy;
     }
 
     //Check for enemy units in range

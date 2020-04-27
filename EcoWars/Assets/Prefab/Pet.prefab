@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3097672235925332237}
   m_Layer: 8
   m_Name: Pet
-  m_TagString: Untagged
+  m_TagString: Pet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,12 +82,14 @@ MonoBehaviour:
   eatAnimationSpeed: 4
   animationTilt: 6
   foodRange: 15
+  originalEatRange: 1
+  enemyDetectionRange: 4
+  originalAttackRange: 2
   eatRange: 1.5
   stomachSize: 10
   stomachDecreasePerSecond: 0.4
-  stomachFilledAmount: 10
   hungerThreshold: 7
-  rotationSpeed: 1
+  rotationSpeed: 3
 --- !u!1001 &3097672236547419415
 PrefabInstance:
   m_ObjectHideFlags: 0
