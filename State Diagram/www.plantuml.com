@@ -50,7 +50,7 @@ Wander --> EngageEnemy : threat & aggressive
 Wander --> Flee : threat & !aggressive
 Wander --> MoveToWater : thirsty & see water
 Wander --> MoveToFood : hungry & see food
-Wander --> MoveToBase : carrying fuel
+Wander --> MoveToBase : carrying fuel | need change
 Wander --> MoveToMate : horny & see mate
 Wander --> MoveToFuel : see fuel
 @enduml
