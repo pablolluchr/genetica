@@ -58,7 +58,9 @@ public static class UnitActions {
         Unit closestMate = UnitHelperFunctions.GetClosest(unit, hornyPets).GetComponent<Unit>();
         closestMate.horny = false;
         unit.horny = false;
-        MonoBehaviour.Instantiate(unit);
+        if (pets.Length < unit.maxUnits) {
+            MonoBehaviour.Instantiate(unit);
+        }
     }
 
     public static void Harvest(Unit unit) {

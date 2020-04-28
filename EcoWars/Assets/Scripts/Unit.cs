@@ -32,6 +32,8 @@ public class Unit : MonoBehaviour {
     public float attackRange = 2f;
     [System.NonSerialized] public float eatRange = 1f;
     [System.NonSerialized] public string enemyTag;
+    [System.NonSerialized] public int maxUnits = 100;
+
 
     // eating
     public float amountFed; //how much of the stomach is filled
