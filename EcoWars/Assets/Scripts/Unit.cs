@@ -105,7 +105,7 @@ public class Unit : MonoBehaviour {
         planet.Attract(transform);
 
         //animate movement
-        AnimateWalk();
+        //AnimateWalk();
     }
 
     //Find a random point in planet's surface 
@@ -120,31 +120,31 @@ public class Unit : MonoBehaviour {
         if (health <= 0) { this.Die(); }
     }
 
-    //TODO: REPLACE BY BLENDER-MADE ANIMATION SET UP IN ANIMATION HANDLER
-    public void AnimateWalk() {
-        Transform prefab = this.gameObject.transform.GetChild(0);
+    ////TODO: REPLACE BY BLENDER-MADE ANIMATION SET UP IN ANIMATION HANDLER
+    //public void AnimateWalk() {
+    //    Transform prefab = this.gameObject.transform.GetChild(0);
 
-        //reset position from eat animation
-        prefab.localPosition = Vector3.Lerp(prefab.localPosition, new Vector3(0f, 0f, 0f), Time.deltaTime);
+    //    //reset position from eat animation
+    //    prefab.localPosition = Vector3.Lerp(prefab.localPosition, new Vector3(0f, 0f, 0f), Time.deltaTime);
 
-        //the z rotation goes frrom -animationTilt to animationTilt according to a sine.
-        float currentRotation = Mathf.Sin(Time.time * walkAnimationSpeed) * animationTilt;
-        prefab.localRotation = Quaternion.Euler(new Vector3(0, 0, currentRotation));
-        return;
-    }
+    //    //the z rotation goes frrom -animationTilt to animationTilt according to a sine.
+    //    float currentRotation = Mathf.Sin(Time.time * walkAnimationSpeed) * animationTilt;
+    //    prefab.localRotation = Quaternion.Euler(new Vector3(0, 0, currentRotation));
+    //    return;
+    //}
 
-    //TODO: REPLACE BY BLENDER-MADE ANIMATION SET UP IN ANIMATION HANDLER
-    public void AnimateEat() {
-        Transform prefab = this.gameObject.transform.GetChild(0);
+    ////TODO: REPLACE BY BLENDER-MADE ANIMATION SET UP IN ANIMATION HANDLER
+    //public void AnimateEat() {
+    //    Transform prefab = this.gameObject.transform.GetChild(0);
 
-        //reset rotation from walk animation
-        prefab.localRotation = Quaternion.Lerp(prefab.localRotation, Quaternion.Euler(new Vector3(0, 0, 0)), Time.deltaTime);
+    //    //reset rotation from walk animation
+    //    prefab.localRotation = Quaternion.Lerp(prefab.localRotation, Quaternion.Euler(new Vector3(0, 0, 0)), Time.deltaTime);
 
-        //jump animation
-        float jumpHeight = Mathf.Abs(Mathf.Cos(Time.time * eatAnimationSpeed) * 2f) - .5f;
-        prefab.localPosition = Vector3.Lerp(prefab.localPosition, new Vector3(0f, jumpHeight, 0f), Time.deltaTime * eatAnimationSpeed);
-        return;
-    }
+    //    //jump animation
+    //    float jumpHeight = Mathf.Abs(Mathf.Cos(Time.time * eatAnimationSpeed) * 2f) - .5f;
+    //    prefab.localPosition = Vector3.Lerp(prefab.localPosition, new Vector3(0f, jumpHeight, 0f), Time.deltaTime * eatAnimationSpeed);
+    //    return;
+    //}
 
     public void OverrideDestination(Vector3 newDestination) {
         minDistance = 1f; //update minDistance as new destinations are more accurate

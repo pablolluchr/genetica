@@ -6,30 +6,33 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
-    private Unit controlledPet;
+    private GameObject target;
     public float bioFuel;
     public CameraController cameraController;
+    private float lastMouseDown;
+    public float shortClickDuration=.3f;
+    
+
 
     private void Awake()
     {
-        if (gameManager != null && gameManager != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            gameManager = this;
-        }
+        if (gameManager != null && gameManager != this) Destroy(this.gameObject);
+        else gameManager = this;
+
+        lastMouseDown = -100;
+
     }
 
     private void Start()
     {
-        controlledPet = null;
+        target = null;
     }
     void Update()
     {
-        //check for clicks on units
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)) { lastMouseDown = Time.time; }
+
+        //short click
+        if (Input.GetMouseButtonUp(0) && Time.time-lastMouseDown<shortClickDuration)
         {
 
             //check for clicks on units
@@ -38,12 +41,14 @@ public class GameManager : MonoBehaviour
                 Mathf.Infinity, 1 << LayerMask.NameToLayer("Units"));
             if (hit)
             {
-            
+
                 if (hitInfo.transform.gameObject.tag == "Pet") //pet clicked
                 {
-                    controlledPet = hitInfo.transform.GetComponent<Unit>();
                     //do stuff with pet
+                    target = hitInfo.transform.gameObject;
+                    cameraController.target = target.GetComponent<Transform>();
                     Debug.Log("Pet clicked");
+
                 }
                 else if (hitInfo.transform.gameObject.tag == "Hostile") //hostile clicked
                 {
@@ -52,23 +57,28 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if (controlledPet != null) //if a pet is being controlled
+            if (target != null) //if a pet is being controlled
             {
 
-                //check for clicks on map to override pet's destination
-                //TODO: avoid moving pet if mouse is being held (rotating around planet). Only fast clicks update position
-                if (Input.GetMouseButtonDown(0))
+                //check for clicks on map to override pet's destination. short click
+                if (Input.GetMouseButtonUp(0) && Time.time - lastMouseDown < shortClickDuration)
                 {
-                hitInfo = new RaycastHit();
-                hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo,
-                    Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
-                if (hit)
-                {
-                        controlledPet.OverrideDestination(hitInfo.point);
+                    hitInfo = new RaycastHit();
+                    hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo,
+                        Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
+                    if (hit)
+                    {
+                        target.GetComponent<Unit>().OverrideDestination(hitInfo.point);
+                    }
                 }
+            }
+        }
 
-                }
-
+        //reset to orbit control if dragging
+        if (Input.GetMouseButton(0) && (Time.time - lastMouseDown) > shortClickDuration){
+            cameraController.target = null;
+            if (Input.GetMouseButtonDown(0)){
+                cameraController.orbitStartTime = Time.time;
             }
         }
     }
