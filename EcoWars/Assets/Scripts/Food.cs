@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
-    public float StomachFillPerSecond = 1f;
-    // Start is called before the first frame update
+    public float stomachFillPerSecond = 1f;
+    public float regeneratePerSecond = .1f;
+    public float maxFood = 100f;
+    public float availableFood;
+
     void Start()
     {
-        
+        availableFood = maxFood;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        availableFood = Mathf.Min(maxFood, availableFood + regeneratePerSecond*Time.deltaTime);
+    }
+
+    public float Eat(float stomachLeft)
+    {
+      
+        float foodEaten = Mathf.Min(stomachLeft, stomachFillPerSecond * Time.deltaTime,availableFood);
+        availableFood -= foodEaten;
+        return foodEaten;
     }
 }

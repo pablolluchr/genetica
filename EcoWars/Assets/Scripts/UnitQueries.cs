@@ -21,7 +21,7 @@ public static class UnitQueries {
     }
 
     public static bool IsFed(Unit unit) {
-        if (unit.amountFed >= unit.maxFed) {
+        if (unit.amountFed >= unit.maxFed-1) {
             return true;
         }
         return false;

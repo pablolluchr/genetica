@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Unit : MonoBehaviour {
 
-    [System.NonSerialized] public Transform target; //unit moves towards target
+    [System.NonSerialized] public GameObject target; //food, enemy or biofuel source
     public float minDistance = 3f;//stops moving when minDistance reached
     public float maxDistance = 20f; //only follow targets maxDistance appart
     [Range(.5f, 3.0f)] public float speed = 1f;
@@ -94,6 +94,7 @@ public class Unit : MonoBehaviour {
 
         health = maxHealth;
         isBeingOverride = false;
+        amountFed = maxFed;
         planet = GameObject.FindGameObjectWithTag("Planet").GetComponent<GravityAttractor>();
         GetComponent<Rigidbody>().useGravity = false; //deactivate built-in downwards gravity
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -110,7 +111,6 @@ public class Unit : MonoBehaviour {
 
     //Rotate, move unit towards destination, affect gravity and animate
     public void Move(Vector3 destination) {
-        transform.Find("Destination").transform.position = destination;
 
         //only rotate normal to the planet
         Vector3 projectedDestination = Vector3.ProjectOnPlane(destination, transform.up);

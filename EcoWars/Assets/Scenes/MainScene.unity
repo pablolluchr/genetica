@@ -395,7 +395,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 2891e8b0e74cb408d9e700472a356bc7,
         type: 3}
       propertyPath: m_Name
-      value: BerryBushModel
+      value: BerryBush
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 2891e8b0e74cb408d9e700472a356bc7,
         type: 3}
@@ -528,6 +528,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: hornyChancePerSecond
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: hungerPerSecond
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: maxFed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944813, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -595,7 +610,7 @@ GameObject:
   m_Component:
   - component: {fileID: 755401940}
   m_Layer: 0
-  m_Name: BerryBush
+  m_Name: BerryBushPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -627,6 +642,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Unit (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: hornyChancePerSecond
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: hungerPerSecond
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: maxFed
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944813, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
@@ -838,6 +868,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: hornyChancePerSecond
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: hungerPerSecond
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: maxFed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944813, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1043,6 +1088,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: hornyChancePerSecond
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: hungerPerSecond
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: maxFed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944813, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1130,7 +1190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1325178601}
   m_Layer: 0
-  m_Name: BerryBush (1)
+  m_Name: BerryBushPivot (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1188,7 +1248,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 456f66e0911e349cbac5b62ed12ce992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StomachFillPerSecond: 10
+  stomachFillPerSecond: 1
+  regeneratePerSecond: 0.1
+  maxFood: 100
+  availableFood: 0
 --- !u!1 &1576055620 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 6cd2d65f796504accb8790463064ed58,
@@ -1298,7 +1361,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 2891e8b0e74cb408d9e700472a356bc7,
         type: 3}
       propertyPath: m_Name
-      value: BerryBushModel
+      value: BerryBush
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 2891e8b0e74cb408d9e700472a356bc7,
         type: 3}
@@ -1331,7 +1394,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 456f66e0911e349cbac5b62ed12ce992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StomachFillPerSecond: 10
+  stomachFillPerSecond: 1
+  regeneratePerSecond: 0.1
+  maxFood: 100
+  availableFood: 0
 --- !u!1 &1987111107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1436,6 +1502,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: hornyChancePerSecond
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: hungerPerSecond
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: maxFed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944813, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1504,6 +1585,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Unit
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: hornyChancePerSecond
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: hungerPerSecond
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: maxFed
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944813, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}

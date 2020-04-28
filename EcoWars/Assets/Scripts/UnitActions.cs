@@ -18,7 +18,8 @@ public static class UnitActions {
 
     public static void MoveToFood(Unit unit) {
         GameObject[] foods = GameObject.FindGameObjectsWithTag("Food");
-        Food closestFood = UnitHelperFunctions.GetClosest(unit, foods).GetComponent<Food>();
+        GameObject closestFood = UnitHelperFunctions.GetClosest(unit, foods);
+        unit.target = closestFood;
         unit.Move(closestFood.transform.position);
     }
 
@@ -46,7 +47,8 @@ public static class UnitActions {
     }
 
     public static void Eat(Unit unit) {
-        unit.amountFed += unit.feedingPerSecond * Time.deltaTime;
+        //eat from the source at most however much space they have on their stomach
+        unit.amountFed += unit.target.GetComponent<Food>().Eat(unit.maxFed - unit.amountFed);
         unit.GravityEffect();
     }
 
