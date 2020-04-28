@@ -23,22 +23,39 @@ public class Unit : MonoBehaviour {
     [System.NonSerialized] public bool isBeingOverride;
     [System.NonSerialized] public Vector3 destination = Vector3.zero;
     [System.NonSerialized] public GravityAttractor planet;
-    [System.NonSerialized] public UnitState unitState;
+    public UnitState unitState;
     [System.NonSerialized] public float destinationStampTime;
-    public float foodRange = 5f;
+    public float viewDistance = 5f;
     [SerializeField] public float attackDamagePerSecond = 1f;
-    public float originalEatRange = 1f;
     [SerializeField] public float enemyDetectionRange = 10f;
     public float originalAttackRange = 2f;
     public float attackRange = 2f;
     [System.NonSerialized] public float eatRange = 1f;
     [System.NonSerialized] public string enemyTag;
-    public float stomachSize = 10f;
-    public float stomachDecreasePerSecond = 0.1f;
-    [System.NonSerialized] public float stomachFilledAmount = 10f; //how much of the stomach is filled
-    public float hungerThreshold = 5f;
-    public float hungerDamage = 0.1f;
-    public float rotationSpeed = 2f;
+
+    // eating
+    public float amountFed; //how much of the stomach is filled
+    public float maxFed;
+    public float feedingPerSecond;
+    public float hungerPerSecond;
+    public float hungerChanceExponent;
+    public float hungerDamage;
+    public float eatingDistance;
+
+    // drinking
+    public float amountQuenched = 10f; //how much of the stomach is filled
+    public float maxQuenched = 10f;
+    public float thirstPerSecond = 0.5f;
+    public float thirstThreshold;
+    public float thirstDamage = 0.1f;
+
+    //mating
+    public float hornyChancePerSecond;
+    public bool horny;
+    public float matingDistance;
+
+
+    public float rotationSpeed;
 
     private Transform legFL;
     private Transform legFR;
@@ -93,6 +110,8 @@ public class Unit : MonoBehaviour {
 
     //Rotate, move unit towards destination, affect gravity and animate
     public void Move(Vector3 destination) {
+        transform.Find("Destination").transform.position = destination;
+
         //only rotate normal to the planet
         Vector3 projectedDestination = Vector3.ProjectOnPlane(destination, transform.up);
         Quaternion targetRotation = Quaternion.LookRotation(projectedDestination, Vector3.up);
@@ -101,11 +120,14 @@ public class Unit : MonoBehaviour {
         //move forward in the local axis
         rb.MovePosition(rb.position + transform.forward * Time.fixedDeltaTime * speed);
 
-        //affect gravity
-        planet.Attract(transform);
+        this.GravityEffect();
 
         //animate movement
         AnimateWalk();
+    }
+
+    public void GravityEffect() {
+        planet.Attract(transform);
     }
 
     //Find a random point in planet's surface 
@@ -155,8 +177,8 @@ public class Unit : MonoBehaviour {
     }
 
     public void HungerEffect() {
-        this.stomachFilledAmount -= this.stomachDecreasePerSecond * Time.fixedDeltaTime;
-        if (this.stomachFilledAmount <= 0) { this.TakeDamage(this.hungerDamage); }
+        this.amountFed -= this.hungerPerSecond * Time.deltaTime;
+        if (this.amountFed <= 0) { this.TakeDamage(this.hungerDamage); }
     }
 
     public void ThirstEffect() {
@@ -167,121 +189,7 @@ public class Unit : MonoBehaviour {
         unitState = UnitState.Dead;
     }
 
-    public void Wander() {
 
-        if (this.NeedsDestination()) {
-            this.GetDestination();
-        }
-        this.Move(this.destination);
-    }
-
-    // query functions here (not allowed to modify state) ##################################################
-
-    public bool IsThreatened() {
-        // check for near enemies
-        return false;
-    }
-
-    public bool ShouldBeAggressive() {
-        // randomly return true or false based on aggression
-        return true;
-    }
-
-    public bool IsThirsty() {
-        // random based on thirst
-        return false;
-    }
-
-    public bool IsVeryThirsty() {
-        // threshold
-        return false;
-    }
-
-    public bool CanSeeWater() {
-        return false;
-    }
-
-    public bool IsHungry() {
-        // random based on hunger
-        return false;
-    }
-
-    public bool IsVeryHungry() {
-        // threshold
-        return false;
-    }
-
-    public bool CanSeeFood() {
-        return false;
-    }
-
-    public bool IsCarryingFuel() {
-        return false;
-    }
-
-    public bool NeedsChange() {
-        return false;
-    }
-
-    public bool IsHorny() {
-        return false;
-    }
-
-    public bool SeesMate() {
-        return false;
-    }
-
-    public bool SeesFuel() {
-        return false;
-    }
-
-    public bool IsNearFuel() {
-        return false;
-    }
-
-    public bool IsFuelSourceEmpty() {
-        return false;
-    }
-
-    public bool IsStorageFull() {
-        return false;
-    }
-
-    public bool IsNearWater() {
-        return false;
-    }
-
-    public bool IsNearFood() {
-        return false;
-    }
-
-    public bool IsNearMate() {
-        return false;
-    }
-
-    public bool IsNearBase() {
-        return false;
-    }
-
-    public bool IsNearEnemy() {
-        return false;
-    }
-
-    public bool HasMadeBaby() {
-        return false;
-    }
-
-    public bool IsQuenched() {
-        return false;
-    }
-
-    public bool IsFed() {
-        return false;
-    }
-
-    public bool HasLowHealth() {
-        return false;
-    }
 
     //does the unit require to be given a new destination
     public bool NeedsDestination() {
@@ -317,7 +225,7 @@ public class Unit : MonoBehaviour {
 
     //Check for enemy units in range
     public Food CheckForFood() {
-        if (stomachFilledAmount > hungerThreshold) { return null; } //don't look for food if not hungry
+        // if (amountFed > hungerThreshold) { return null; } //don't look for food if not hungry
         //TODO: check for efficiency. Is it iterating through all gameobjects in scene?
         GameObject[] foods = GameObject.FindGameObjectsWithTag("Food");
 
@@ -326,7 +234,7 @@ public class Unit : MonoBehaviour {
         Food closestFood = null;
         foreach (GameObject food in foods) {
             float distance = (transform.position - food.transform.position).magnitude;
-            if (distance < foodRange && distance < closestDistance) {
+            if (distance < viewDistance && distance < closestDistance) {
                 closestDistance = distance;
                 closestFood = food.GetComponent<Food>();
             }
