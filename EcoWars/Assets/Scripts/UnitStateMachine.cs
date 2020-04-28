@@ -28,77 +28,104 @@ public static class UnitStateMachine {
 
         switch (unit.unitState) {
             case UnitState.Wander: {
-                if (unit.IsThreatened()) {
-                    if (unit.ShouldBeAggressive()) {
+                if (UnitQueries.IsThreatened(unit)) {
+                    if (UnitQueries.ShouldBeAggressive(unit)) {
                         return UnitState.EngageEnemy;
                     } else {
                         return UnitState.Flee;
                     }
                 }
-                if (unit.IsThreatened()   && unit.CanSeeWater()) { return UnitState.MoveToWater; }
-                if (unit.IsHungry()       && unit.CanSeeFood())  { return UnitState.MoveToFood; }
-                if (unit.IsCarryingFuel() || unit.NeedsChange()) { return UnitState.MoveToBase; }
-                if (unit.IsHorny()        && unit.SeesMate())    { return UnitState.MoveToMate; }
-                if (unit.SeesFuel())                             { return UnitState.MoveToFuel; }
-                unit.Wander();
+                if (UnitQueries.IsHungry(unit) && UnitQueries.SeesFood(unit)) { return UnitState.MoveToFood; }
+                if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.MoveToWater; }
+                if (UnitQueries.NeedsChange(unit)) { return UnitState.MoveToBase; }
+                if (UnitQueries.IsHorny(unit) && UnitQueries.SeesMate(unit)) { return UnitState.MoveToMate; }
+                if (UnitQueries.SeesFuel(unit)) { return UnitState.MoveToFuel; }
+                if (UnitQueries.IsCarryingFuel(unit)) { return UnitState.MoveToBase; }
+                UnitActions.Wander(unit);
                 break;
             }
             case UnitState.MoveToWater: {
-                if (unit.IsThreatened()) { return UnitState.Wander; }
-                if (unit.IsNearWater())    { return UnitState.Drink; }
-                break;
-            }
-            case UnitState.Drink: {
-                if (unit.IsThreatened() || unit.IsQuenched()) { return UnitState.Wander; }
+                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                if (!UnitQueries.SeesWater(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsNearWater(unit)) { return UnitState.Drink; }
+                UnitActions.MoveToWater(unit);
                 break;
             }
             case UnitState.MoveToFood: {
-                if (unit.IsThreatened()) { return UnitState.Wander; }
-                if (unit.IsNearFood())     { return UnitState.Eat; }
-                break;
-            }
-            case UnitState.Eat: {
-                if (unit.IsThreatened() || unit.IsFed()) { return UnitState.Wander; }
+                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                if (!UnitQueries.SeesFood(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsNearFood(unit)) { return UnitState.Eat; }
+                UnitActions.MoveToFood(unit);
                 break;
             }
             case UnitState.MoveToMate: {
-                if (unit.IsThreatened()) { return UnitState.Wander; }
-                if (unit.IsNearMate())     { return UnitState.Mate; }
-                break;
-            }
-            case UnitState.Mate: {
-                if (unit.IsThreatened() || unit.HasMadeBaby()) { return UnitState.Wander; }
+                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                if (!UnitQueries.SeesMate(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsNearMate(unit)) { return UnitState.Mate; }
+                UnitActions.MoveToMate(unit);
                 break;
             }
             case UnitState.MoveToFuel: {
-                if (unit.IsThreatened()) { return UnitState.Wander; }
-                if (unit.IsNearFuel())     { return UnitState.Harvest; }
-                break;
-            }
-            case UnitState.Harvest: {
-                if (unit.IsThreatened() || unit.IsFuelSourceEmpty() || unit.IsStorageFull()) { return UnitState.Wander; }
+                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                if (!UnitQueries.SeesFuel(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsNearFuel(unit)) { return UnitState.Harvest; }
+                UnitActions.MoveToFuel(unit);
                 break;
             }
             case UnitState.MoveToBase: {
-                if (unit.IsThreatened() || unit.IsNearBase()) { return UnitState.Wander; }
+                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsNearBase(unit)) { return UnitState.Wander; }
+                UnitActions.MoveToBase(unit);
+                break;
+            }
+            case UnitState.Drink: {
+                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsQuenched(unit)) { return UnitState.Wander; }
+                UnitActions.Drink(unit);
+                break;
+            }
+            case UnitState.Eat: {
+                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsFed(unit)) { return UnitState.Wander; }
+                UnitActions.Eat(unit);
+                break;
+            }
+            case UnitState.Mate: {
+                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                if (!UnitQueries.IsHorny(unit)) { return UnitState.Wander; }
+                UnitActions.Mate(unit);
+                break;
+            }
+            case UnitState.Harvest: {
+                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                if (!UnitQueries.IsNearFuel(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsStorageFull(unit)) { return UnitState.Wander; }
+                UnitActions.Harvest(unit);
                 break;
             }
             case UnitState.EngageEnemy: {
-                if (unit.HasLowHealth() || unit.IsVeryHungry() || unit.IsVeryThirsty()) { return UnitState.Flee; }
-                if (unit.IsNearEnemy())                                                 { return UnitState.Attack; }
+                if (UnitQueries.HasLowHealth(unit)) { return UnitState.Flee; }
+                if (UnitQueries.IsVeryHungry(unit)) { return UnitState.Flee; }
+                if (UnitQueries.IsVeryThirsty(unit)) { return UnitState.Flee; }
+                if (UnitQueries.IsNearEnemy(unit)) { return UnitState.Attack; }
+                if (!UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                UnitActions.EngageEnemy(unit);
                 break;
             }
             case UnitState.Attack: {
-                if (unit.HasLowHealth())  { return UnitState.Flee; }
-                if (!unit.IsNearEnemy())  { return UnitState.EngageEnemy; }
-                if (!unit.IsThreatened()) { return UnitState.Wander; }
+                if (UnitQueries.HasLowHealth(unit)) { return UnitState.Flee; }
+                if (!UnitQueries.IsNearEnemy(unit)) { return UnitState.EngageEnemy; }
+                if (!UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                UnitActions.Attack(unit);
                 break;
             }
             case UnitState.Flee: {
-                if (!unit.IsThreatened()) { return UnitState.Wander; }
+                if (!UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                UnitActions.Flee(unit);
                 break;
             }
             case UnitState.Dead: {
+                Object.Destroy(unit.gameObject);
                 break;
             }
         }
