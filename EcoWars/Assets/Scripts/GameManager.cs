@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager gameManager;
     private Unit controlledPet;
     public float bioFuel;
+    public CameraController cameraController;
 
     private void Awake()
     {

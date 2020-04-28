@@ -10,10 +10,13 @@ public class Unit : MonoBehaviour {
     [System.NonSerialized] public Transform target; //unit moves towards target
     public float minDistance = 3f;//stops moving when minDistance reached
     public float maxDistance = 20f; //only follow targets maxDistance appart
-    public float speed = 1f;
+    [Range(.5f, 3.0f)] public float speed = 1f;
     public float walkAnimationSpeed = 10f;
     public float eatAnimationSpeed = 1f;
     public float animationTilt = 10f;
+    [Range(.0f, 1.0f)] public float legsLength=.2f;
+    [Range(.0f, 1.0f)] public float bodySize=.1f;
+    [Range(.0f, 1.0f)] public float headSize=.2f;
     [System.NonSerialized] public Rigidbody rb;
     public float maxHealth = 10f;
     [System.NonSerialized] public float health;
@@ -37,7 +40,21 @@ public class Unit : MonoBehaviour {
     public float hungerDamage = 0.1f;
     public float rotationSpeed = 2f;
 
+    private Transform legFL;
+    private Transform legFR;
+    private Transform legBL;
+    private Transform legBR;
+
+    private Transform body;
+    private Transform head;
+
+    public float gallopingThreshold = 2f;
+
+
+
+
     // void (modifier) functions at the top #########################################################################
+    //TODO: add spaces and headers to variables
 
     public void Awake() {
         if (transform.tag == "Pet") {
@@ -47,6 +64,17 @@ public class Unit : MonoBehaviour {
         } else {
             throw new System.Exception("Wrong tag for unit");
         }
+
+
+        //set up transforms of bodyparts
+        legFL = transform.GetChild(0).Find("LegFLPivot");
+        legFR = transform.GetChild(0).Find("LegFRPivot");
+        legBL = transform.GetChild(0).Find("LegBLPivot");
+        legBR = transform.GetChild(0).Find("LegBRPivot");
+
+        body = transform.GetChild(0).Find("BodyPivot");
+        head = transform.GetChild(0).Find("HeadPivot");
+
         health = maxHealth;
         isBeingOverride = false;
         planet = GameObject.FindGameObjectWithTag("Planet").GetComponent<GravityAttractor>();
@@ -57,6 +85,10 @@ public class Unit : MonoBehaviour {
 
     private void Update() {
         unitState = UnitStateMachine.NextState(this);
+        UpdateLegsLenghtModel();
+        UpdateBodySizeModel();
+        UpdateHeadSizeModel();
+        UpdateMovingAnimation();
     }
 
     //Rotate, move unit towards destination, affect gravity and animate
@@ -205,5 +237,99 @@ public class Unit : MonoBehaviour {
         }
 
         return closestFood;
+    }
+
+
+    //Physically change legs length
+    public void UpdateLegsLenghtModel()
+    {
+        float minLength = 0.6f;
+        float maxLength = 5f;
+
+        float minCollider = -.6f;
+        float maxCollider = .6f;
+
+        float minSpeed = 0.2f;
+        float maxSpeed = 1f;
+
+        //scale legs
+        legFR.transform.localScale = Vector3.Lerp(legFR.transform.localScale,
+            new Vector3(legFR.transform.localScale.x,
+            legsLength * (maxLength - minLength) + minLength,
+            legFR.transform.localScale.z), Time.deltaTime*2);
+        legFL.transform.localScale = Vector3.Lerp(legFL.transform.localScale,
+            new Vector3(legFL.transform.localScale.x,
+            legsLength * (maxLength - minLength) + minLength,
+            legFL.transform.localScale.z),Time.deltaTime*2);
+        legBR.transform.localScale = Vector3.Lerp(legBR.transform.localScale,
+            new Vector3(legBR.transform.localScale.x,
+            legsLength * (maxLength - minLength) + minLength,
+            legBR.transform.localScale.z), Time.deltaTime*2);
+        legBL.transform.localScale = Vector3.Lerp(legBL.transform.localScale,
+            new Vector3(legBL.transform.localScale.x,
+            legsLength * (maxLength - minLength) + minLength,
+            legBL.transform.localScale.z), Time.deltaTime*2);
+
+        //change position of sphere collider
+        GetComponent<SphereCollider>().center = Vector3.Lerp(GetComponent<SphereCollider>().center,
+            new Vector3(0, maxCollider + legsLength * (minCollider - maxCollider), 0), Time.deltaTime);
+
+
+        ////change animation speed. Remove as animation is fully changed to galloping
+        if (transform.GetChild(0).GetComponent<Animator>().GetBool("isGalloping"))
+        {
+            transform.GetChild(0).GetComponent<Animator>().speed = Mathf.Lerp(transform.GetChild(0).GetComponent<Animator>().speed,
+                1, Time.deltaTime);
+        }
+        else
+        {
+            transform.GetChild(0).GetComponent<Animator>().speed = Mathf.Lerp(transform.GetChild(0).GetComponent<Animator>().speed,
+                maxSpeed - (maxSpeed - minSpeed) * legsLength, Time.deltaTime);
+
+        }
+
+        //toggle between walk and gallop when over threshold
+    }
+
+    //Physically change size of body
+    public void UpdateBodySizeModel()
+    {
+        float minSize = 0.8f;
+        float maxSize = 1.4f;
+
+        body.transform.localScale = Vector3.Lerp(body.transform.localScale,
+            new Vector3(bodySize * (maxSize - minSize) + minSize,
+            bodySize * (maxSize - minSize) + minSize,
+            bodySize * (maxSize - minSize) + minSize), Time.deltaTime*2);
+    }
+
+    //Physically change size of head
+    public void UpdateHeadSizeModel()
+    {
+        float minSize = 1f;
+        float maxSize = 3.0f;
+
+        head.transform.localScale = Vector3.Lerp(head.transform.localScale,
+            new Vector3(headSize * (maxSize - minSize) + minSize,
+            headSize * (maxSize - minSize) + minSize,
+            headSize * (maxSize - minSize) + minSize), Time.deltaTime * 2);
+    }
+
+    //toggles from walking to galloping based on the speed
+    public void UpdateMovingAnimation()
+    {
+        if (speed >= gallopingThreshold)
+        {
+            //gallop
+            transform.GetChild(0).GetComponent<Animator>().SetBool("isGalloping", true);
+        }
+        else
+        {
+            //walk
+            transform.GetChild(0).GetComponent<Animator>().SetBool("isGalloping", false);
+
+        }
+        return;
+       
     }
 }
