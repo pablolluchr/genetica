@@ -691,7 +691,7 @@ MonoBehaviour:
   thirstPerSecond: 0.1
   thirstThreshold: 8
   thirstDamage: 0.1
-  hornyChancePerSecond: 0.05
+  hornyChancePerSecond: 0.01
   horny: 0
   matingDistance: 1
   rotationSpeed: 7
