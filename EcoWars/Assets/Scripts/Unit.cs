@@ -135,6 +135,14 @@ public class Unit : MonoBehaviour {
         unitState = UnitState.Dead;
     }
 
+    public void Wander() {
+
+        if (this.NeedsDestination()) {
+            this.GetDestination();
+        }
+        this.Move(this.destination);
+    }
+
     // query functions here (not allowed to modify state) ##################################################
 
     public bool IsThreatened() {
@@ -148,10 +156,98 @@ public class Unit : MonoBehaviour {
     }
 
     public bool IsThirsty() {
+        // random based on thirst
         return false;
     }
 
     public bool IsVeryThirsty() {
+        // threshold
+        return false;
+    }
+
+    public bool CanSeeWater() {
+        return false;
+    }
+
+    public bool IsHungry() {
+        // random based on hunger
+        return false;
+    }
+
+    public bool IsVeryHungry() {
+        // threshold
+        return false;
+    }
+
+    public bool CanSeeFood() {
+        return false;
+    }
+
+    public bool IsCarryingFuel() {
+        return false;
+    }
+
+    public bool NeedsChange() {
+        return false;
+    }
+
+    public bool IsHorny() {
+        return false;
+    }
+
+    public bool SeesMate() {
+        return false;
+    }
+
+    public bool SeesFuel() {
+        return false;
+    }
+
+    public bool IsNearFuel() {
+        return false;
+    }
+
+    public bool IsFuelSourceEmpty() {
+        return false;
+    }
+
+    public bool IsStorageFull() {
+        return false;
+    }
+
+    public bool IsNearWater() {
+        return false;
+    }
+
+    public bool IsNearFood() {
+        return false;
+    }
+
+    public bool IsNearMate() {
+        return false;
+    }
+
+    public bool IsNearBase() {
+        return false;
+    }
+
+    public bool IsNearEnemy() {
+        return false;
+    }
+
+    public bool HasMadeBaby() {
+        return false;
+    }
+
+    public bool IsQuenched() {
+        return false;
+    }
+
+    public bool IsFed() {
+        return false;
+    }
+
+    public bool HasLowHealth() {
         return false;
     }
 

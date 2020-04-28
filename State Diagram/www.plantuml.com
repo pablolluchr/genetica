@@ -1,28 +1,28 @@
 @startuml
 MoveToWater : move to water
-MoveToWater --> Drink : water near
 MoveToWater --> Wander : threat
+MoveToWater --> Drink : water near
 
 Drink : replenish thirst
 Drink --> Wander : !thirsty | threat
 
 MoveToFood : move to food
-MoveToFood --> Eat : food near
 MoveToFood --> Wander : threat
+MoveToFood --> Eat : food near
 
 Eat : replenish hunger
 Eat --> Wander : !hungry | threat
 
 MoveToMate : move to mate
-MoveToMate --> Mate : mate near
 MoveToMate --> Wander : threat
+MoveToMate --> Mate : mate near
 
 Mate : make baby
 Mate --> Wander : baby made | threat
 
 MoveToFuel : move to fuel
-MoveToFuel --> Harvest : fuel near
 MoveToFuel --> Wander : threat
+MoveToFuel --> Harvest : fuel near
 
 Harvest : load up with fuel
 Harvest --> Wander : no biofuel | storage full | threat
@@ -31,8 +31,8 @@ MoveToBase : move to base
 MoveToBase --> Wander : threat | base near
 
 EngageEnemy : move to enemy
-EngageEnemy --> Attack : enemy near
 EngageEnemy --> Flee : v.hungry | v.thirsty | low health
+EngageEnemy --> Attack : enemy near
 
 Attack : damage enemy
 Attack --> Flee : low health
