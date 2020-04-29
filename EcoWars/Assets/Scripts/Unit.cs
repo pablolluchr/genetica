@@ -14,6 +14,7 @@ public class Unit : MonoBehaviour {
     public float health;
     public float healthRegen;
     public float viewDistance = 5f;
+    public float interactionRadius;
     [Range(.5f, 3.0f)] public float speed = 1f;
     [Range(.0f, 1.0f)] public float legsLength = .2f;
     [Range(.0f, 1.0f)] public float bodySize = .1f;
@@ -44,8 +45,8 @@ public class Unit : MonoBehaviour {
 
     [Header("Attacking Attributes")]
     public float attackDamagePerSecond = 1f;
-    public float attackRange = 2f;
-    public float enemyDetectionRange = 10f;
+    public float attackRange;
+    public float enemyDetectionRange;
 
     [Header("Animation")]
     public float walkAnimationSpeed = 10f;

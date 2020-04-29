@@ -41,6 +41,7 @@ public static class UnitQueries {
     }
 
     public static bool SeesMate(Unit unit) {
+        if (unit.gameObject.tag == "Hostile") { return false; }
         GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
         GameObject[] hornyPets = UnitHelperFunctions.FilterNonHornyPetsAndSelf(unit, pets);
         return UnitHelperFunctions.InRangeOf(unit, hornyPets, unit.viewDistance);
@@ -57,18 +58,18 @@ public static class UnitQueries {
     }
 
     public static bool SeesFuel(Unit unit) {
+        if (unit.gameObject.tag == "Hostile") { return false; }
         return false;
     }
 
     public static bool IsNearTarget(Unit unit)
     {
-        if (unit.GetComponent<Target>()== null) { return false; }
         return unit.GetComponent<Target>().IsNear(unit);
     }
 
     public static bool IsThreatened(Unit unit) {
-        // check for near enemies
-        return false;
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
+        return UnitHelperFunctions.InRangeOf(unit, enemies, unit.enemyDetectionRange);
     }
 
     public static bool ShouldBeAggressive(Unit unit) {
