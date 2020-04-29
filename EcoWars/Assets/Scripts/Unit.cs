@@ -36,6 +36,7 @@ public class Unit : MonoBehaviour {
     public float hungerChanceExponent;
     public float hungerDamage;
     public bool hungry;
+    public float criticalHunger;
 
     [Header("Drinking Attributes")]
     public float amountQuenched = 10f; //how much of the stomach is filled
@@ -43,6 +44,7 @@ public class Unit : MonoBehaviour {
     public float thirstPerSecond = 0.5f;
     public float thirstThreshold;
     public float thirstDamage = 0.1f;
+    public float criticalThirst;
 
     [Header("Mating Attributes")]
     public float hornyChancePerSecond;
@@ -58,6 +60,7 @@ public class Unit : MonoBehaviour {
     public float enemyDetectionRange;
     public float attackRate;
     public float lastAttacked = 0;
+    public float aggression;
     
     [Header("Harvesting Attributes")]
     public float carryingCapacity;

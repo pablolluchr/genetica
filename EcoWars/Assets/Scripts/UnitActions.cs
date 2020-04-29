@@ -132,13 +132,24 @@ public static class UnitActions {
         //project on planet. raycast has to be projected from the sky
         RaycastHit hitInfo = new RaycastHit();
         
-        bool hit = Physics.Raycast(position+(position - unit.planet.transform.position)*20f,
-            (unit.planet.transform.position-position), out hitInfo,
+        bool hit = Physics.Raycast(position + 20f * (position - unit.planet.transform.position),
+            (unit.planet.transform.position - position), out hitInfo,
             Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
         if (hit) unit.GetComponent<Target>().Change(hitInfo.point);
         else Debug.Log("not hit");
 
         unit.wanderTimeStamp = Time.time;
+    }
+
+    public static void SetFleeingTarget(Unit unit, Unit enemy) {
+        Vector3 position = enemy.transform.position;
+        RaycastHit hitInfo = new RaycastHit();
+        
+        bool hit = Physics.Raycast(position - 20f * (position - enemy.planet.transform.position),
+            (position - enemy.planet.transform.position), out hitInfo,
+            Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
+        if (hit) unit.GetComponent<Target>().Change(hitInfo.point);
+        else Debug.Log("not hit");
     }
 
     public static void Eat(Unit unit) {
@@ -190,7 +201,10 @@ public static class UnitActions {
     }
 
     public static void Flee(Unit unit) {
-
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
+        GameObject closestEnemy = UnitHelperFunctions.GetClosest(unit, enemies);
+        if (closestEnemy== null || closestEnemy.GetComponent<Unit>() == null) { return; }
+        SetFleeingTarget(unit, closestEnemy.GetComponent<Unit>());
     }
 
     public static void TurnHungryChance(Unit unit) {

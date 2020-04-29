@@ -69,6 +69,8 @@ public static class UnitStateMachine {
             case UnitState.TargetFuel: {
                 UnitActions.TargetFuel(unit);
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsHungry(unit) && UnitQueries.SeesFood(unit)) { return UnitState.TargetFood; }
+                if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
                 if (!UnitQueries.SeesFuel(unit)) { return UnitState.Wander; }
                 if (UnitQueries.IsNearTarget(unit)) { return UnitState.Harvest; }
                 break;
@@ -76,6 +78,8 @@ public static class UnitStateMachine {
             case UnitState.TargetBase: {
                 UnitActions.TargetBase(unit);
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsHungry(unit) && UnitQueries.SeesFood(unit)) { return UnitState.TargetFood; }
+                if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
                 if (UnitQueries.IsNearTarget(unit)) { UnitActions.DropFuel(unit); return UnitState.Wander; }
                 break;
             }
@@ -121,8 +125,8 @@ public static class UnitStateMachine {
                 break;
             }
             case UnitState.Flee: {
-                if (!UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 UnitActions.Flee(unit);
+                if (!UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 break;
             }
             case UnitState.Override:{
