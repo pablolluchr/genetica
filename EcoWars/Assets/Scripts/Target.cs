@@ -12,7 +12,7 @@ public class Target : MonoBehaviour {
     public void Update()
     {
         if (targetGameObject) targetVector3 = targetGameObject.transform.position;
-        transform.Find("Destination").transform.position = targetVector3;
+        GetComponent<Unit>().destinationGizmo.transform.position = targetVector3;
     }
 
     public void Change(GameObject target, float new_radius)

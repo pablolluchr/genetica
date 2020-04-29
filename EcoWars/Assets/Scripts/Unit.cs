@@ -69,10 +69,13 @@ public class Unit : MonoBehaviour {
 
     private Transform body;
     private Transform head;
+    [System.NonSerialized] public Transform destinationGizmo;
+    [System.NonSerialized] public Transform selectionGraphic;
+    public GameObject targetGraphic;
 
-    
 
-    
+
+
 
 
 
@@ -104,6 +107,10 @@ public class Unit : MonoBehaviour {
         isBeingOverride = false;
         amountFed = maxFed;
         wanderTimeStamp = -Mathf.Infinity;
+        destinationGizmo = transform.Find("Destination");
+        selectionGraphic = transform.Find("SelectionGraphic");
+        selectionGraphic.GetComponent<Canvas>().enabled = false;
+
         planet = GameObject.FindGameObjectWithTag("Planet").GetComponent<GravityAttractor>();
         GetComponent<Rigidbody>().useGravity = false; //deactivate built-in downwards gravity
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;

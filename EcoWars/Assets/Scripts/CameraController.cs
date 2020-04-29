@@ -15,51 +15,19 @@ public class CameraController : MonoBehaviour
     public float cameraOffset;
     [SerializeField] private float cameraMoveSpeed =10f;
     [SerializeField] private float cameraRotateSpeed =10f;
-    public float orbitStartTime;
+    public float panningStartTime;
+    public CameraState cameraState;
 
     float oldMoveX;
     float oldMoveY;
-    //float fov = 50f;
-    //float sensitivity = 17f;
 
-    // Update is called once per frame
-
-    private void Awake()
+    private void Start()
     {
         target = null;
         GetComponent<Camera>().orthographicSize = defaultSize;
-        orbitStartTime = -100;
-    }
-    void Update()
-    {
-        
+        panningStartTime = -Mathf.Infinity;
+        cameraState = CameraState.Panning;
 
-        if (target == null)
-        {   
-                Orbit();
-        }
-        else
-        {
-            //rotation around planet with target focused on center
-            Vector3 cameraPosition = (planet.transform.position + (target.position - planet.transform.position).normalized*cameraOffset);
-            transform.position = Vector3.Lerp(transform.position,cameraPosition,Time.deltaTime* cameraMoveSpeed);
-
-            //rotate to look at position
-            Quaternion targetRotation = Quaternion.LookRotation(planet.transform.position-transform.position);
-            targetRotation = Quaternion.Euler(new Vector3(targetRotation.eulerAngles.x, targetRotation.eulerAngles.y, .0f));
-
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * cameraRotateSpeed);
-
-            //zoom in
-            GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize,zoomedSize,Time.deltaTime);
-
-        }
-
-    }
-    
-
-    void Start()
-    {
         //vector from where I am to what I'm rotating around
         Vector3 initialVector = transform.position - planet.transform.position;
 
@@ -72,8 +40,38 @@ public class CameraController : MonoBehaviour
         distance = Vector3.Magnitude(initialVector);
     }
 
+
+    public void StartPanning()
+    {
+        cameraState = CameraState.Panning;
+
+    }
+
+    public void StartFollowing(Transform _target) {
+
+        cameraState = CameraState.Following;
+        target = _target;
+    }
+
+
+    
+    void Update()
+    {
+        if (cameraState==CameraState.Panning)
+        {
+            Pan();
+        }
+        else if (cameraState == CameraState.Following)
+        {
+            FollowTarget();
+        }
+
+    }
+    
+
+
     //You can probably call this in update I just call it from a dif script
-    public void Orbit()
+    public void Pan()
     {
         if (Input.GetMouseButton(0))
         {
@@ -82,7 +80,7 @@ public class CameraController : MonoBehaviour
 
         }
         //if pressing the mouse and didnt just get in orbit pan planet
-        if (Input.GetMouseButton(0)&&Time.time - orbitStartTime > .1f){
+        if (Input.GetMouseButton(0)&&Time.time - panningStartTime > .1f){
             rotYAxis = transform.eulerAngles.y + Input.GetAxis("Mouse X") * speed;
             rotXAxis = transform.eulerAngles.x - Input.GetAxis("Mouse Y") * speed;
         }else if (!Input.GetMouseButton(0))
@@ -120,7 +118,7 @@ public class CameraController : MonoBehaviour
 
 
         //just entered orbit: smooth
-        if (Time.time - orbitStartTime < .1) transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime*20f);
+        if (Time.time - panningStartTime < .1) transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime*20f);
         else transform.position = position;
 
 
@@ -130,7 +128,29 @@ public class CameraController : MonoBehaviour
 
     }
 
+    public void FollowTarget()
+    {
+        //rotation around planet with target focused on center
+        Vector3 cameraPosition = (planet.transform.position + (target.position - planet.transform.position).normalized * cameraOffset);
+        transform.position = Vector3.Lerp(transform.position, cameraPosition, Time.deltaTime * cameraMoveSpeed);
+
+        //rotate to look at position
+        Quaternion targetRotation = Quaternion.LookRotation(planet.transform.position - transform.position);
+        targetRotation = Quaternion.Euler(new Vector3(targetRotation.eulerAngles.x, targetRotation.eulerAngles.y, .0f));
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * cameraRotateSpeed);
+
+        //zoom in
+        GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, zoomedSize, Time.deltaTime);
+    }
+
 
  
 
+}
+
+public enum CameraState
+{
+    Panning,
+    Following
 }

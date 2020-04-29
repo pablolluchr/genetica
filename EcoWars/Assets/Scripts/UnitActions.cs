@@ -32,11 +32,20 @@ public static class UnitActions {
     }
 
 
-
+    
     public static void  OverrideTarget(Unit unit,Vector3 target)
     {
         unit.GetComponent<Target>().Change(target);
         unit.unitState = UnitState.Override;
+
+
+
+        //display target selection animation.
+        MonoBehaviour.Instantiate(unit.targetGraphic).GetComponent<TargetGraphic>()
+            .SetPosition(target,unit.planet.transform.position);
+
+
+
     }
 
     public static void MoveToFood(Unit unit) {
@@ -134,6 +143,18 @@ public static class UnitActions {
         if (pets.Length < unit.maxUnits) {
             MonoBehaviour.Instantiate(unit.gameObject).transform.parent=GameManager.gameManager.units.transform;
         }
+    }
+
+    public static void DisableSelectionGraphic(Unit unit)
+    {
+        unit.selectionGraphic.GetComponent<Canvas>().enabled = false;
+    }
+
+    public static void EnableSelectionGraphic(Unit unit)
+    {
+        unit.selectionGraphic.GetComponent<Canvas>().enabled = true;
+        unit.selectionGraphic.GetChild(0).GetComponent<UnityEngine.UI.Image>().color =
+            new Color(0.2358714f, 1f, 0.0518868f, .8f);
     }
 
     public static void Harvest(Unit unit) {

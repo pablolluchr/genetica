@@ -1,0 +1,55 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class TargetGraphic : MonoBehaviour
+{
+    // Start is called before the first frame update
+    private float spawnTime;
+    private float scaleMultiplier;
+    private float alphaMultiplier;
+    private Vector3 originalScale;
+
+    private void Awake()
+    {
+        transform.position = Vector3.zero;
+        spawnTime = Time.time;
+        scaleMultiplier = 0;
+        alphaMultiplier = 1;
+        originalScale = transform.localScale;
+
+    }
+
+    private void Update()
+    {
+        if (transform.position != Vector3.zero)
+        {
+
+            print(transform.position);
+        }
+        if (Time.time - spawnTime > 5f) Destroy(gameObject);
+
+        scaleMultiplier = Mathf.Lerp(scaleMultiplier, 5,Time.deltaTime*2);
+        alphaMultiplier = Mathf.Lerp(alphaMultiplier, 0,Time.deltaTime*3);
+
+        transform.localScale = originalScale * scaleMultiplier;
+        UnityEngine.UI.Image image = transform.GetChild(0).GetComponent<UnityEngine.UI.Image>();
+        image.color = new Color(image.color.r, image.color.g, image.color.b, alphaMultiplier);
+
+    }
+
+
+    public void SetPosition(Vector3 position,Vector3 planetPosition)
+    {
+        Vector3 targetDir = (planetPosition - position).normalized; //center of the planet
+        Vector3 bodyUP = transform.up;
+
+        //transition to the target direction (pointing to the center of the planet)
+        transform.rotation = Quaternion.FromToRotation(bodyUP, targetDir) * transform.rotation;
+        transform.position = position - targetDir*.2f;
+
+
+        print(transform.position);
+
+    }
+}
