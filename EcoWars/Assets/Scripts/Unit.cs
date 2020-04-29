@@ -248,15 +248,22 @@ public class Unit : MonoBehaviour {
     //toggles from walking to galloping based on the speed
     public void UpdateMovingAnimation()
     {
+        if (unitState==UnitState.Harvest) transform.GetChild(0).GetComponent<Animator>().SetBool("isCollectingGenetium", true);
+        else transform.GetChild(0).GetComponent<Animator>().SetBool("isCollectingGenetium", false);
+
         if (speed >= gallopingThreshold)
         {
             //gallop
             transform.GetChild(0).GetComponent<Animator>().SetBool("isGalloping", true);
+            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", false);
+
         }
         else
         {
             //walk
+            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", true);
             transform.GetChild(0).GetComponent<Animator>().SetBool("isGalloping", false);
+
 
         }
         return;
