@@ -10,9 +10,6 @@ public class Unit : MonoBehaviour {
     public UnitState unitState;
 
     [Header("General Attributes")]
-    public float maxHealth;
-    public float health;
-    public float healthRegen;
     public float viewDistance = 5f;
     public float interactionRadius;
     [Range(.5f, 3.0f)] public float speed = 1f;
@@ -20,6 +17,12 @@ public class Unit : MonoBehaviour {
     [Range(.0f, 1.0f)] public float bodySize = .1f;
     [Range(.0f, 1.0f)] public float headSize = .2f;
     //public float maxDistance = 20f; //only follow targets maxDistance appart
+
+    [Header("Health")]
+    public float maxHealth;
+    public float health;
+    public float healthRegen;
+    public float criticalHealth;
 
 
     [Header("Eating Attributes")]

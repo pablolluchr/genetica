@@ -105,6 +105,6 @@ public static class UnitQueries {
     }
 
     public static bool HasLowHealth(Unit unit) {
-        return false;
+        return unit.health <= unit.criticalHealth;
     }
 }

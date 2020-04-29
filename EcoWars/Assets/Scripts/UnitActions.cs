@@ -62,7 +62,8 @@ public static class UnitActions {
 
     public static void Die(Unit unit)
     {
-        unit.unitState = UnitState.Dead;
+        Object.Destroy(unit.gameObject);
+        unit = null;
     }
 
 
@@ -84,7 +85,7 @@ public static class UnitActions {
     }
 
     public static void TargetMate(Unit unit) {
-        GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
+        GameObject[] pets = GameObject.FindGameObjectsWithTag(unit.gameObject.tag);
         GameObject[] hornyPets = UnitHelperFunctions.FilterNonHornyPetsAndSelf(unit, pets);
         GameObject closestMate = UnitHelperFunctions.GetClosest(unit, hornyPets);
         if (closestMate != null) {
@@ -95,7 +96,7 @@ public static class UnitActions {
     public static void TargetEnemy(Unit unit) {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
         GameObject closestEnemy = UnitHelperFunctions.GetClosest(unit, enemies);
-        if (closestEnemy.GetComponent<Unit>() == null) { return; }
+        if (closestEnemy== null || closestEnemy.GetComponent<Unit>() == null) { return; }
         unit.GetComponent<Target>().Change(closestEnemy, closestEnemy.GetComponent<Unit>().interactionRadius);
     }
 

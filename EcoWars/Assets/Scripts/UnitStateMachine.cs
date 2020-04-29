@@ -129,10 +129,6 @@ public static class UnitStateMachine {
                     if (UnitQueries.IsNearTarget(unit)) { return UnitState.Wander; }
                 break;
             }
-            case UnitState.Dead: {
-                Object.Destroy(unit.gameObject);
-                break;
-            }
         }
         return unit.unitState; //no state change
 
