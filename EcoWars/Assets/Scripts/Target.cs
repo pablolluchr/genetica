@@ -40,7 +40,8 @@ public class Target : MonoBehaviour {
 
     public bool IsNear(Unit unit)
     {
-        return (unit.transform.position - targetVector3).magnitude <= radius;
+        if (targetVector3 == null) { return false; }
+        return (unit.transform.position - targetVector3).magnitude <= radius + unit.interactionRadius;
     }
 }
 

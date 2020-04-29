@@ -10,9 +10,11 @@ public class Unit : MonoBehaviour {
     public UnitState unitState;
 
     [Header("General Attributes")]
-    public float maxHealth = 10f;
-
+    public float maxHealth;
+    public float health;
+    public float healthRegen;
     public float viewDistance = 5f;
+    public float interactionRadius;
     [Range(.5f, 3.0f)] public float speed = 1f;
     [Range(.0f, 1.0f)] public float legsLength = .2f;
     [Range(.0f, 1.0f)] public float bodySize = .1f;
@@ -27,6 +29,7 @@ public class Unit : MonoBehaviour {
     public float hungerPerSecond;
     public float hungerChanceExponent;
     public float hungerDamage;
+    public bool hungry;
 
     [Header("Drinking Attributes")]
     public float amountQuenched = 10f; //how much of the stomach is filled
@@ -42,8 +45,8 @@ public class Unit : MonoBehaviour {
 
     [Header("Attacking Attributes")]
     public float attackDamagePerSecond = 1f;
-    public float attackRange = 2f;
-    public float enemyDetectionRange = 10f;
+    public float attackRange;
+    public float enemyDetectionRange;
 
     [Header("Animation")]
     public float walkAnimationSpeed = 10f;
@@ -55,13 +58,12 @@ public class Unit : MonoBehaviour {
     //not shown
 
     [System.NonSerialized] public Rigidbody rb;
-    [System.NonSerialized] public float health;
     [System.NonSerialized] public bool isBeingOverride;
     [System.NonSerialized] public GravityAttractor planet;
     [System.NonSerialized] public float wanderTimeStamp;
     [System.NonSerialized] public float eatRange = 1f;
     [System.NonSerialized] public string enemyTag;
-    [System.NonSerialized] public int maxUnits = 100;
+    [System.NonSerialized] public int maxUnits = 50;
     private Transform legFL;
     private Transform legFR;
     private Transform legBL;
@@ -117,10 +119,15 @@ public class Unit : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
     }
 
-    private void Update() {
+    private void FixedUpdate() {
 
         UnitActions.HungerEffect(this);
         UnitActions.ThirstEffect(this);
+
+        UnitActions.TurnHungryChance(this);
+        UnitActions.TurnHornyChance(this);
+
+        UnitActions.HealthRegenEffect(this);
 
         unitState = UnitStateMachine.NextState(this);
         UpdateLegsLenghtModel();

@@ -9,21 +9,22 @@ public class Food : MonoBehaviour
     public float maxFood = 100f;
     public float availableFood;
     public float radius = 2f;
+    public float consideredEmpty = 1f;
 
     void Start()
     {
         availableFood = maxFood;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        availableFood = Mathf.Min(maxFood, availableFood + regeneratePerSecond*Time.deltaTime);
+        availableFood = Mathf.Min(maxFood, availableFood + regeneratePerSecond*Time.fixedDeltaTime);
     }
 
     public float Eat(float stomachLeft)
     {
       
-        float foodEaten = Mathf.Min(stomachLeft, stomachFillPerSecond * Time.deltaTime,availableFood);
+        float foodEaten = Mathf.Min(stomachLeft, stomachFillPerSecond * Time.fixedDeltaTime,availableFood);
         availableFood -= foodEaten;
         return foodEaten;
     }

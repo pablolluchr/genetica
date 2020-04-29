@@ -28,14 +28,7 @@ public static class UnitQueries {
     }
 
     public static bool IsHungry(Unit unit) {
-        float random = Random.Range(0f, 1f);
-        float hungerRatio = (unit.amountFed / unit.maxFed);
-        float chanceOfHungerPerSec = Mathf.Pow(1 - hungerRatio, unit.hungerChanceExponent) * Time.deltaTime;
-        if (random < chanceOfHungerPerSec) {
-            return true;
-        }
-        // random based on hunger
-        return false;
+        return unit.hungry;
     }
 
     public static bool IsVeryHungry(Unit unit) {
@@ -44,18 +37,13 @@ public static class UnitQueries {
     }
 
     public static bool IsHorny(Unit unit) {
-        if (unit.horny) { return true; }
-        float random = Random.Range(0f, 1f);
-        if (random < unit.hornyChancePerSecond * Time.deltaTime) {
-            UnitActions.TurnHorny(unit);
-            return true;
-        }
-        return false;
+        return unit.horny;
     }
 
     public static bool SeesMate(Unit unit) {
+        if (unit.gameObject.tag == "Hostile") { return false; }
         GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
-        GameObject[] hornyPets = UnitHelperFunctions.GetOtherHornyPets(unit, pets);
+        GameObject[] hornyPets = UnitHelperFunctions.FilterNonHornyPetsAndSelf(unit, pets);
         return UnitHelperFunctions.InRangeOf(unit, hornyPets, unit.viewDistance);
     }
 
@@ -65,22 +53,23 @@ public static class UnitQueries {
 
     public static bool SeesFood(Unit unit) {
         GameObject[] foods = GameObject.FindGameObjectsWithTag("Food");
-        return UnitHelperFunctions.InRangeOf(unit, foods, unit.viewDistance);
+        GameObject[] nonEmptyFoods = UnitHelperFunctions.FilterEmptyFoods(foods);
+        return UnitHelperFunctions.InRangeOf(unit, nonEmptyFoods, unit.viewDistance);
     }
 
     public static bool SeesFuel(Unit unit) {
+        if (unit.gameObject.tag == "Hostile") { return false; }
         return false;
     }
 
     public static bool IsNearTarget(Unit unit)
     {
-        if (unit.GetComponent<Target>()== null) { return false; }
         return unit.GetComponent<Target>().IsNear(unit);
     }
 
     public static bool IsThreatened(Unit unit) {
-        // check for near enemies
-        return false;
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
+        return UnitHelperFunctions.InRangeOf(unit, enemies, unit.enemyDetectionRange);
     }
 
     public static bool ShouldBeAggressive(Unit unit) {
