@@ -25,11 +25,17 @@ public static class UnitHelperFunctions {
         return false;
     }
 
-    public static GameObject[] FilterNonHornyPetsAndSelf(Unit unit, GameObject[] pets) {
+    public static GameObject[] FilterUnmatable(Unit unit, GameObject[] pets) {
         List<GameObject> hornyPets = new List<GameObject>();
         foreach (GameObject pet in pets) {
             Unit petUnit = pet.GetComponent<Unit>();
-            if (petUnit && petUnit.horny && petUnit != unit) {
+            if (
+                petUnit && 
+                petUnit.horny && 
+                petUnit != unit && 
+                petUnit.health / petUnit.maxHealth >= unit.healthRequirement &&
+                petUnit.amountFed / petUnit.maxFed >= unit.fedRequirement
+            ) {
                 hornyPets.Add(pet);
             }
         }

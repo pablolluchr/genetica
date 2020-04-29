@@ -43,7 +43,7 @@ public static class UnitQueries {
     public static bool SeesMate(Unit unit) {
         if (unit.gameObject.tag == "Hostile") { return false; }
         GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
-        GameObject[] hornyPets = UnitHelperFunctions.FilterNonHornyPetsAndSelf(unit, pets);
+        GameObject[] hornyPets = UnitHelperFunctions.FilterUnmatable(unit, pets);
         return UnitHelperFunctions.InRangeOf(unit, hornyPets, unit.viewDistance);
     }
 

@@ -24,7 +24,7 @@ public static class UnitStateMachine {
 
     public static UnitState NextState(Unit unit) { //returns next state
 
-        
+        if (unit.dead) { UnitActions.Dead(unit); }
 
         switch (unit.unitState) {
             case UnitState.Wander: {
@@ -129,11 +129,8 @@ public static class UnitStateMachine {
                 if (UnitQueries.IsNearTarget(unit)) { return UnitState.Wander; }
                 break;
             }
-            case UnitState.Dead: {
-                UnitActions.Dead(unit);
-                break;
-            }
         }
+
         return unit.unitState; //no state change
 
     }

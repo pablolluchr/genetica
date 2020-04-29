@@ -48,11 +48,17 @@ public class Unit : MonoBehaviour {
     public float hornyChancePerSecond;
     public bool horny;
     public float matingDistance;
+    public float healthRequirement;
+    public float fedRequirement;
+    public float thirstRequirement;
 
     [Header("Attacking Attributes")]
-    public float attackDamagePerSecond = 1f;
+    public float attackDamage = 1f;
     public float attackRange;
     public float enemyDetectionRange;
+    public float attackRate;
+    public float lastAttacked = 0;
+    
 
     [Header("Animation")]
     public float walkAnimationSpeed = 10f;
@@ -63,13 +69,13 @@ public class Unit : MonoBehaviour {
 
     //not shown
 
-    [System.NonSerialized] public Rigidbody rb;
-    [System.NonSerialized] public bool isBeingOverride;
-    [System.NonSerialized] public GravityAttractor planet;
-    [System.NonSerialized] public float wanderTimeStamp;
-    [System.NonSerialized] public float eatRange = 1f;
-    [System.NonSerialized] public string enemyTag;
-    [System.NonSerialized] public int maxUnits = 150;
+    public Rigidbody rb;
+    public bool isBeingOverride;
+    public GravityAttractor planet;
+    public float wanderTimeStamp;
+    public float eatRange = 1f;
+    public string enemyTag;
+    public int maxUnits = 50;
     private Transform legFL;
     private Transform legFR;
     private Transform legBL;
@@ -139,14 +145,14 @@ public class Unit : MonoBehaviour {
         UnitActions.HealthRegenEffect(this);
 
         unitState = UnitStateMachine.NextState(this);
-        if (dead) { return; }
 
         UpdateLegsLenghtModel();
         UpdateBodySizeModel();
         UpdateHeadSizeModel();
         UpdateMovingAnimation();
 
-        UnitActions.Move(this);
+        if (!dead) { UnitActions.Move(this);; }
+        
         UnitActions.GravityEffect(this);
 
     }

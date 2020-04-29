@@ -90,7 +90,7 @@ public static class UnitActions {
 
     public static void TargetMate(Unit unit) {
         GameObject[] pets = GameObject.FindGameObjectsWithTag(unit.gameObject.tag);
-        GameObject[] hornyPets = UnitHelperFunctions.FilterNonHornyPetsAndSelf(unit, pets);
+        GameObject[] hornyPets = UnitHelperFunctions.FilterUnmatable(unit, pets);
         GameObject closestMate = UnitHelperFunctions.GetClosest(unit, hornyPets);
         if (closestMate != null) {
             unit.GetComponent<Target>().Change(closestMate, closestMate.GetComponent<Unit>().matingDistance);
@@ -141,15 +141,15 @@ public static class UnitActions {
     }
 
     public static void Mate(Unit unit) {
-        GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
-        GameObject[] hostiles = GameObject.FindGameObjectsWithTag("Hostile");
-        GameObject[] hornyPets = UnitHelperFunctions.FilterNonHornyPetsAndSelf(unit, pets);
-        if (hornyPets.Length <= 0) { return; }
-        Unit closestMate = UnitHelperFunctions.GetClosest(unit, hornyPets).GetComponent<Unit>();
+        GameObject[] allies = GameObject.FindGameObjectsWithTag(unit.gameObject.tag);
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
+        GameObject[] hornyAllies = UnitHelperFunctions.FilterUnmatable(unit, allies);
+        if (hornyAllies.Length <= 0) { return; }
+        Unit closestMate = UnitHelperFunctions.GetClosest(unit, hornyAllies).GetComponent<Unit>();
         closestMate.horny = false;
         unit.horny = false;
-        if (pets.Length +hostiles.Length< unit.maxUnits) {
-            MonoBehaviour.Instantiate(unit.gameObject).transform.parent=GameManager.gameManager.units.transform;
+        if (allies.Length + enemies.Length < unit.maxUnits) {
+            MonoBehaviour.Instantiate(unit.gameObject).transform.parent = GameManager.gameManager.units.transform;
         }
 
     }
@@ -171,9 +171,12 @@ public static class UnitActions {
     }
 
     public static void Attack(Unit unit) {
+        if (Time.time - unit.lastAttacked < unit.attackRate) { return; }
+        unit.lastAttacked = Time.time;
         if (unit.GetComponent<Target>().targetGameObject == null) { return; }
         Unit enemy = unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>();
-        UnitActions.TakeDamage(enemy, unit.attackDamagePerSecond * Time.fixedDeltaTime);
+        UnitActions.TakeDamage(enemy, unit.attackDamage);
+        enemy.GetComponent<Rigidbody>().AddForce(unit.transform.forward * 20, ForceMode.Impulse);
     }
 
     public static void Flee(Unit unit) {
@@ -201,7 +204,11 @@ public static class UnitActions {
     }
 
     public static void WanderIfDeadTarget(Unit unit) {
-        if (unit.GetComponent<Target>().targetGameObject && unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>().dead) {
+        if (
+            unit.GetComponent<Target>().targetGameObject &&
+            unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>() &&
+            unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>().dead
+        ) {
             unit.unitState = UnitState.Wander;
         }
     }
@@ -214,9 +221,9 @@ public static class UnitActions {
 
     public static void Die(Unit unit)
     {
+        unit.transform.GetChild(0).GetComponent<Animator>().enabled = false;
         unit.dead = true;
         unit.deathTimeStamp = Time.time;
-        unit.unitState = UnitState.Dead;
     }
 
 }
