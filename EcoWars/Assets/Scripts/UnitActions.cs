@@ -69,14 +69,10 @@ public static class UnitActions {
         // suffer thirst
     }
 
-    public static void Die(Unit unit)
-    {
-        unit.unitState = UnitState.Dead;
-    }
-
 
     public static void TakeDamage(Unit unit, float damage)
     {
+        if (unit.dead) { return; }
         unit.health -= damage; 
         if (unit.health <= 0) { UnitActions.Die(unit); }
     }
@@ -93,8 +89,8 @@ public static class UnitActions {
     }
 
     public static void TargetMate(Unit unit) {
-        GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
-        GameObject[] hornyPets = UnitHelperFunctions.FilterNonHornyPetsAndSelf(unit, pets);
+        GameObject[] pets = GameObject.FindGameObjectsWithTag(unit.gameObject.tag);
+        GameObject[] hornyPets = UnitHelperFunctions.FilterUnmatable(unit, pets);
         GameObject closestMate = UnitHelperFunctions.GetClosest(unit, hornyPets);
         if (closestMate != null) {
             unit.GetComponent<Target>().Change(closestMate, closestMate.GetComponent<Unit>().matingDistance);
@@ -104,16 +100,23 @@ public static class UnitActions {
     public static void TargetEnemy(Unit unit) {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
         GameObject closestEnemy = UnitHelperFunctions.GetClosest(unit, enemies);
-        if (closestEnemy.GetComponent<Unit>() == null) { return; }
+        if (closestEnemy== null || closestEnemy.GetComponent<Unit>() == null) { return; }
         unit.GetComponent<Target>().Change(closestEnemy, closestEnemy.GetComponent<Unit>().interactionRadius);
     }
 
     public static void TargetFuel(Unit unit) {
-
+        GameObject[] genetiums = GameObject.FindGameObjectsWithTag("Genetium");
+        GameObject closestGenetium = UnitHelperFunctions.GetClosest(unit, genetiums);
+        unit.GetComponent<Target>().Change(closestGenetium, closestGenetium.GetComponent<Genetium>().radius);
     }
 
     public static void TargetBase(Unit unit) {
+        GameObject home = GameObject.FindGameObjectWithTag("Base");
+        unit.GetComponent<Target>().Change(home, 3f);
+    }
 
+    public static void DropFuel(Unit unit) {
+        unit.currentGenetiumAmount = 0;
     }
 
     public static void Drink(Unit unit) {
@@ -145,15 +148,15 @@ public static class UnitActions {
     }
 
     public static void Mate(Unit unit) {
-        GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
-        GameObject[] hostiles = GameObject.FindGameObjectsWithTag("Hostile");
-        GameObject[] hornyPets = UnitHelperFunctions.FilterNonHornyPetsAndSelf(unit, pets);
-        if (hornyPets.Length <= 0) { return; }
-        Unit closestMate = UnitHelperFunctions.GetClosest(unit, hornyPets).GetComponent<Unit>();
+        GameObject[] allies = GameObject.FindGameObjectsWithTag(unit.gameObject.tag);
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
+        GameObject[] hornyAllies = UnitHelperFunctions.FilterUnmatable(unit, allies);
+        if (hornyAllies.Length <= 0) { return; }
+        Unit closestMate = UnitHelperFunctions.GetClosest(unit, hornyAllies).GetComponent<Unit>();
         closestMate.horny = false;
         unit.horny = false;
-        if (pets.Length +hostiles.Length< unit.maxUnits) {
-            MonoBehaviour.Instantiate(unit.gameObject).transform.parent=GameManager.gameManager.units.transform;
+        if (allies.Length + enemies.Length < unit.maxUnits) {
+            MonoBehaviour.Instantiate(unit.gameObject).transform.parent = GameManager.gameManager.units.transform;
         }
 
     }
@@ -170,13 +173,20 @@ public static class UnitActions {
     }
 
     public static void Harvest(Unit unit) {
-
+        if (unit.currentGenetiumAmount > unit.carryingCapacity) { return; }
+        Genetium genetium = unit.GetComponent<Target>().targetGameObject.GetComponent<Genetium>();
+        if (genetium == null) { return; }
+        genetium.currentAmount -= genetium.transferRate * Time.fixedDeltaTime;
+        unit.currentGenetiumAmount += genetium.transferRate * Time.fixedDeltaTime;
     }
 
     public static void Attack(Unit unit) {
+        if (Time.time - unit.lastAttacked < unit.attackRate) { return; }
+        unit.lastAttacked = Time.time;
         if (unit.GetComponent<Target>().targetGameObject == null) { return; }
         Unit enemy = unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>();
-        UnitActions.TakeDamage(enemy, unit.attackDamagePerSecond * Time.fixedDeltaTime);
+        UnitActions.TakeDamage(enemy, unit.attackDamage);
+        enemy.GetComponent<Rigidbody>().AddForce(unit.transform.forward * 20, ForceMode.Impulse);
     }
 
     public static void Flee(Unit unit) {
@@ -202,4 +212,28 @@ public static class UnitActions {
     public static void TurnFed(Unit unit) {
         unit.hungry = false;
     }
+
+    public static void WanderIfDeadTarget(Unit unit) {
+        if (
+            unit.GetComponent<Target>().targetGameObject &&
+            unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>() &&
+            unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>().dead
+        ) {
+            unit.unitState = UnitState.Wander;
+        }
+    }
+
+    public static void Dead(Unit unit) {
+        if (Time.time - unit.deathTimeStamp > unit.deathPeriod) {
+            Object.Destroy(unit.gameObject);
+        }
+    }
+
+    public static void Die(Unit unit)
+    {
+        unit.transform.GetChild(0).GetComponent<Animator>().enabled = false;
+        unit.dead = true;
+        unit.deathTimeStamp = Time.time;
+    }
+
 }

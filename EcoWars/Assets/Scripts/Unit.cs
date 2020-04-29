@@ -10,9 +10,6 @@ public class Unit : MonoBehaviour {
     public UnitState unitState;
 
     [Header("General Attributes")]
-    public float maxHealth;
-    public float health;
-    public float healthRegen;
     public float viewDistance = 5f;
     public float interactionRadius;
     [Range(.5f, 3.0f)] public float speed = 1f;
@@ -20,6 +17,15 @@ public class Unit : MonoBehaviour {
     [Range(.0f, 1.0f)] public float bodySize = .1f;
     [Range(.0f, 1.0f)] public float headSize = .2f;
     //public float maxDistance = 20f; //only follow targets maxDistance appart
+
+    [Header("Health")]
+    public float maxHealth;
+    public float health;
+    public float healthRegen;
+    public float criticalHealth;
+    public float deathPeriod;
+    public bool dead = false;
+    public float deathTimeStamp;
 
 
     [Header("Eating Attributes")]
@@ -42,11 +48,20 @@ public class Unit : MonoBehaviour {
     public float hornyChancePerSecond;
     public bool horny;
     public float matingDistance;
+    public float healthRequirement;
+    public float fedRequirement;
+    public float thirstRequirement;
 
     [Header("Attacking Attributes")]
-    public float attackDamagePerSecond = 1f;
+    public float attackDamage = 1f;
     public float attackRange;
     public float enemyDetectionRange;
+    public float attackRate;
+    public float lastAttacked = 0;
+    
+    [Header("Harvesting Attributes")]
+    public float carryingCapacity;
+    public float currentGenetiumAmount;
 
     [Header("Animation")]
     public float walkAnimationSpeed = 10f;
@@ -57,13 +72,13 @@ public class Unit : MonoBehaviour {
 
     //not shown
 
-    [System.NonSerialized] public Rigidbody rb;
-    [System.NonSerialized] public bool isBeingOverride;
-    [System.NonSerialized] public GravityAttractor planet;
-    [System.NonSerialized] public float wanderTimeStamp;
-    [System.NonSerialized] public float eatRange = 1f;
-    [System.NonSerialized] public string enemyTag;
-    [System.NonSerialized] public int maxUnits = 400;
+    public Rigidbody rb;
+    public bool isBeingOverride;
+    public GravityAttractor planet;
+    public float wanderTimeStamp;
+    public float eatRange = 1f;
+    public string enemyTag;
+    public int maxUnits = 50;
     private Transform legFL;
     private Transform legFR;
     private Transform legBL;
@@ -125,6 +140,9 @@ public class Unit : MonoBehaviour {
 
     private void FixedUpdate() {
 
+
+        UnitActions.WanderIfDeadTarget(this);
+
         UnitActions.HungerEffect(this);
         UnitActions.ThirstEffect(this);
 
@@ -134,16 +152,15 @@ public class Unit : MonoBehaviour {
         UnitActions.HealthRegenEffect(this);
 
         unitState = UnitStateMachine.NextState(this);
+
         UpdateLegsLenghtModel();
         UpdateBodySizeModel();
         UpdateHeadSizeModel();
         UpdateMovingAnimation();
 
-
-
-        UnitActions.Move(this);
+        if (!dead) { UnitActions.Move(this);; }
+        
         UnitActions.GravityEffect(this);
-
 
     }
     

@@ -24,7 +24,7 @@ public static class UnitStateMachine {
 
     public static UnitState NextState(Unit unit) { //returns next state
 
-        
+        if (unit.dead) { UnitActions.Dead(unit); }
 
         switch (unit.unitState) {
             case UnitState.Wander: {
@@ -39,7 +39,7 @@ public static class UnitStateMachine {
                 if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
                 if (UnitQueries.NeedsChange(unit)) { return UnitState.TargetBase; }
                 if (UnitQueries.IsHorny(unit) && UnitQueries.SeesMate(unit)) { return UnitState.TargetMate; }
-                if (UnitQueries.SeesFuel(unit)) { return UnitState.TargetFuel; }
+                if (UnitQueries.SeesFuel(unit) && !UnitQueries.IsStorageFull(unit)) { return UnitState.TargetFuel; }
                 if (UnitQueries.IsCarryingFuel(unit)) { return UnitState.TargetBase; }
                 UnitActions.Wander(unit);
                 break;
@@ -76,7 +76,7 @@ public static class UnitStateMachine {
             case UnitState.TargetBase: {
                 UnitActions.TargetBase(unit);
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsNearTarget(unit)) { UnitActions.DropFuel(unit); return UnitState.Wander; }
                 break;
             }
             case UnitState.TargetEnemy: {
@@ -126,14 +126,11 @@ public static class UnitStateMachine {
                 break;
             }
             case UnitState.Override:{
-                    if (UnitQueries.IsNearTarget(unit)) { return UnitState.Wander; }
-                break;
-            }
-            case UnitState.Dead: {
-                Object.Destroy(unit.gameObject);
+                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Wander; }
                 break;
             }
         }
+
         return unit.unitState; //no state change
 
     }

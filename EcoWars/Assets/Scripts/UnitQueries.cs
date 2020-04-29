@@ -43,7 +43,7 @@ public static class UnitQueries {
     public static bool SeesMate(Unit unit) {
         if (unit.gameObject.tag == "Hostile") { return false; }
         GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
-        GameObject[] hornyPets = UnitHelperFunctions.FilterNonHornyPetsAndSelf(unit, pets);
+        GameObject[] hornyPets = UnitHelperFunctions.FilterUnmatable(unit, pets);
         return UnitHelperFunctions.InRangeOf(unit, hornyPets, unit.viewDistance);
     }
 
@@ -59,7 +59,8 @@ public static class UnitQueries {
 
     public static bool SeesFuel(Unit unit) {
         if (unit.gameObject.tag == "Hostile") { return false; }
-        return false;
+        GameObject[] genetiums = GameObject.FindGameObjectsWithTag("Genetium");
+        return UnitHelperFunctions.InRangeOf(unit, genetiums, unit.viewDistance);
     }
 
     public static bool IsNearTarget(Unit unit)
@@ -69,7 +70,8 @@ public static class UnitQueries {
 
     public static bool IsThreatened(Unit unit) {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
-        return UnitHelperFunctions.InRangeOf(unit, enemies, unit.enemyDetectionRange);
+        GameObject[] aliveEnemies = UnitHelperFunctions.FilterDeadEnemies(enemies);
+        return UnitHelperFunctions.InRangeOf(unit, aliveEnemies, unit.enemyDetectionRange);
     }
 
     public static bool ShouldBeAggressive(Unit unit) {
@@ -93,7 +95,7 @@ public static class UnitQueries {
     }
 
     public static bool IsCarryingFuel(Unit unit) {
-        return false;
+        return unit.currentGenetiumAmount / unit.carryingCapacity >= 0.01;
     }
 
     public static bool NeedsChange(Unit unit) {
@@ -101,10 +103,10 @@ public static class UnitQueries {
     }
 
     public static bool IsStorageFull(Unit unit) {
-        return false;
+        return unit.currentGenetiumAmount / unit.carryingCapacity >= 0.99;
     }
 
     public static bool HasLowHealth(Unit unit) {
-        return false;
+        return unit.health <= unit.criticalHealth;
     }
 }
