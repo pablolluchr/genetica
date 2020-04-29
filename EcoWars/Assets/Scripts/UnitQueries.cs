@@ -16,8 +16,7 @@ public static class UnitQueries {
     }
 
     public static bool IsVeryThirsty(Unit unit) {
-        // threshold
-        return false;
+        return unit.amountQuenched / unit.maxQuenched <= unit.criticalThirst;
     }
 
     public static bool IsFed(Unit unit) {
@@ -32,8 +31,7 @@ public static class UnitQueries {
     }
 
     public static bool IsVeryHungry(Unit unit) {
-        // threshold
-        return false;
+        return unit.amountFed / unit.maxFed <= unit.criticalHunger;
     }
 
     public static bool IsHorny(Unit unit) {
@@ -75,8 +73,8 @@ public static class UnitQueries {
     }
 
     public static bool ShouldBeAggressive(Unit unit) {
-        // randomly return true or false based on aggression
-        return true;
+        float random = Random.Range(0f, 1f);
+        return random < unit.aggression;
     }
 
     //does the unit require to be given a new destination
@@ -107,6 +105,6 @@ public static class UnitQueries {
     }
 
     public static bool HasLowHealth(Unit unit) {
-        return unit.health <= unit.criticalHealth;
+        return unit.health / unit.maxHealth <= unit.criticalHealth;
     }
 }
