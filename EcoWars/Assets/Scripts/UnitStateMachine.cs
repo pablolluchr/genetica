@@ -87,7 +87,7 @@ public static class UnitStateMachine {
             }
             case UnitState.Eat: {
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsFed(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsFed(unit)) { UnitActions.TurnFed(unit); return UnitState.Wander; }
                 UnitActions.Eat(unit);
                 break;
             }

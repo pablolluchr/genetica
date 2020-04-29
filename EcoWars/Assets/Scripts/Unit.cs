@@ -27,6 +27,7 @@ public class Unit : MonoBehaviour {
     public float hungerPerSecond;
     public float hungerChanceExponent;
     public float hungerDamage;
+    public bool hungry;
 
     [Header("Drinking Attributes")]
     public float amountQuenched = 10f; //how much of the stomach is filled
@@ -61,7 +62,7 @@ public class Unit : MonoBehaviour {
     [System.NonSerialized] public float wanderTimeStamp;
     [System.NonSerialized] public float eatRange = 1f;
     [System.NonSerialized] public string enemyTag;
-    [System.NonSerialized] public int maxUnits = 100;
+    [System.NonSerialized] public int maxUnits = 50;
     private Transform legFL;
     private Transform legFR;
     private Transform legBL;
@@ -110,10 +111,13 @@ public class Unit : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
     }
 
-    private void Update() {
+    private void FixedUpdate() {
 
         UnitActions.HungerEffect(this);
         UnitActions.ThirstEffect(this);
+
+        UnitActions.TurnHungryChance(this);
+        UnitActions.TurnHornyChance(this);
 
         unitState = UnitStateMachine.NextState(this);
         UpdateLegsLenghtModel();

@@ -25,7 +25,7 @@ public static class UnitHelperFunctions {
         return false;
     }
 
-    public static GameObject[] GetOtherHornyPets(Unit unit, GameObject[] pets) {
+    public static GameObject[] FilterNonHornyPetsAndSelf(Unit unit, GameObject[] pets) {
         List<GameObject> hornyPets = new List<GameObject>();
         foreach (GameObject pet in pets) {
             Unit petUnit = pet.GetComponent<Unit>();
@@ -36,7 +36,16 @@ public static class UnitHelperFunctions {
         return hornyPets.ToArray();
     }
 
-    
+    public static GameObject[] FilterEmptyFoods(GameObject[] foods) {
+        List<GameObject> nonEmptyFoods = new List<GameObject>();
+        foreach (GameObject food in foods) {
+            Food foodComponent = food.GetComponent<Food>();
+            if (foodComponent.availableFood > foodComponent.consideredEmpty) {
+                nonEmptyFoods.Add(food);
+            }
+        }
+        return nonEmptyFoods.ToArray();
+    }
 
     
 }

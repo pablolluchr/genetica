@@ -50,7 +50,7 @@ public static class UnitActions {
 
     public static void HungerEffect(Unit unit)
     {
-        unit.amountFed -= unit.hungerPerSecond * Time.deltaTime;
+        unit.amountFed -= unit.hungerPerSecond * Time.fixedDeltaTime;
         if (unit.amountFed <= 0) { UnitActions.TakeDamage(unit, unit.hungerDamage); }
     }
 
@@ -78,7 +78,7 @@ public static class UnitActions {
 
     public static void MoveToMate(Unit unit) {
         GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
-        GameObject[] hornyPets = UnitHelperFunctions.GetOtherHornyPets(unit, pets);
+        GameObject[] hornyPets = UnitHelperFunctions.FilterNonHornyPetsAndSelf(unit, pets);
         GameObject closestMate = UnitHelperFunctions.GetClosest(unit, hornyPets);
         if (closestMate != null) {
 
@@ -126,7 +126,7 @@ public static class UnitActions {
 
     public static void Mate(Unit unit) {
         GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
-        GameObject[] hornyPets = UnitHelperFunctions.GetOtherHornyPets(unit, pets);
+        GameObject[] hornyPets = UnitHelperFunctions.FilterNonHornyPetsAndSelf(unit, pets);
         if (hornyPets.Length <= 0) { return; }
         Unit closestMate = UnitHelperFunctions.GetClosest(unit, hornyPets).GetComponent<Unit>();
         closestMate.horny = false;
@@ -152,7 +152,23 @@ public static class UnitActions {
 
     }
 
-    public static void TurnHorny(Unit unit) {
-        unit.horny = true;
+    public static void TurnHungryChance(Unit unit) {
+        float random = Random.Range(0f, 1f);
+        float hungerRatio = (unit.amountFed / unit.maxFed);
+        float chanceOfHungerPerSec = Mathf.Pow(1 - hungerRatio, unit.hungerChanceExponent) * Time.fixedDeltaTime;
+        if (random < chanceOfHungerPerSec) {
+            unit.hungry = true;
+        }
+    }
+
+    public static void TurnHornyChance(Unit unit) {
+        float random = Random.Range(0f, 1f);
+        if (random < unit.hornyChancePerSecond * Time.fixedDeltaTime) {
+            unit.horny = true;
+        }
+    }
+
+    public static void TurnFed(Unit unit) {
+        unit.hungry = false;
     }
 }
