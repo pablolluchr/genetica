@@ -23,6 +23,9 @@ public class Unit : MonoBehaviour {
     public float health;
     public float healthRegen;
     public float criticalHealth;
+    public float deathPeriod;
+    public bool dead = false;
+    public float deathTimeStamp;
 
 
     [Header("Eating Attributes")]
@@ -66,7 +69,7 @@ public class Unit : MonoBehaviour {
     [System.NonSerialized] public float wanderTimeStamp;
     [System.NonSerialized] public float eatRange = 1f;
     [System.NonSerialized] public string enemyTag;
-    [System.NonSerialized] public int maxUnits = 400;
+    [System.NonSerialized] public int maxUnits = 150;
     private Transform legFL;
     private Transform legFR;
     private Transform legBL;
@@ -124,6 +127,9 @@ public class Unit : MonoBehaviour {
 
     private void FixedUpdate() {
 
+
+        UnitActions.WanderIfDeadTarget(this);
+
         UnitActions.HungerEffect(this);
         UnitActions.ThirstEffect(this);
 
@@ -133,16 +139,15 @@ public class Unit : MonoBehaviour {
         UnitActions.HealthRegenEffect(this);
 
         unitState = UnitStateMachine.NextState(this);
+        if (dead) { return; }
+
         UpdateLegsLenghtModel();
         UpdateBodySizeModel();
         UpdateHeadSizeModel();
         UpdateMovingAnimation();
 
-
-
         UnitActions.Move(this);
         UnitActions.GravityEffect(this);
-
 
     }
     

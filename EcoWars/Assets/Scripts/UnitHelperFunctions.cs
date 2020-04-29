@@ -47,5 +47,15 @@ public static class UnitHelperFunctions {
         return nonEmptyFoods.ToArray();
     }
 
+    public static GameObject[] FilterDeadEnemies(GameObject[] enemies) {
+        List<GameObject> aliveEnemies = new List<GameObject>();
+        foreach (GameObject enemy in enemies) {
+            Unit enemyComponent = enemy.GetComponent<Unit>();
+            if (!enemyComponent.dead) {
+                aliveEnemies.Add(enemy);
+            }
+        }
+        return aliveEnemies.ToArray();
+    }
     
 }

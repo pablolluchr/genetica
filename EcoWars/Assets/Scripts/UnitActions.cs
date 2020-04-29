@@ -69,15 +69,10 @@ public static class UnitActions {
         // suffer thirst
     }
 
-    public static void Die(Unit unit)
-    {
-        Object.Destroy(unit.gameObject);
-        unit = null;
-    }
-
 
     public static void TakeDamage(Unit unit, float damage)
     {
+        if (unit.dead) { return; }
         unit.health -= damage; 
         if (unit.health <= 0) { UnitActions.Die(unit); }
     }
@@ -204,4 +199,24 @@ public static class UnitActions {
     public static void TurnFed(Unit unit) {
         unit.hungry = false;
     }
+
+    public static void WanderIfDeadTarget(Unit unit) {
+        if (unit.GetComponent<Target>().targetGameObject && unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>().dead) {
+            unit.unitState = UnitState.Wander;
+        }
+    }
+
+    public static void Dead(Unit unit) {
+        if (Time.time - unit.deathTimeStamp > unit.deathPeriod) {
+            Object.Destroy(unit.gameObject);
+        }
+    }
+
+    public static void Die(Unit unit)
+    {
+        unit.dead = true;
+        unit.deathTimeStamp = Time.time;
+        unit.unitState = UnitState.Dead;
+    }
+
 }

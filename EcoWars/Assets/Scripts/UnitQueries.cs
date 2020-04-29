@@ -69,7 +69,8 @@ public static class UnitQueries {
 
     public static bool IsThreatened(Unit unit) {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
-        return UnitHelperFunctions.InRangeOf(unit, enemies, unit.enemyDetectionRange);
+        GameObject[] aliveEnemies = UnitHelperFunctions.FilterDeadEnemies(enemies);
+        return UnitHelperFunctions.InRangeOf(unit, aliveEnemies, unit.enemyDetectionRange);
     }
 
     public static bool ShouldBeAggressive(Unit unit) {

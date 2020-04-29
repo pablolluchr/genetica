@@ -126,7 +126,11 @@ public static class UnitStateMachine {
                 break;
             }
             case UnitState.Override:{
-                    if (UnitQueries.IsNearTarget(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Wander; }
+                break;
+            }
+            case UnitState.Dead: {
+                UnitActions.Dead(unit);
                 break;
             }
         }
