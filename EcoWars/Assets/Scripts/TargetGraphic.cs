@@ -30,7 +30,7 @@ public class TargetGraphic : MonoBehaviour
         if (Time.time - spawnTime > 5f) Destroy(gameObject);
 
         scaleMultiplier = Mathf.Lerp(scaleMultiplier, 5,Time.deltaTime*2);
-        alphaMultiplier = Mathf.Lerp(alphaMultiplier, 0,Time.deltaTime*3);
+        alphaMultiplier = Mathf.Lerp(alphaMultiplier, 0,Time.deltaTime*4);
 
         transform.localScale = originalScale * scaleMultiplier;
         UnityEngine.UI.Image image = transform.GetChild(0).GetComponent<UnityEngine.UI.Image>();

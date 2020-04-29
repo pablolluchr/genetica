@@ -42,17 +42,17 @@ public class GameManager : MonoBehaviour
         //SHORT CLICK
         if (Input.GetMouseButtonUp(0) && !isDragging)
         {
+
+            //check first raycast collision
             hitInfo = new RaycastHit();
-            hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo,Mathf.Infinity,
-                1 << LayerMask.NameToLayer("Units"));
+            hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity);
 
             if (hit)//unit clicked
             {
 
-                if (hitInfo.transform.parent.tag == "Pet" || hitInfo.transform.tag == "Pet")
+                if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Units"))
                 {
-                    Debug.Log("Pet clicked");
-
+                    gameState = GameState.Following;
                     cameraController.StartFollowing(hitInfo.transform);
 
                     //unit clicked is a new target
@@ -60,26 +60,30 @@ public class GameManager : MonoBehaviour
                     {
                         //disable last selection graphic
                         if (target != null) UnitActions.DisableSelectionGraphic(target.GetComponent<Unit>());
-
                         target = hitInfo.transform.gameObject;
 
                         UnitActions.EnableSelectionGraphic(target.GetComponent<Unit>());
-                        gameState = GameState.Following;
                     }
 
                 }
-                else if (hitInfo.transform.parent.tag == "Hostile")  Debug.Log("Hostile clicked");
-            }
-            else //check for clicks on planet
-            {
-                hitInfo = new RaycastHit();
-                hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo,
-                    Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
+                else
+                {
+                    //only focus on planet
+                    hitInfo = new RaycastHit();
+                    hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo,
+                        Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
 
-                //if a pet is being controlled and user hits map: override
-                if (gameState == GameState.Following && hit)
-                    UnitActions.OverrideTarget(target.GetComponent<Unit>(), hitInfo.point);
+                    //if a pet is being controlled and user hits map: override
+                    if (target!=null && hit)
+                    {
+                        if (target.tag == "Pet" || target.transform.parent.tag == "Pet")
+                            UnitActions.OverrideTarget(target.GetComponent<Unit>(), hitInfo.point);
+
+                    }
+                }
             }
+
+
 
             
         }
@@ -106,7 +110,7 @@ public class GameManager : MonoBehaviour
             if (wasButtonDown)
             {
                 isDragging = Mathf.Pow(Input.GetAxis("Mouse X") - lastMouseX, 2) +
-                Mathf.Pow(Input.GetAxis("Mouse Y") - lastMouseY, 2) > 0f || isDragging;
+                Mathf.Pow(Input.GetAxis("Mouse Y") - lastMouseY, 2) > 0.01f || isDragging;
             }
 
             lastMouseX = Input.GetAxis("Mouse X");

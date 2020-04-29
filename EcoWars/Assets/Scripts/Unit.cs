@@ -74,12 +74,7 @@ public class Unit : MonoBehaviour {
     [System.NonSerialized] public Transform destinationGizmo;
     [System.NonSerialized] public Transform selectionGraphic;
     public GameObject targetGraphic;
-
-
-
-
-
-
+    public Vector4 selectionColor;
 
 
 
@@ -89,11 +84,18 @@ public class Unit : MonoBehaviour {
     public void Awake() {
         if (transform.tag == "Pet") {
             enemyTag = "Hostile";
-        } else if (transform.tag == "Hostile") {
+            selectionColor = new Color(0, 1, 0, 0.4f);
+
+        }
+        else if (transform.tag == "Hostile") {
             enemyTag = "Pet";
-        } else {
+            selectionColor = new Color(0, 0, 0, 0f);
+
+        }
+        else {
             throw new System.Exception("Wrong tag for unit");
         }
+        //set selection color
 
 
         //set up transforms of bodyparts
@@ -111,7 +113,9 @@ public class Unit : MonoBehaviour {
         wanderTimeStamp = -Mathf.Infinity;
         destinationGizmo = transform.Find("Destination");
         selectionGraphic = transform.Find("SelectionGraphic");
-        selectionGraphic.GetComponent<Canvas>().enabled = false;
+        selectionGraphic.GetChild(0).GetComponent<UnityEngine.UI.Image>().color = selectionColor;
+
+
 
         planet = GameObject.FindGameObjectWithTag("Planet").GetComponent<GravityAttractor>();
         GetComponent<Rigidbody>().useGravity = false; //deactivate built-in downwards gravity

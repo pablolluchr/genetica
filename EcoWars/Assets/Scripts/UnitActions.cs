@@ -160,14 +160,13 @@ public static class UnitActions {
 
     public static void DisableSelectionGraphic(Unit unit)
     {
-        unit.selectionGraphic.GetComponent<Canvas>().enabled = false;
+        unit.selectionGraphic.GetChild(0).GetComponent<UnityEngine.UI.Image>().color = unit.selectionColor;
     }
 
     public static void EnableSelectionGraphic(Unit unit)
     {
-        unit.selectionGraphic.GetComponent<Canvas>().enabled = true;
-        unit.selectionGraphic.GetChild(0).GetComponent<UnityEngine.UI.Image>().color =
-            new Color(0.2358714f, 1f, 0.0518868f, .8f);
+        unit.selectionGraphic.GetChild(0).GetComponent<UnityEngine.UI.Image>().color = new Color(1f, 1f, 0f, .8f);
+        
     }
 
     public static void Harvest(Unit unit) {
