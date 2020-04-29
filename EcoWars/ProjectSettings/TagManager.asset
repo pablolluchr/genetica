@@ -8,6 +8,8 @@ TagManager:
   - Pet
   - Food
   - Hostile
+  - Genetium
+  - Base
   layers:
   - Default
   - TransparentFX
