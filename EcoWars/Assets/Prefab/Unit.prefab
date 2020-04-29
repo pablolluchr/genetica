@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1109050586}
   - component: {fileID: 1109050585}
   - component: {fileID: 1109050584}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: SelectionGraphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 1922952368}
   - component: {fileID: 1922952370}
   - component: {fileID: 1922952369}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9164233350775670088}
   - component: {fileID: 3202183893960774835}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Destination
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -861,7 +861,7 @@ MonoBehaviour:
   thirstPerSecond: 0.1
   thirstThreshold: 8
   thirstDamage: 0.1
-  hornyChancePerSecond: 0.5
+  hornyChancePerSecond: 0.01
   horny: 0
   matingDistance: 1
   attackDamagePerSecond: 1
@@ -930,7 +930,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 59259444406056074}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BodyPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1040,7 +1040,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3700055026327211965}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HeadPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1074,7 +1074,7 @@ GameObject:
   - component: {fileID: 8486834460172431879}
   - component: {fileID: 174474966410703041}
   - component: {fileID: 7951663483690426591}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ClickZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
