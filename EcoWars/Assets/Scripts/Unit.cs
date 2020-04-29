@@ -10,8 +10,9 @@ public class Unit : MonoBehaviour {
     public UnitState unitState;
 
     [Header("General Attributes")]
-    public float maxHealth = 10f;
-
+    public float maxHealth;
+    public float health;
+    public float healthRegen;
     public float viewDistance = 5f;
     [Range(.5f, 3.0f)] public float speed = 1f;
     [Range(.0f, 1.0f)] public float legsLength = .2f;
@@ -56,7 +57,6 @@ public class Unit : MonoBehaviour {
     //not shown
 
     [System.NonSerialized] public Rigidbody rb;
-    [System.NonSerialized] public float health;
     [System.NonSerialized] public bool isBeingOverride;
     [System.NonSerialized] public GravityAttractor planet;
     [System.NonSerialized] public float wanderTimeStamp;
@@ -118,6 +118,8 @@ public class Unit : MonoBehaviour {
 
         UnitActions.TurnHungryChance(this);
         UnitActions.TurnHornyChance(this);
+
+        UnitActions.HealthRegenEffect(this);
 
         unitState = UnitStateMachine.NextState(this);
         UpdateLegsLenghtModel();

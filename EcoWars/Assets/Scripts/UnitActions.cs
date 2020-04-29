@@ -48,10 +48,20 @@ public static class UnitActions {
 
     }
 
+    public static void HealthRegenEffect(Unit unit) {
+        if (unit.health < unit.maxHealth) {
+            unit.health += unit.healthRegen * Time.fixedDeltaTime;
+        }
+    }
+
     public static void HungerEffect(Unit unit)
     {
-        unit.amountFed -= unit.hungerPerSecond * Time.fixedDeltaTime;
-        if (unit.amountFed <= 0) { UnitActions.TakeDamage(unit, unit.hungerDamage); }
+        if (unit.amountFed <= 0) {
+            UnitActions.TakeDamage(unit, unit.hungerDamage * Time.fixedDeltaTime);
+            unit.amountFed = 0;
+        } else {
+            unit.amountFed -= unit.hungerPerSecond * Time.fixedDeltaTime;
+        }
     }
 
     public static void ThirstEffect(Unit unit)
