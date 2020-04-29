@@ -59,6 +59,9 @@ public class Unit : MonoBehaviour {
     public float attackRate;
     public float lastAttacked = 0;
     
+    [Header("Harvesting Attributes")]
+    public float carryingCapacity;
+    public float currentGenetiumAmount;
 
     [Header("Animation")]
     public float walkAnimationSpeed = 10f;

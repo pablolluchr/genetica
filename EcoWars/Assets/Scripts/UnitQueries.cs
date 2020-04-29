@@ -59,7 +59,8 @@ public static class UnitQueries {
 
     public static bool SeesFuel(Unit unit) {
         if (unit.gameObject.tag == "Hostile") { return false; }
-        return false;
+        GameObject[] genetiums = GameObject.FindGameObjectsWithTag("Genetium");
+        return UnitHelperFunctions.InRangeOf(unit, genetiums, unit.viewDistance);
     }
 
     public static bool IsNearTarget(Unit unit)
@@ -94,7 +95,7 @@ public static class UnitQueries {
     }
 
     public static bool IsCarryingFuel(Unit unit) {
-        return false;
+        return unit.currentGenetiumAmount / unit.carryingCapacity >= 0.01;
     }
 
     public static bool NeedsChange(Unit unit) {
@@ -102,7 +103,7 @@ public static class UnitQueries {
     }
 
     public static bool IsStorageFull(Unit unit) {
-        return false;
+        return unit.currentGenetiumAmount / unit.carryingCapacity >= 0.99;
     }
 
     public static bool HasLowHealth(Unit unit) {

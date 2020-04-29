@@ -23,7 +23,6 @@ public class Food : MonoBehaviour
 
     public float Eat(float stomachLeft)
     {
-      
         float foodEaten = Mathf.Min(stomachLeft, stomachFillPerSecond * Time.fixedDeltaTime,availableFood);
         availableFood -= foodEaten;
         return foodEaten;

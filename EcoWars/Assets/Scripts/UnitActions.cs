@@ -105,11 +105,18 @@ public static class UnitActions {
     }
 
     public static void TargetFuel(Unit unit) {
-
+        GameObject[] genetiums = GameObject.FindGameObjectsWithTag("Genetium");
+        GameObject closestGenetium = UnitHelperFunctions.GetClosest(unit, genetiums);
+        unit.GetComponent<Target>().Change(closestGenetium, closestGenetium.GetComponent<Genetium>().radius);
     }
 
     public static void TargetBase(Unit unit) {
+        GameObject home = GameObject.FindGameObjectWithTag("Base");
+        unit.GetComponent<Target>().Change(home, 3f);
+    }
 
+    public static void DropFuel(Unit unit) {
+        unit.currentGenetiumAmount = 0;
     }
 
     public static void Drink(Unit unit) {
@@ -167,7 +174,11 @@ public static class UnitActions {
     }
 
     public static void Harvest(Unit unit) {
-
+        if (unit.currentGenetiumAmount > unit.carryingCapacity) { return; }
+        Genetium genetium = unit.GetComponent<Target>().targetGameObject.GetComponent<Genetium>();
+        if (genetium == null) { return; }
+        genetium.currentAmount -= genetium.transferRate * Time.fixedDeltaTime;
+        unit.currentGenetiumAmount += genetium.transferRate * Time.fixedDeltaTime;
     }
 
     public static void Attack(Unit unit) {
