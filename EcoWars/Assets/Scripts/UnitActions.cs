@@ -103,9 +103,17 @@ public static class UnitActions {
     //Find a random point in planet's surface 
     public static void SetWanderingDestination(Unit unit)
     {
-        //random position somewhere on the surface of the planet
-        Vector3 position = Random.onUnitSphere * 5f;
-        unit.GetComponent<Target>().Change(position);
+        //random position somewhere in a sphere
+        Vector3 position = Random.onUnitSphere;
+
+        //project on planet. raycast has to be projected from the sky
+        RaycastHit hitInfo = new RaycastHit();
+        
+        bool hit = Physics.Raycast(position+(position - unit.planet.transform.position)*20f,
+            (unit.planet.transform.position-position), out hitInfo,
+            Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
+        if (hit) unit.GetComponent<Target>().Change(hitInfo.point);
+        else Debug.Log("not hit");
 
         unit.wanderTimeStamp = Time.time;
     }

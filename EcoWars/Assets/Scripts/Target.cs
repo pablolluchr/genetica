@@ -7,7 +7,7 @@ public class Target : MonoBehaviour {
     public GameObject targetGameObject;
     public Vector3 targetVector3; //inits to vector3.zero
     public float radius; 
-    public float dummyRadius = 2f;
+    public float dummyRadius = .5f;
 
     public void Update()
     {

@@ -11,7 +11,7 @@ public class Unit : MonoBehaviour {
 
     [Header("General Attributes")]
     public float maxHealth = 10f;
-    public float wanderDistance = 3f; //distance from wander destinations
+
     public float viewDistance = 5f;
     [Range(.5f, 3.0f)] public float speed = 1f;
     [Range(.0f, 1.0f)] public float legsLength = .2f;
@@ -27,7 +27,6 @@ public class Unit : MonoBehaviour {
     public float hungerPerSecond;
     public float hungerChanceExponent;
     public float hungerDamage;
-    public float eatingDistance;
 
     [Header("Drinking Attributes")]
     public float amountQuenched = 10f; //how much of the stomach is filled
