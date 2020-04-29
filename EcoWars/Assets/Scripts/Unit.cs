@@ -66,7 +66,7 @@ public class Unit : MonoBehaviour {
     [System.NonSerialized] public float wanderTimeStamp;
     [System.NonSerialized] public float eatRange = 1f;
     [System.NonSerialized] public string enemyTag;
-    [System.NonSerialized] public int maxUnits = 50;
+    [System.NonSerialized] public int maxUnits = 400;
     private Transform legFL;
     private Transform legFR;
     private Transform legBL;
@@ -74,10 +74,13 @@ public class Unit : MonoBehaviour {
 
     private Transform body;
     private Transform head;
+    [System.NonSerialized] public Transform destinationGizmo;
+    [System.NonSerialized] public Transform selectionGraphic;
+    public GameObject targetGraphic;
 
-    
 
-    
+
+
 
 
 
@@ -109,6 +112,10 @@ public class Unit : MonoBehaviour {
         isBeingOverride = false;
         amountFed = maxFed;
         wanderTimeStamp = -Mathf.Infinity;
+        destinationGizmo = transform.Find("Destination");
+        selectionGraphic = transform.Find("SelectionGraphic");
+        selectionGraphic.GetComponent<Canvas>().enabled = false;
+
         planet = GameObject.FindGameObjectWithTag("Planet").GetComponent<GravityAttractor>();
         GetComponent<Rigidbody>().useGravity = false; //deactivate built-in downwards gravity
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
