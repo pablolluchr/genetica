@@ -16,6 +16,9 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float cameraMoveSpeed =10f;
     [SerializeField] private float cameraRotateSpeed =10f;
     public float orbitStartTime;
+
+    float oldMoveX;
+    float oldMoveY;
     //float fov = 50f;
     //float sensitivity = 17f;
 
@@ -72,11 +75,22 @@ public class CameraController : MonoBehaviour
     //You can probably call this in update I just call it from a dif script
     public void Orbit()
     {
+        if (Input.GetMouseButton(0))
+        {
+            oldMoveX = Input.GetAxis("Mouse X");
+            oldMoveY = Input.GetAxis("Mouse Y");
 
+        }
         //if pressing the mouse and didnt just get in orbit pan planet
-        if (Input.GetMouseButton(0)&&Time.time - orbitStartTime > .2){
+        if (Input.GetMouseButton(0)&&Time.time - orbitStartTime > .1f){
             rotYAxis = transform.eulerAngles.y + Input.GetAxis("Mouse X") * speed;
             rotXAxis = transform.eulerAngles.x - Input.GetAxis("Mouse Y") * speed;
+        }else if (!Input.GetMouseButton(0))
+        {
+            oldMoveX = Mathf.Lerp(oldMoveX,.0f,Time.deltaTime);
+            oldMoveY =Mathf.Lerp(oldMoveY, .0f, Time.deltaTime);
+            rotYAxis = transform.eulerAngles.y + oldMoveX * speed;
+            rotXAxis = transform.eulerAngles.x - oldMoveY * speed;
         }
         else
         {
@@ -84,7 +98,18 @@ public class CameraController : MonoBehaviour
             rotXAxis = transform.eulerAngles.x;
         }
 
-        // convert it to quaternions
+        // Clamp rotation to avoid jiterry on the poles
+        if (rotXAxis < 180)
+        {
+            rotXAxis = Mathf.Min(rotXAxis, 90f);
+        }
+        else
+        {
+            rotXAxis = Mathf.Max(rotXAxis, 270f);
+
+        }
+        //rotXAxis = Mathf.Min(Mathf.Max(rotXAxis, 80f);
+        //if (rotXAxis < 0) rotXAxis = 360 + rotXAxis; // e.g. 360 + -40 = 320 which is the same rotation
         Quaternion toRotation = Quaternion.Euler(rotXAxis, rotYAxis, 0);
         Quaternion rotation = toRotation;
 
@@ -93,8 +118,9 @@ public class CameraController : MonoBehaviour
         Vector3 position = rotation * negDistance + planet.transform.position;
         transform.rotation = rotation;
 
+
         //just entered orbit: smooth
-        if (Time.time - orbitStartTime < .2) transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime*20f);
+        if (Time.time - orbitStartTime < .1) transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime*20f);
         else transform.position = position;
 
 
@@ -103,5 +129,8 @@ public class CameraController : MonoBehaviour
 
 
     }
+
+
+ 
 
 }

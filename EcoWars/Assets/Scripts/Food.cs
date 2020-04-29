@@ -8,6 +8,7 @@ public class Food : MonoBehaviour
     public float regeneratePerSecond = .1f;
     public float maxFood = 100f;
     public float availableFood;
+    public float radius = 2f;
 
     void Start()
     {

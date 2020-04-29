@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class UnitQueries {
 
-    // query functions here (not allowed to modify state) ##################################################
+    // unit behaviour query functions here (not allowed to modify state) ##################################################
 
     public static bool IsQuenched(Unit unit) {
         return false;
@@ -72,31 +72,10 @@ public static class UnitQueries {
         return false;
     }
 
-    public static bool IsNearWater(Unit unit) {
-        return false;
-    }
-
-    public static bool IsNearFood(Unit unit) {
-        GameObject[] foods = GameObject.FindGameObjectsWithTag("Food");
-        return UnitHelperFunctions.InRangeOf(unit, foods, unit.eatingDistance);
-    }
-
-    public static bool IsNearMate(Unit unit) {
-        GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
-        GameObject[] hornyPets = UnitHelperFunctions.GetOtherHornyPets(unit, pets);
-        return UnitHelperFunctions.InRangeOf(unit, hornyPets, unit.matingDistance);
-    }
-
-    public static bool IsNearBase(Unit unit) {
-        return false;
-    }
-
-    public static bool IsNearEnemy(Unit unit) {
-        return false;
-    }
-
-    public static bool IsNearFuel(Unit unit) {
-        return false;
+    public static bool IsNearTarget(Unit unit)
+    {
+        if (unit.GetComponent<Target>()== null) { return false; }
+        return unit.GetComponent<Target>().IsNear(unit);
     }
 
     public static bool IsThreatened(Unit unit) {
@@ -107,6 +86,21 @@ public static class UnitQueries {
     public static bool ShouldBeAggressive(Unit unit) {
         // randomly return true or false based on aggression
         return true;
+    }
+
+    //does the unit require to be given a new destination
+    public static bool NeedsWanderingDestination(Unit unit)
+    {
+        //no destination
+        if (unit.GetComponent<Target>().targetVector3 == Vector3.zero) { return true; }
+
+        ////destination already reached
+        if (UnitQueries.IsNearTarget(unit)) { return true; }
+        //if its wandering and couldn't reach the destination in 10 sec reset 
+        if (Time.time - unit.wanderTimeStamp > 10f && unit.unitState == UnitState.Wander) { return true; }
+
+        //otherwise
+        return false;
     }
 
     public static bool IsCarryingFuel(Unit unit) {

@@ -16,6 +16,7 @@ public enum UnitState {
     EngageEnemy,
     Attack,
     Flee,
+    Override,
     Dead
 }
 
@@ -23,8 +24,7 @@ public static class UnitStateMachine {
 
     public static UnitState NextState(Unit unit) { //returns next state
 
-        unit.HungerEffect();
-        unit.ThirstEffect();
+        
 
         switch (unit.unitState) {
             case UnitState.Wander: {
@@ -45,37 +45,38 @@ public static class UnitStateMachine {
                 break;
             }
             case UnitState.MoveToWater: {
+                UnitActions.MoveToWater(unit);
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 if (!UnitQueries.SeesWater(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsNearWater(unit)) { return UnitState.Drink; }
-                UnitActions.MoveToWater(unit);
+                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Drink; }
+                
                 break;
             }
             case UnitState.MoveToFood: {
+                UnitActions.MoveToFood(unit);
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 if (!UnitQueries.SeesFood(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsNearFood(unit)) { return UnitState.Eat; }
-                UnitActions.MoveToFood(unit);
+                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Eat; }
                 break;
             }
             case UnitState.MoveToMate: {
+                UnitActions.MoveToMate(unit);
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 if (!UnitQueries.SeesMate(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsNearMate(unit)) { return UnitState.Mate; }
-                UnitActions.MoveToMate(unit);
+                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Mate; }
                 break;
             }
             case UnitState.MoveToFuel: {
+                UnitActions.MoveToFuel(unit);
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 if (!UnitQueries.SeesFuel(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsNearFuel(unit)) { return UnitState.Harvest; }
-                UnitActions.MoveToFuel(unit);
+                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Harvest; }
                 break;
             }
             case UnitState.MoveToBase: {
-                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsNearBase(unit)) { return UnitState.Wander; }
                 UnitActions.MoveToBase(unit);
+                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Wander; }
                 break;
             }
             case UnitState.Drink: {
@@ -98,7 +99,7 @@ public static class UnitStateMachine {
             }
             case UnitState.Harvest: {
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
-                if (!UnitQueries.IsNearFuel(unit)) { return UnitState.Wander; }
+                if (!UnitQueries.IsNearTarget(unit)) { return UnitState.Wander; }
                 if (UnitQueries.IsStorageFull(unit)) { return UnitState.Wander; }
                 UnitActions.Harvest(unit);
                 break;
@@ -107,14 +108,14 @@ public static class UnitStateMachine {
                 if (UnitQueries.HasLowHealth(unit)) { return UnitState.Flee; }
                 if (UnitQueries.IsVeryHungry(unit)) { return UnitState.Flee; }
                 if (UnitQueries.IsVeryThirsty(unit)) { return UnitState.Flee; }
-                if (UnitQueries.IsNearEnemy(unit)) { return UnitState.Attack; }
+                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Attack; }
                 if (!UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 UnitActions.EngageEnemy(unit);
                 break;
             }
             case UnitState.Attack: {
                 if (UnitQueries.HasLowHealth(unit)) { return UnitState.Flee; }
-                if (!UnitQueries.IsNearEnemy(unit)) { return UnitState.EngageEnemy; }
+                if (!UnitQueries.IsNearTarget(unit)) { return UnitState.EngageEnemy; }
                 if (!UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 UnitActions.Attack(unit);
                 break;
@@ -124,6 +125,10 @@ public static class UnitStateMachine {
                 UnitActions.Flee(unit);
                 break;
             }
+            case UnitState.Override:{
+                    if (UnitQueries.IsNearTarget(unit)) { return UnitState.Wander; }
+                break;
+            }
             case UnitState.Dead: {
                 Object.Destroy(unit.gameObject);
                 break;
@@ -131,80 +136,6 @@ public static class UnitStateMachine {
         }
         return unit.unitState; //no state change
 
-        //switch (unit.unitState) {
-        //    case UnitState.Wander: {
-        //        if (unit.isBeingOverride) {
-        //            ////destination too close
-        //            if ((unit.destination - unit.transform.position).magnitude <= unit.minDistance) { break; }
-
-        //            unit.Move(unit.destination);
-        //            break;
-        //        }
-        //        //get a new destination if appropriate
-        //        if (unit.NeedsDestination()) {
-        //            unit.GetDestination();
-        //        }
-
-        //        unit.Move(unit.destination);
-
-        //        //TODO: check for blocked path and recalculate destination if so? 
-
-        //        Food targetToEat = unit.CheckForFood(); //enemy nearby?
-        //        if (targetToEat != null) {
-        //            unit.target = targetToEat.GetComponent<Transform>();
-        //            return UnitState.Eat;
-
-        //        }
-
-        //        Unit targetToAttack = unit.CheckForEnemy(); //enemy nearby?
-        //        if (targetToAttack != null) {
-        //            unit.target = targetToAttack.GetComponent<Transform>();
-        //            return UnitState.Attack;
-
-        //        }
-
-        //        break;
-
-        //    }
-        //    case UnitState.Attack: {
-        //        //todo: maybe set destination to targets transform
-        //        if (unit.target == null) //enemy killed
-        //        {
-        //            unit.attackRange = unit.originalAttackRange;
-        //            return UnitState.Wander;
-        //        }
-        //        //attack enemy
-        //        else if ((unit.target.transform.position - unit.transform.position).magnitude <= unit.attackRange) {
-        //            unit.attackRange = unit.originalAttackRange + 1;
-        //            unit.target.GetComponent<Unit>().TakeDamage(unit.attackDamagePerSecond * Time.fixedDeltaTime);
-        //            //TODO: Change it so target destination is set to targets position.
-        //            unit.AnimateEat(); //todo: attack animation
-        //        } else { unit.Move(unit.target.transform.position); }//chase target source
-
-        //        break;
-
-
-        //    }
-        //    case UnitState.Eat: {
-        //        //todo: maybe set destination to targets transform
-        //        if (unit.stomachFilledAmount >= unit.stomachSize) //unit is full
-        //        {
-        //            unit.eatRange = unit.originalEatRange; //reset eatRange
-        //            return UnitState.Wander;
-        //        } else if ((unit.target.transform.position - unit.transform.position).magnitude <= unit.eatRange) {
-        //            unit.eatRange = unit.originalEatRange + 1; //increase eatRange while eating
-        //                                                       //start eating until full
-        //            unit.stomachFilledAmount += unit.target.GetComponent<Food>().StomachFillPerSecond * Time.fixedDeltaTime;
-        //            unit.AnimateEat();
-
-        //        } else { unit.Move(unit.target.transform.position); }//chase food source
-        //        break;
-        //    }
-        //    case UnitState.Dead: {
-        //        Object.Destroy(unit.gameObject);
-        //        break;
-        //    }
-        //}
     }
 
 }
