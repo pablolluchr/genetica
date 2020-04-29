@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
         lastMouseX = Mathf.Infinity;
         lastMouseY = Mathf.Infinity;
         target = null;
+
     }
     void Update()
     {
@@ -48,7 +49,7 @@ public class GameManager : MonoBehaviour
             if (hit)//unit clicked
             {
 
-                if (hitInfo.transform.gameObject.tag == "Pet")
+                if (hitInfo.transform.parent.tag == "Pet" || hitInfo.transform.tag == "Pet")
                 {
                     Debug.Log("Pet clicked");
 
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviour
                     }
 
                 }
-                else if (hitInfo.transform.gameObject.tag == "Hostile")  Debug.Log("Hostile clicked");
+                else if (hitInfo.transform.parent.tag == "Hostile")  Debug.Log("Hostile clicked");
             }
             else //check for clicks on planet
             {
@@ -83,18 +84,14 @@ public class GameManager : MonoBehaviour
             
         }
 
-        //set potential start of panning
-        if (gameState==GameState.Following && Input.GetMouseButtonDown(0))
-            cameraController.panningStartTime = Time.time;
-
-        //reset to orbit control if dragging
-        if (isDragging){
-            cameraController.StartPanning();
-            
-        }
-
         if (Input.GetMouseButtonUp(0))
             isDragging = false;
+
+        if (isDragging && gameState==GameState.Following)
+        {
+            gameState = GameState.Panning;
+            cameraController.StartPanning();
+        }
     }
 
 

@@ -44,6 +44,8 @@ public class CameraController : MonoBehaviour
     public void StartPanning()
     {
         cameraState = CameraState.Panning;
+        panningStartTime = Time.time;
+
 
     }
 
