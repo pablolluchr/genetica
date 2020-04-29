@@ -544,7 +544,7 @@ GameObject:
   - component: {fileID: 6347124503270911780}
   m_Layer: 8
   m_Name: UnitModel
-  m_TagString: Pet
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -841,28 +841,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitState: 0
   maxHealth: 10
+  health: 0
+  healthRegen: 0.05
   viewDistance: 8
+  interactionRadius: 0.5
   speed: 1
   legsLength: 0.2
   bodySize: 0.2
   headSize: 0.2
-  amountFed: 10
+  amountFed: 20
   maxFed: 20
   feedingPerSecond: 1
-  hungerPerSecond: 1
+  hungerPerSecond: 0.2
   hungerChanceExponent: 3
-  hungerDamage: 0.1
+  hungerDamage: 0.2
+  hungry: 0
   amountQuenched: 10
   maxQuenched: 10
   thirstPerSecond: 0.1
   thirstThreshold: 8
   thirstDamage: 0.1
-  hornyChancePerSecond: 0.01
+  hornyChancePerSecond: 0.5
   horny: 0
   matingDistance: 1
   attackDamagePerSecond: 1
-  attackRange: 2
-  enemyDetectionRange: 10
+  attackRange: 1
+  enemyDetectionRange: 6
   walkAnimationSpeed: 10
   eatAnimationSpeed: 1
   animationTilt: 10

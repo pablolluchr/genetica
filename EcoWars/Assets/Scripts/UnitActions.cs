@@ -146,14 +146,16 @@ public static class UnitActions {
 
     public static void Mate(Unit unit) {
         GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
+        GameObject[] hostiles = GameObject.FindGameObjectsWithTag("Hostile");
         GameObject[] hornyPets = UnitHelperFunctions.FilterNonHornyPetsAndSelf(unit, pets);
         if (hornyPets.Length <= 0) { return; }
         Unit closestMate = UnitHelperFunctions.GetClosest(unit, hornyPets).GetComponent<Unit>();
         closestMate.horny = false;
         unit.horny = false;
-        if (pets.Length < unit.maxUnits) {
+        if (pets.Length +hostiles.Length< unit.maxUnits) {
             MonoBehaviour.Instantiate(unit.gameObject).transform.parent=GameManager.gameManager.units.transform;
         }
+
     }
 
     public static void DisableSelectionGraphic(Unit unit)

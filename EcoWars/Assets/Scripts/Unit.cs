@@ -63,7 +63,7 @@ public class Unit : MonoBehaviour {
     [System.NonSerialized] public float wanderTimeStamp;
     [System.NonSerialized] public float eatRange = 1f;
     [System.NonSerialized] public string enemyTag;
-    [System.NonSerialized] public int maxUnits = 50;
+    [System.NonSerialized] public int maxUnits = 400;
     private Transform legFL;
     private Transform legFR;
     private Transform legBL;

@@ -471,6 +471,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944809, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: m_TagString
+      value: Pet
+      objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: hungerPerSecond
@@ -590,26 +595,6 @@ PrefabInstance:
         type: 3}
       propertyPath: hornyChancePerSecond
       value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: hungerPerSecond
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: maxFed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: wanderDistance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944812, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_Mass
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944813, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
@@ -917,11 +902,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
-      propertyPath: hungerPerSecond
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
       propertyPath: hornyChancePerSecond
       value: 0.01
       objectReference: {fileID: 0}
@@ -1086,7 +1066,8 @@ MonoBehaviour:
   cameraOffset: 20
   cameraMoveSpeed: 2.67
   cameraRotateSpeed: 7.39
-  orbitStartTime: 40.9095
+  panningStartTime: 0
+  cameraState: 0
 --- !u!1 &1029659568
 GameObject:
   m_ObjectHideFlags: 0
@@ -1191,10 +1172,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 375400046}
     m_Modifications:
+    - target: {fileID: 6347124503270911779, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944809, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: m_Name
       value: Unit (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944809, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: m_TagString
+      value: Pet
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
@@ -1597,18 +1588,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
-      propertyPath: hungerPerSecond
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
       propertyPath: hornyChancePerSecond
       value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944812, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_Mass
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944813, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
@@ -1664,6 +1645,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7951663483690426591, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdade351b8732426fa1bddd5ec412a30, type: 3}
