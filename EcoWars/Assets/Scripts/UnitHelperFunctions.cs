@@ -76,7 +76,50 @@ public static class UnitHelperFunctions {
         return aliveEnemies.ToArray();
     }
     
-    // public static Interpolate(float value, List<float[2]> points) {
+    // points are defined in order of input [input, output]
+    //  s0      s1       s2      s3
+    // <-- [0] <--> [1] <--> [2] -->
+    //    point0   point1   point2
+    // length: 3
+    // usage: UnitHelperFunctions.Interpolate(3, new float[,] {{-1,1}, {2,3}, {6,2}}) ---> 2.75
+    public static float Interpolate(float value, float[,] points) {
+        int section = 0; // section 0 is before the first point, section 1 is between point 0 and 1 etc.
+        // loop until one after the points
+        while (section <= points.GetLength(0)) {
+            float[] leftPoint;
+            float[] rightPoint;
+            // get the left and right points for current section
+            if (section == 0) {
+                leftPoint  = new float[2] {-Mathf.Infinity,        points[section,     1]};
+                rightPoint = new float[2] {points[section,     0], points[section,     1]};
+            } else if (section == points.GetLength(0)) {
+                leftPoint  = new float[2] {points[section - 1, 0], points[section - 1, 1]};
+                rightPoint = new float[2] {Mathf.Infinity,         points[section - 1, 1]};
+            } else {
+                leftPoint  = new float[2] {points[section - 1, 0], points[section - 1, 1]};
+                rightPoint = new float[2] {points[section,     0], points[section,     1]};
+            }
+            // calculate slope and offset
+            float leftx = leftPoint[0];
+            float lefty = leftPoint[1];
+            float rightx = rightPoint[0];
+            float righty = rightPoint[1];
+            float slope;
+            float offset;
+            if (leftx == -Mathf.Infinity || rightx == Mathf.Infinity) { 
+                slope = 0;
+                offset = lefty;
+            } else {
+                slope = (righty - lefty) / (rightx - leftx);
+                offset = lefty - slope * leftx;
+            }
+            // if not in correct section, go to next
+            if (leftx <= value && value <= rightx) {
+                return slope * value + offset;
+            }
+            section += 1;
+        }
 
-    // }
+        throw new System.Exception("Something went wrong in the interpolation");
+    }
 }
