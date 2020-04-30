@@ -7,12 +7,11 @@ public static class UnitQueries {
     // unit behaviour query functions here (not allowed to modify state) ##################################################
 
     public static bool IsQuenched(Unit unit) {
-        return false;
+        return unit.amountQuenched / unit.maxQuenched >= 0.99;
     }
 
     public static bool IsThirsty(Unit unit) {
-        // random based on thirst
-        return false;
+        return unit.thirsty;
     }
 
     public static bool IsVeryThirsty(Unit unit) {
@@ -20,10 +19,7 @@ public static class UnitQueries {
     }
 
     public static bool IsFed(Unit unit) {
-        if (unit.amountFed >= unit.maxFed-1) {
-            return true;
-        }
-        return false;
+        return unit.amountFed / unit.maxFed >= 0.99;
     }
 
     public static bool IsHungry(Unit unit) {
@@ -46,7 +42,8 @@ public static class UnitQueries {
     }
 
     public static bool SeesWater(Unit unit) {
-        return false;
+        GameObject[] waterPoints = GameObject.FindGameObjectsWithTag("Water");
+        return UnitHelperFunctions.InRangeOf(unit, waterPoints, unit.viewDistance);
     }
 
     public static bool SeesFood(Unit unit) {

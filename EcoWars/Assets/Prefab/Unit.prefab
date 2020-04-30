@@ -879,12 +879,13 @@ MonoBehaviour:
   hungerDamage: 0.2
   hungry: 0
   criticalHunger: 0.1
-  amountQuenched: 10
-  maxQuenched: 10
-  thirstPerSecond: 0.1
-  thirstThreshold: 8
+  amountQuenched: 20
+  maxQuenched: 20
+  thirstPerSecond: 0.3
+  thirstChanceExponent: 2
   thirstDamage: 0.1
-  criticalThirst: 0
+  thirsty: 0
+  criticalThirst: 0.1
   hornyChancePerSecond: 0.01
   horny: 0
   matingDistance: 1

@@ -10,6 +10,7 @@ TagManager:
   - Hostile
   - Genetium
   - Base
+  - Water
   layers:
   - Default
   - TransparentFX

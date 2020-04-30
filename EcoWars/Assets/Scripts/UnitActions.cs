@@ -11,10 +11,6 @@ public static class UnitActions {
         }
     }
 
-    public static void TargetWater(Unit unit) {
-
-    }
-
     public static void Move(Unit unit)
     {
         
@@ -66,7 +62,12 @@ public static class UnitActions {
 
     public static void ThirstEffect(Unit unit)
     {
-        // suffer thirst
+        if (unit.amountQuenched <= 0) {
+            UnitActions.TakeDamage(unit, unit.thirstDamage * Time.fixedDeltaTime);
+            unit.amountQuenched = 0;
+        } else {
+            unit.amountQuenched -= unit.thirstPerSecond * Time.fixedDeltaTime;
+        }
     }
 
 
@@ -86,6 +87,12 @@ public static class UnitActions {
         GameObject[] foods = GameObject.FindGameObjectsWithTag("Food");
         GameObject closestFood = UnitHelperFunctions.GetClosest(unit, foods);
         unit.GetComponent<Target>().Change(closestFood, closestFood.GetComponent<Food>().radius);
+    }
+
+    public static void TargetWater(Unit unit) {
+        GameObject[] waterPoints = GameObject.FindGameObjectsWithTag("Water");
+        GameObject closestWaterPoint = UnitHelperFunctions.GetClosest(unit, waterPoints);
+        unit.GetComponent<Target>().Change(closestWaterPoint, closestWaterPoint.GetComponent<WaterPoint>().radius);
     }
 
     public static void TargetMate(Unit unit) {
@@ -117,10 +124,6 @@ public static class UnitActions {
 
     public static void DropGenetium(Unit unit) {
         unit.currentGenetiumAmount = 0;
-    }
-
-    public static void Drink(Unit unit) {
-
     }
 
     //Find a random point in planet's surface 
@@ -156,6 +159,23 @@ public static class UnitActions {
         //eat from the source at most however much space they have on their stomach
         if(unit.GetComponent<Target>() == null) { return; }
         unit.amountFed += unit.GetComponent<Target>().targetGameObject.GetComponent<Food>().Eat(unit.maxFed - unit.amountFed);
+    }
+
+    public static void Drink(Unit unit) {
+        WaterPoint waterPoint = unit.GetComponent<Target>().targetGameObject.GetComponent<WaterPoint>();
+        unit.amountQuenched = Mathf.Min(unit.maxQuenched, unit.amountQuenched + waterPoint.quenchRate * Time.fixedDeltaTime);
+    }
+
+    public static void SetSwimming(Unit unit) {
+        GameObject[] waterPoints = GameObject.FindGameObjectsWithTag("Water");
+        foreach (GameObject waterPoint in waterPoints) {
+            float distance = (unit.transform.position - waterPoint.transform.position).magnitude;
+            if (distance < waterPoint.GetComponent<WaterPoint>().radius) {
+                unit.swimming = true;
+                return;
+            }
+        }
+        unit.swimming = false;
     }
 
     public static void Mate(Unit unit) {
@@ -216,6 +236,15 @@ public static class UnitActions {
         }
     }
 
+    public static void TurnThirstyChance(Unit unit) {
+        float random = Random.Range(0f, 1f);
+        float thirstRatio = (unit.amountQuenched / unit.maxQuenched);
+        float chanceOfThirstPerSec = Mathf.Pow(1 - thirstRatio, unit.thirstChanceExponent) * Time.fixedDeltaTime;
+        if (random < chanceOfThirstPerSec) {
+            unit.thirsty = true;
+        }
+    }
+
     public static void TurnHornyChance(Unit unit) {
         float random = Random.Range(0f, 1f);
         if (random < unit.hornyChancePerSecond * Time.fixedDeltaTime) {
@@ -225,6 +254,10 @@ public static class UnitActions {
 
     public static void TurnFed(Unit unit) {
         unit.hungry = false;
+    }
+
+    public static void TurnQuenched(Unit unit) {
+        unit.thirsty = false;
     }
 
     public static void WanderIfDeadTarget(Unit unit) {
