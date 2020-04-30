@@ -33,8 +33,8 @@ public class Species
         updateUnit(unitComponent);
     }
 
-    public void updateUnit(Unit unit) {
-        if (unit.species != speciesName) { Debug.Log("Cannot modify another species"); return; }
+    public bool updateUnit(Unit unit) { //returns true if succeeds, false otherwise
+        if (unit.species != speciesName) { return false; } //cant modify another species
         unit.speed = speed;
         unit.legsLength = legsLength;
         unit.interactionRadius = 0.5f + 0.8f * (legsLength - 0.2f);
@@ -58,6 +58,21 @@ public class Species
         {
             throw new System.Exception("Wrong tag for unit");
         }
+        return true;
 
+    }
+
+    public List<Unit> UpdateAllUnitsOfSpecies()
+    {
+        List<Unit> unitsOfSpecies = new List<Unit>();
+        Unit[] allUnits = GameObject.FindObjectsOfType<Unit>();
+        foreach (var unit in allUnits)
+        {
+            if (updateUnit(unit)) unitsOfSpecies.Add(unit);
+
+            
+
+        }
+        return unitsOfSpecies;
     }
 }

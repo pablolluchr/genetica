@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         selectedSpecies = null;
 
         AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet");
-        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -5f, 5.5f),          2f,"Hostile");
+        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -5f, 5.5f),          2f,"Pet");
 
 
 
@@ -144,7 +144,18 @@ public class GameManager : MonoBehaviour
                     }
                     else if (selectedSpecies != null)
                     {
-                        //change species area and update all the relevant units with the new info
+                        Species species = GetSpecies(selectedSpecies);
+                        species.areaCenter=hitInfo.point; //update species
+                        
+                        List<Unit> unitsOfSpecies = species.UpdateAllUnitsOfSpecies(); //change area
+
+                        //override pets so they follow go to the new area
+                        //TODO: INSTEAD OF GOING TO THE AREA CENTER, FORCE A NEW GENERATION OF TARGET AROUND THE AREA.
+                        foreach (var unit in unitsOfSpecies)
+                        {
+                            UnitActions.OverrideTarget(unit, hitInfo.point);
+                        }
+
 
                         //show area selection animation
                     }

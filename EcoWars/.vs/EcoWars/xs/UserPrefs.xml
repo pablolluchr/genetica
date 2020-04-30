@@ -1,14 +1,15 @@
 ﻿<Properties StartupConfiguration="{1F1CD5C9-A757-1657-5877-464F954CFE62}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/SpeciesButton.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Species.cs">
     <Files>
       <File FileName="Assets/Scripts/UnitQueries.cs" Line="109" Column="1" IsPinned="True" />
-      <File FileName="Assets/Scripts/UnitStateMachine.cs" IsPinned="True" />
-      <File FileName="Assets/Scripts/Unit.cs" IsPinned="True" />
-      <File FileName="Assets/Scripts/SpeciesButton.cs" Line="11" Column="9" />
-      <File FileName="Assets/Scripts/SpeciesMenu.cs" />
-      <File FileName="Assets/Scripts/GameManager.cs" />
+      <File FileName="Assets/Scripts/UnitStateMachine.cs" Line="143" Column="1" IsPinned="True" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="274" Column="2" IsPinned="True" />
+      <File FileName="Assets/Scripts/SpeciesButton.cs" Line="20" Column="1" />
+      <File FileName="Assets/Scripts/SpeciesMenu.cs" Line="22" Column="6" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="147" Column="78" />
       <File FileName="Assets/Scripts/TargetGraphic.cs" />
-      <File FileName="Assets/Scripts/UnitActions.cs" />
+      <File FileName="Assets/Scripts/UnitActions.cs" Line="290" Column="1" />
+      <File FileName="Assets/Scripts/Species.cs" Line="36" Column="27" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,7 +17,7 @@
           <Node name="EcoWars" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="SpeciesButton.cs" selected="True" />
+                <Node name="Species.cs" selected="True" />
               </Node>
             </Node>
           </Node>
