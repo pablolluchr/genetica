@@ -94,7 +94,7 @@ public static class UnitStateMachine {
             }
             case UnitState.Drink: {
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsQuenched(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsQuenched(unit)) { UnitActions.TurnQuenched(unit); return UnitState.Wander; }
                 UnitActions.Drink(unit);
                 break;
             }

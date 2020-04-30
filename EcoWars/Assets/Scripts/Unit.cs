@@ -14,6 +14,7 @@ public class Unit : MonoBehaviour {
     public float viewDistance = 5f;
     public float interactionRadius;
     public float areaRadius = 3f;
+    public bool swimming;
 
     [Range(.5f, 3.0f)] public float speed = 1f;
     [Range(.0f, 1.0f)] public float legsLength = .2f;
@@ -42,11 +43,12 @@ public class Unit : MonoBehaviour {
     public float criticalHunger;
 
     [Header("Drinking Attributes")]
-    public float amountQuenched = 10f; //how much of the stomach is filled
-    public float maxQuenched = 10f;
-    public float thirstPerSecond = 0.5f;
-    public float thirstThreshold;
-    public float thirstDamage = 0.1f;
+    public float amountQuenched; //how much of the stomach is filled
+    public float maxQuenched;
+    public float thirstPerSecond;
+    public float thirstChanceExponent;
+    public float thirstDamage;
+    public bool thirsty;
     public float criticalThirst;
 
     [Header("Mating Attributes")]
@@ -143,7 +145,10 @@ public class Unit : MonoBehaviour {
         UnitActions.ThirstEffect(this);
 
         UnitActions.TurnHungryChance(this);
+        UnitActions.TurnThirstyChance(this);
         UnitActions.TurnHornyChance(this);
+
+        UnitActions.SetSwimming(this);
 
         UnitActions.HealthRegenEffect(this);
 
