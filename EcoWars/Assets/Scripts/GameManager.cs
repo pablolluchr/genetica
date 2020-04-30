@@ -16,6 +16,10 @@ public class GameManager : MonoBehaviour
     public GameState gameState;
     public List<Species> speciesList = new List<Species>();
 
+    // to update a species first change the attributes in the species class using GetSpecies("Tall").speed = 100 etc.
+    // then set this attribute (recall species) to the species name (i.e. "Tall") to recall all pets
+    public string recallSpecies = null;
+
     private float lastMouseX;
     private float lastMouseY;
     public float shortClickDuration=.3f;
@@ -64,6 +68,16 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+
+        if (recallSpecies != null) {
+            GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
+            GameObject[] filteredSpecied = UnitHelperFunctions.FilterSpecies(pets, recallSpecies);
+            foreach (GameObject pet in filteredSpecied) {
+                pet.GetComponent<Unit>().needsChange = true;
+            }
+            recallSpecies = null;
+        }
+        
         RaycastHit hitInfo;
         bool hit;
 

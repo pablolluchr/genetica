@@ -15,6 +15,7 @@ public class Unit : MonoBehaviour {
     public float interactionRadius;
     public float areaRadius = 3f;
     public bool swimming;
+    public bool needsChange;
 
     [Range(.5f, 3.0f)] public float speed = 1f;
     [Range(.0f, 1.0f)] public float legsLength = .2f;

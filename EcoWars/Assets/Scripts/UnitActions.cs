@@ -122,8 +122,10 @@ public static class UnitActions {
         unit.GetComponent<Target>().Change(home, 3f);
     }
 
-    public static void DropGenetium(Unit unit) {
+    public static void ReachBase(Unit unit) {
         unit.currentGenetiumAmount = 0;
+        GameManager.gameManager.GetSpecies(unit.species).updateUnit(unit);
+        unit.needsChange = false;
     }
 
     //Find a random point in planet's surface 

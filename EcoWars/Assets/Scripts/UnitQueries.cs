@@ -95,7 +95,7 @@ public static class UnitQueries {
     }
 
     public static bool NeedsChange(Unit unit) {
-        return false;
+        return unit.needsChange;
     }
 
     public static bool IsStorageFull(Unit unit) {
