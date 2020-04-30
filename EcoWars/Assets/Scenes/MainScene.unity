@@ -564,6 +564,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Genetium
       objectReference: {fileID: 0}
+    - target: {fileID: 8488186930727043628, guid: 1b629272f40b04204b2218ddab713f25,
+        type: 3}
+      propertyPath: maxFood
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe421970b8448467f81c2ae54d539d71, type: 3}
 --- !u!1001 &387455736
@@ -2741,7 +2746,7 @@ PrefabInstance:
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: criticalThirst
-      value: 0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
@@ -2758,22 +2763,22 @@ PrefabInstance:
       propertyPath: maxUnits
       value: 200
       objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944812, guid: fdade351b8732426fa1bddd5ec412a30,
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
-      propertyPath: m_Drag
-      value: 1
+      propertyPath: healthRequirement
+      value: 0.9
       objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944813, guid: fdade351b8732426fa1bddd5ec412a30,
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944813, guid: fdade351b8732426fa1bddd5ec412a30,
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.23
       objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944813, guid: fdade351b8732426fa1bddd5ec412a30,
+    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 10.11
@@ -3425,7 +3430,17 @@ PrefabInstance:
     - target: {fileID: 7111793131819944809, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: m_Name
-      value: Unit
+      value: Hostile
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944809, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: m_TagString
+      value: Hostile
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111793131819944809, guid: fdade351b8732426fa1bddd5ec412a30,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944809, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
@@ -3445,7 +3460,7 @@ PrefabInstance:
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: criticalThirst
-      value: 0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
@@ -3660,6 +3675,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8488186930727043628, guid: 1b629272f40b04204b2218ddab713f25,
+        type: 3}
+      propertyPath: maxFood
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b629272f40b04204b2218ddab713f25, type: 3}

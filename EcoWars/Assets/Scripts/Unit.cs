@@ -10,6 +10,7 @@ public class Unit : MonoBehaviour {
     public UnitState unitState;
 
     [Header("General Attributes")]
+    public string species;
     public float viewDistance = 5f;
     public float interactionRadius;
 
@@ -90,7 +91,7 @@ public class Unit : MonoBehaviour {
 
     private Transform body;
     private Transform head;
-    [System.NonSerialized] public Transform destinationGizmo;
+    public Transform destinationGizmo;
     [System.NonSerialized] public Transform selectionGraphic;
     public GameObject targetGraphic;
     public Vector4 selectionColor;
@@ -106,7 +107,6 @@ public class Unit : MonoBehaviour {
         if (transform.tag == "Pet") {
             enemyTag = "Hostile";
             selectionColor = new Color(0, 1, 0, 0.4f);
-
         }
         else if (transform.tag == "Hostile") {
             enemyTag = "Pet";
@@ -118,8 +118,8 @@ public class Unit : MonoBehaviour {
         }
         //set selection color
 
-
         //set up transforms of bodyparts
+
         legFL = transform.GetChild(0).Find("LegFLPivot");
         legFR = transform.GetChild(0).Find("LegFRPivot");
         legBL = transform.GetChild(0).Find("LegBLPivot");
@@ -127,7 +127,7 @@ public class Unit : MonoBehaviour {
 
         body = transform.GetChild(0).Find("BodyPivot");
         head = transform.GetChild(0).Find("HeadPivot");
-
+        
         health = maxHealth;
         isBeingOverride = false;
         amountFed = maxFed;
@@ -220,7 +220,7 @@ public class Unit : MonoBehaviour {
         else
         {
             transform.GetChild(0).GetComponent<Animator>().speed = Mathf.Lerp(transform.GetChild(0).GetComponent<Animator>().speed,
-                maxSpeed - (maxSpeed - minSpeed) * legsLength, Time.deltaTime);
+                maxSpeed - (maxSpeed - minSpeed) * legsLength * 1.7f, Time.deltaTime);
 
         }
 

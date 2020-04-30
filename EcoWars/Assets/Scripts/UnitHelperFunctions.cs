@@ -34,7 +34,8 @@ public static class UnitHelperFunctions {
                 petUnit.horny && 
                 petUnit != unit && 
                 petUnit.health / petUnit.maxHealth >= unit.healthRequirement &&
-                petUnit.amountFed / petUnit.maxFed >= unit.fedRequirement
+                petUnit.amountFed / petUnit.maxFed >= unit.fedRequirement &&
+                petUnit.species == unit.species
             ) {
                 hornyPets.Add(pet);
             }
@@ -53,6 +54,17 @@ public static class UnitHelperFunctions {
         return nonEmptyFoods.ToArray();
     }
 
+    public static GameObject[] FilterEmptyGenetium(GameObject[] genetiums) {
+        List<GameObject> nonEmptyGenetiums = new List<GameObject>();
+        foreach (GameObject genetium in genetiums) {
+            Genetium genetiumComponent = genetium.GetComponent<Genetium>();
+            if (genetiumComponent.currentAmount > genetiumComponent.consideredEmpty) {
+                nonEmptyGenetiums.Add(genetium);
+            }
+        }
+        return nonEmptyGenetiums.ToArray();
+    }
+
     public static GameObject[] FilterDeadEnemies(GameObject[] enemies) {
         List<GameObject> aliveEnemies = new List<GameObject>();
         foreach (GameObject enemy in enemies) {
@@ -64,4 +76,7 @@ public static class UnitHelperFunctions {
         return aliveEnemies.ToArray();
     }
     
+    // public static Interpolate(float value, List<float[2]> points) {
+
+    // }
 }
