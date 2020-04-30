@@ -126,6 +126,7 @@ public static class UnitActions {
     //Find a random point in planet's surface 
     public static void SetWanderingDestination(Unit unit)
     {
+        //unit.areaCenter;
         //random position somewhere in a sphere
         Vector3 position = Random.onUnitSphere;
 
