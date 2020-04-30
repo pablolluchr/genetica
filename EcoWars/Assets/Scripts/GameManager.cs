@@ -14,15 +14,16 @@ public class GameManager : MonoBehaviour
     public GameObject units;
     public GameObject unitPrefab;
     public GameState gameState;
-    public List<Species> mySpecies = new List<Species>();
+    public List<Species> speciesList = new List<Species>();
 
     private float lastMouseX;
     private float lastMouseY;
     public float shortClickDuration=.3f;
     private bool isDragging;
     public bool wasButtonDown;
+    public string selectedSpecies;
 
-    private void Start()
+    private void Awake()
     {
         if (gameManager != null && gameManager != this) Destroy(this.gameObject);
         else gameManager = this;
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
         lastMouseX = Mathf.Infinity;
         lastMouseY = Mathf.Infinity;
         target = null;
+        selectedSpecies = null;
 
         AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet");
         AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -5f, 5.5f),          2f,"Hostile");
@@ -47,11 +49,11 @@ public class GameManager : MonoBehaviour
     }
 
     public void AddSpecies(string name, float speed, float legsLength, float bodySize, float headSize,Vector3 areaCenter, float areaRadius,string tag) {
-        mySpecies.Add(new Species(name, speed, legsLength, bodySize, headSize, areaCenter, areaRadius,tag));
+        speciesList.Add(new Species(name, speed, legsLength, bodySize, headSize, areaCenter, areaRadius,tag));
     }
 
     public Species GetSpecies(string name) {
-        foreach (Species species in mySpecies) {
+        foreach (Species species in speciesList) {
             if (species.speciesName == name) {
                 return species;
             }
@@ -64,11 +66,23 @@ public class GameManager : MonoBehaviour
     {
         RaycastHit hitInfo;
         bool hit;
+
         SetDraggingState();
-        if (target == null && gameState==GameState.Following) {
+        if (target == null && gameState == GameState.Following)
+        {
             gameState = GameState.Panning;
             cameraController.StartPanning();
-        } 
+        }
+
+        //stop following unit if species selected
+        if (selectedSpecies != null && target != null)
+        {
+            UnitActions.DisableSelectionGraphic(target.GetComponent<Unit>());
+            target = null;
+            //select all units of species
+
+        }
+
 
         //SHORT CLICK
         if (Input.GetMouseButtonUp(0) && !isDragging)
@@ -77,6 +91,8 @@ public class GameManager : MonoBehaviour
             //check first raycast collision
             hitInfo = new RaycastHit();
             hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity);
+            //todo: check if ui click and return.
+
 
             if (hit)//unit clicked
             {
@@ -89,6 +105,7 @@ public class GameManager : MonoBehaviour
                     //unit clicked is a new target
                     if (target != hitInfo.transform.gameObject)
                     {
+                        selectedSpecies = null;
                         //disable last selection graphic
                         if (target != null) UnitActions.DisableSelectionGraphic(target.GetComponent<Unit>());
                         target = hitInfo.transform.gameObject;
@@ -105,28 +122,38 @@ public class GameManager : MonoBehaviour
                         Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
 
                     //if a pet is being controlled and user hits map: override
-                    if (target!=null && hit)
+                    if (target != null && hit)
                     {
                         if (target.tag == "Pet" || target.transform.parent.tag == "Pet")
                             UnitActions.OverrideTarget(target.GetComponent<Unit>(), hitInfo.point);
 
+                    }
+                    else if (selectedSpecies != null)
+                    {
+                        //change species area and update all the relevant units with the new info
+
+                        //show area selection animation
                     }
                 }
             }
 
 
 
-            
+
         }
 
         if (Input.GetMouseButtonUp(0))
             isDragging = false;
 
-        if (isDragging && gameState==GameState.Following)
+        if (isDragging && gameState == GameState.Following)
         {
             gameState = GameState.Panning;
             cameraController.StartPanning();
         }
+        
+        
+
+        
     }
 
 
@@ -161,6 +188,6 @@ public enum GameState
 {
  
     Panning, //not following anything. 
-    Following//only able to exit when unit dies
+    Following,//only able to exit when unit dies
 }
 

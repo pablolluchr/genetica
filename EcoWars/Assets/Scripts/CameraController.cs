@@ -14,7 +14,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float zoomedSize=5.5f;
     public float cameraOffset;
     [SerializeField] private float cameraMoveSpeed =10f;
-    [SerializeField] private float cameraRotateSpeed =10f;
     public float panningStartTime;
     public CameraState cameraState;
 
@@ -199,7 +198,6 @@ public class CameraController : MonoBehaviour
 
         transform.rotation = targetRotation;
 
-        //transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * cameraRotateSpeed);
 
         //zoom in
         GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, zoomedSize, Time.deltaTime);

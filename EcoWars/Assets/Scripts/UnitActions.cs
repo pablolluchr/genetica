@@ -194,7 +194,8 @@ public static class UnitActions {
 
     public static void DisableSelectionGraphic(Unit unit)
     {
-        unit.selectionGraphic.GetChild(0).GetComponent<UnityEngine.UI.Image>().color = unit.selectionColor;
+        unit.selectionGraphic.GetChild(0).GetComponent<UnityEngine.UI.Image>().enabled = false;
+            //.color = unit.selectionColor;
     }
 
     public static void EnableSelectionGraphic(Unit unit)

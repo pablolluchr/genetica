@@ -22,11 +22,6 @@ public class TargetGraphic : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position != Vector3.zero)
-        {
-
-            print(transform.position);
-        }
         if (Time.time - spawnTime > 5f) Destroy(gameObject);
 
         scaleMultiplier = Mathf.Lerp(scaleMultiplier, 5,Time.deltaTime*2);
@@ -47,9 +42,6 @@ public class TargetGraphic : MonoBehaviour
         //transition to the target direction (pointing to the center of the planet)
         transform.rotation = Quaternion.FromToRotation(bodyUP, targetDir) * transform.rotation;
         transform.position = position - targetDir*.2f;
-
-
-        print(transform.position);
 
     }
 }
