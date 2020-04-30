@@ -5,7 +5,7 @@
       <File FileName="Assets/Scripts/CameraController.cs" />
       <File FileName="Assets/Scripts/GameManager.cs" />
       <File FileName="Assets/Scripts/UnitQueries.cs" />
-      <File FileName="Assets/Scripts/Unit.cs" Line="250" Column="6" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="275" Column="2" />
       <File FileName="Assets/Scripts/UnitActions.cs" />
       <File FileName="Assets/Scripts/UnitStateMachine.cs" />
       <File FileName="Assets/Scripts/UnitHelperFunctions.cs" />
@@ -28,7 +28,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="c8e1f98e-e7c3-476e-b255-d892cf0dd557" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="38565df9-3246-4fe8-86fb-16094738f9fa" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/TargetGraphic.cs" relfile="Assets/Scripts/TargetGraphic.cs" line="44" column="1" />

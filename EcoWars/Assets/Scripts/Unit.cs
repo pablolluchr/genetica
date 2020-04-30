@@ -12,6 +12,7 @@ public class Unit : MonoBehaviour {
     [Header("General Attributes")]
     public float viewDistance = 5f;
     public float interactionRadius;
+
     [Range(.5f, 3.0f)] public float speed = 1f;
     [Range(.0f, 1.0f)] public float legsLength = .2f;
     [Range(.0f, 1.0f)] public float bodySize = .1f;
@@ -93,6 +94,8 @@ public class Unit : MonoBehaviour {
     [System.NonSerialized] public Transform selectionGraphic;
     public GameObject targetGraphic;
     public Vector4 selectionColor;
+
+    [System.NonSerialized] public Vector3 areaCenter;
 
 
 
