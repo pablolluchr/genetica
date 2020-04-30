@@ -58,7 +58,8 @@ public static class UnitQueries {
     public static bool SeesFuel(Unit unit) {
         if (unit.gameObject.tag == "Hostile") { return false; }
         GameObject[] genetiums = GameObject.FindGameObjectsWithTag("Genetium");
-        return UnitHelperFunctions.InRangeOf(unit, genetiums, unit.viewDistance);
+        GameObject[] nonEmptyGenetiums = UnitHelperFunctions.FilterEmptyGenetium(genetiums);
+        return UnitHelperFunctions.InRangeOf(unit, nonEmptyGenetiums, unit.viewDistance);
     }
 
     public static bool IsNearTarget(Unit unit)

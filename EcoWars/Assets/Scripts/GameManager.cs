@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
@@ -11,7 +12,9 @@ public class GameManager : MonoBehaviour
     public CameraController cameraController;
     public GameObject dummyTargets;
     public GameObject units;
+    public GameObject unitPrefab;
     public GameState gameState;
+    public List<Species> mySpecies = new List<Species>();
 
     private float lastMouseX;
     private float lastMouseY;
@@ -28,7 +31,36 @@ public class GameManager : MonoBehaviour
         lastMouseY = Mathf.Infinity;
         target = null;
 
+        AddSpecies("Tall", 0.5f, 0.6f, 0.2f, 0.2f);
+        AddSpecies("Fast", 2.1f, 0.2f, 0.2f, 0.2f);
+
+        GetSpecies("Tall").Spawn(unitPrefab);
+        GetSpecies("Tall").Spawn(unitPrefab);
+        GetSpecies("Tall").Spawn(unitPrefab);
+        GetSpecies("Tall").Spawn(unitPrefab);
+        GetSpecies("Tall").Spawn(unitPrefab);
+
+        // GetSpecies("Fast").Spawn(unitPrefab);
+        // GetSpecies("Fast").Spawn(unitPrefab);
+        // GetSpecies("Fast").Spawn(unitPrefab);
+        // GetSpecies("Fast").Spawn(unitPrefab);
+
     }
+
+    public void AddSpecies(string name, float speed, float legsLength, float bodySize, float headSize) {
+        mySpecies.Add(new Species(name, speed, legsLength, bodySize, headSize));
+    }
+
+    public Species GetSpecies(string name) {
+        foreach (Species species in mySpecies) {
+            if (species.speciesName == name) {
+                return species;
+            }
+        }
+        Debug.Log("species not found");
+        return null;
+    }
+
     void Update()
     {
         RaycastHit hitInfo;
