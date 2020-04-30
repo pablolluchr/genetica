@@ -14,7 +14,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float zoomedSize=5.5f;
     public float cameraOffset;
     [SerializeField] private float cameraMoveSpeed =10f;
-    [SerializeField] private float cameraRotateSpeed =10f;
     public float panningStartTime;
     public CameraState cameraState;
 

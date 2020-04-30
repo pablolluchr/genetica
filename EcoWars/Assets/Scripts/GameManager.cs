@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GameObject unitPrefab;
     public GameState gameState;
     public List<Species> mySpecies = new List<Species>();
+    public string recallSpecies = null;
 
     private float lastMouseX;
     private float lastMouseY;
@@ -62,6 +63,16 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+
+        if (recallSpecies != null) {
+            GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
+            GameObject[] filteredSpecied = UnitHelperFunctions.FilterSpecies(pets, recallSpecies);
+            foreach (GameObject pet in filteredSpecied) {
+                pet.GetComponent<Unit>().needsChange = true;
+            }
+            recallSpecies = null;
+        }
+        
         RaycastHit hitInfo;
         bool hit;
         SetDraggingState();

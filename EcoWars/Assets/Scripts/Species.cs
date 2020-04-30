@@ -30,10 +30,10 @@ public class Species
         unit.transform.parent = GameManager.gameManager.units.transform;
         Unit unitComponent = unit.GetComponent<Unit>();
         unitComponent.species = speciesName;
-        updateUnit(unitComponent, speed, legsLength, bodySize, headSize,tag);
+        updateUnit(unitComponent);
     }
 
-    public void updateUnit(Unit unit, float speed, float legsLength, float bodySize, float headSize,string tag) {
+    public void updateUnit(Unit unit) {
         if (unit.species != speciesName) { Debug.Log("Cannot modify another species"); return; }
         unit.speed = speed;
         unit.legsLength = legsLength;

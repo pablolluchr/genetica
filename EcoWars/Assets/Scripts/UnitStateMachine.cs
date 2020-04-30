@@ -80,7 +80,7 @@ public static class UnitStateMachine {
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 if (UnitQueries.IsHungry(unit) && UnitQueries.SeesFood(unit)) { return UnitState.TargetFood; }
                 if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
-                if (UnitQueries.IsNearTarget(unit)) { UnitActions.DropGenetium(unit); return UnitState.Wander; }
+                if (UnitQueries.IsNearTarget(unit)) { UnitActions.ReachBase(unit); return UnitState.Wander; }
                 break;
             }
             case UnitState.TargetEnemy: {

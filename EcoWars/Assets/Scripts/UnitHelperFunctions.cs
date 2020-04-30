@@ -75,6 +75,17 @@ public static class UnitHelperFunctions {
         }
         return aliveEnemies.ToArray();
     }
+
+    public static GameObject[] FilterSpecies(GameObject[] pets, string speciesName) {
+        List<GameObject> species = new List<GameObject>();
+        foreach (GameObject pet in pets) {
+            Unit petComponent = pet.GetComponent<Unit>();
+            if (petComponent.species == speciesName) {
+                species.Add(pet);
+            }
+        }
+        return species.ToArray();
+    }
     
     // points are defined in order of input [input, output]
     //  s0      s1       s2      s3
