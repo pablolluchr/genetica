@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject dummyTargets;
     public GameObject units;
     public GameObject unitPrefab;
+    
     public GameState gameState;
     public List<Species> speciesList = new List<Species>();
 
@@ -68,6 +69,10 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (gameState == GameState.MovingToArea)
+        {
+            cameraController.StartMoveToLocation(GetSpecies(selectedSpecies).areaCenter);
+        }
 
         if (recallSpecies != null) {
             GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
@@ -82,7 +87,8 @@ public class GameManager : MonoBehaviour
         bool hit;
 
         SetDraggingState();
-        if (target == null && gameState == GameState.Following)
+        if ((target == null && gameState == GameState.Following) ||
+            (gameState == GameState.MovingToArea && isDragging))
         {
             gameState = GameState.Panning;
             cameraController.StartPanning();
@@ -151,11 +157,11 @@ public class GameManager : MonoBehaviour
 
                         //override pets so they follow go to the new area
                         //TODO: INSTEAD OF GOING TO THE AREA CENTER, FORCE A NEW GENERATION OF TARGET AROUND THE AREA.
+
                         foreach (var unit in unitsOfSpecies)
                         {
                             UnitActions.OverrideTarget(unit, hitInfo.point);
                         }
-
 
                         //show area selection animation
                     }
@@ -214,5 +220,6 @@ public enum GameState
  
     Panning, //not following anything. 
     Following,//only able to exit when unit dies
+    MovingToArea
 }
 

@@ -1621,6 +1621,7 @@ MonoBehaviour:
   unitPrefab: {fileID: 7111793131819944809, guid: fdade351b8732426fa1bddd5ec412a30,
     type: 3}
   gameState: 0
+  recallSpecies: 
   shortClickDuration: 0.3
   wasButtonDown: 0
   selectedSpecies: 
@@ -1855,6 +1856,7 @@ MonoBehaviour:
   distanceToPlanetCenter: 0
   defaultSize: 7.5
   zoomedSize: 5.5
+  movingToPositionSize: 9
   cameraOffset: 20
   cameraMoveSpeed: 2.67
   panningStartTime: 0

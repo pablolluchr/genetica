@@ -12,10 +12,12 @@ public class CameraController : MonoBehaviour
     private float rotYAxis;
     [SerializeField] private float defaultSize= 7.5f;
     [SerializeField] private float zoomedSize=5.5f;
+    [SerializeField] private float movingToPositionSize=9.5f;
     public float cameraOffset;
     [SerializeField] private float cameraMoveSpeed =10f;
     public float panningStartTime;
     public CameraState cameraState;
+    private Vector3 targetPosition;
 
     float oldMoveX;
     float oldMoveY;
@@ -54,6 +56,13 @@ public class CameraController : MonoBehaviour
         target = _target;
     }
 
+    public void StartMoveToLocation(Vector3 position)
+    {
+
+        cameraState = CameraState.MoveToLocation;
+        targetPosition = position;
+    }
+
     private void FixedUpdate()
     {
         if (cameraState == CameraState.Following)
@@ -68,8 +77,37 @@ public class CameraController : MonoBehaviour
         {
             Pan();
         }
+        else if(cameraState == CameraState.MoveToLocation)
+        {
+
+            MoveToLocation();
+        }
         
 
+    }
+
+    public void MoveToLocation() {
+        //rotation around planet with target focused on center
+
+        Vector3 cameraPosition = (planet.transform.position + (targetPosition - planet.transform.position).normalized * cameraOffset);
+
+        //linear interpolation between positions
+        Vector3 newLinearPosition = Vector3.Lerp(transform.position, cameraPosition, Time.deltaTime * cameraMoveSpeed);
+
+        //avoid crossing through the planet
+        newLinearPosition = newLinearPosition.normalized * distanceToPlanetCenter;
+
+        transform.position = newLinearPosition;
+
+        //rotate to look at center of planet
+        Quaternion targetRotation = Quaternion.LookRotation(planet.transform.position - transform.position);
+        targetRotation = Quaternion.Euler(new Vector3(targetRotation.eulerAngles.x, targetRotation.eulerAngles.y, .0f));
+
+        transform.rotation = targetRotation;
+
+
+        //zoom out
+        GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, movingToPositionSize, Time.deltaTime);
     }
     
 
@@ -182,6 +220,8 @@ public class CameraController : MonoBehaviour
 
     }
 
+    
+
     public void FollowTarget()
     {
         //rotation around planet with target focused on center
@@ -211,5 +251,6 @@ public class CameraController : MonoBehaviour
 public enum CameraState
 {
     Panning,
-    Following
+    Following,
+    MoveToLocation
 }
