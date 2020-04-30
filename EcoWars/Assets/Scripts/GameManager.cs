@@ -31,24 +31,23 @@ public class GameManager : MonoBehaviour
         lastMouseY = Mathf.Infinity;
         target = null;
 
-        AddSpecies("Tall", 0.5f, 0.6f, 0.2f, 0.2f);
-        AddSpecies("Fast", 2.1f, 0.2f, 0.2f, 0.2f);
+        AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet");
+        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -5f, 5.5f),          2f,"Hostile");
+
+
 
         GetSpecies("Tall").Spawn(unitPrefab);
         GetSpecies("Tall").Spawn(unitPrefab);
         GetSpecies("Tall").Spawn(unitPrefab);
-        GetSpecies("Tall").Spawn(unitPrefab);
-        GetSpecies("Tall").Spawn(unitPrefab);
 
-        // GetSpecies("Fast").Spawn(unitPrefab);
-        // GetSpecies("Fast").Spawn(unitPrefab);
-        // GetSpecies("Fast").Spawn(unitPrefab);
-        // GetSpecies("Fast").Spawn(unitPrefab);
+        GetSpecies("Fast").Spawn(unitPrefab);
+        GetSpecies("Fast").Spawn(unitPrefab);
+        GetSpecies("Fast").Spawn(unitPrefab);
 
     }
 
-    public void AddSpecies(string name, float speed, float legsLength, float bodySize, float headSize) {
-        mySpecies.Add(new Species(name, speed, legsLength, bodySize, headSize));
+    public void AddSpecies(string name, float speed, float legsLength, float bodySize, float headSize,Vector3 areaCenter, float areaRadius,string tag) {
+        mySpecies.Add(new Species(name, speed, legsLength, bodySize, headSize, areaCenter, areaRadius,tag));
     }
 
     public Species GetSpecies(string name) {

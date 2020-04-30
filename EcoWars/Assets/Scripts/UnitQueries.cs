@@ -55,11 +55,11 @@ public static class UnitQueries {
         return UnitHelperFunctions.InRangeOf(unit, nonEmptyFoods, unit.viewDistance);
     }
 
-    public static bool SeesFuel(Unit unit) {
+    public static bool SeesGenetium(Unit unit) {
         if (unit.gameObject.tag == "Hostile") { return false; }
         GameObject[] genetiums = GameObject.FindGameObjectsWithTag("Genetium");
         GameObject[] nonEmptyGenetiums = UnitHelperFunctions.FilterEmptyGenetium(genetiums);
-        return UnitHelperFunctions.InRangeOf(unit, nonEmptyGenetiums, unit.viewDistance);
+        return UnitHelperFunctions.InRangeOf(unit, nonEmptyGenetiums, unit.genetiumDetectionRange);
     }
 
     public static bool IsNearTarget(Unit unit)
@@ -93,7 +93,7 @@ public static class UnitQueries {
         return false;
     }
 
-    public static bool IsCarryingFuel(Unit unit) {
+    public static bool IsCarryingGenetium(Unit unit) {
         return unit.currentGenetiumAmount / unit.carryingCapacity >= 0.01;
     }
 

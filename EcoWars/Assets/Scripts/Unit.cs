@@ -13,6 +13,7 @@ public class Unit : MonoBehaviour {
     public string species;
     public float viewDistance = 5f;
     public float interactionRadius;
+    public float areaRadius = 3f;
 
     [Range(.5f, 3.0f)] public float speed = 1f;
     [Range(.0f, 1.0f)] public float legsLength = .2f;
@@ -67,6 +68,7 @@ public class Unit : MonoBehaviour {
     [Header("Harvesting Attributes")]
     public float carryingCapacity;
     public float currentGenetiumAmount;
+    public float genetiumDetectionRange;
 
     [Header("Animation")]
     public float walkAnimationSpeed = 10f;
@@ -104,18 +106,6 @@ public class Unit : MonoBehaviour {
     //TODO: add spaces and headers to variables
 
     public void Awake() {
-        if (transform.tag == "Pet") {
-            enemyTag = "Hostile";
-            selectionColor = new Color(0, 1, 0, 0.4f);
-        }
-        else if (transform.tag == "Hostile") {
-            enemyTag = "Pet";
-            selectionColor = new Color(0, 0, 0, 0f);
-
-        }
-        else {
-            throw new System.Exception("Wrong tag for unit");
-        }
         //set selection color
 
         //set up transforms of bodyparts

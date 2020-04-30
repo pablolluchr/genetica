@@ -859,6 +859,7 @@ MonoBehaviour:
   species: 
   viewDistance: 8
   interactionRadius: 0.5
+  areaRadius: 3
   speed: 1
   legsLength: 0.2
   bodySize: 0.2
@@ -898,6 +899,7 @@ MonoBehaviour:
   aggression: 1
   carryingCapacity: 10
   currentGenetiumAmount: 0
+  genetiumDetectionRange: 4
   walkAnimationSpeed: 10
   eatAnimationSpeed: 1
   animationTilt: 10

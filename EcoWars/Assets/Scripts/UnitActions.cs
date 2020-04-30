@@ -104,7 +104,7 @@ public static class UnitActions {
         unit.GetComponent<Target>().Change(closestEnemy, closestEnemy.GetComponent<Unit>().interactionRadius);
     }
 
-    public static void TargetFuel(Unit unit) {
+    public static void TargetGenetium(Unit unit) {
         GameObject[] genetiums = GameObject.FindGameObjectsWithTag("Genetium");
         GameObject closestGenetium = UnitHelperFunctions.GetClosest(unit, genetiums);
         unit.GetComponent<Target>().Change(closestGenetium, closestGenetium.GetComponent<Genetium>().radius);
@@ -115,7 +115,7 @@ public static class UnitActions {
         unit.GetComponent<Target>().Change(home, 3f);
     }
 
-    public static void DropFuel(Unit unit) {
+    public static void DropGenetium(Unit unit) {
         unit.currentGenetiumAmount = 0;
     }
 
@@ -126,9 +126,8 @@ public static class UnitActions {
     //Find a random point in planet's surface 
     public static void SetWanderingDestination(Unit unit)
     {
-        //unit.areaCenter;
-        //random position somewhere in a sphere
-        Vector3 position = Random.onUnitSphere;
+        //random position somewhere in a sphere around the unit target
+        Vector3 position = (Random.onUnitSphere * unit.areaRadius + unit.areaCenter);
 
         //project on planet. raycast has to be projected from the sky
         RaycastHit hitInfo = new RaycastHit();

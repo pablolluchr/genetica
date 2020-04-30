@@ -10,7 +10,7 @@ public enum UnitState {
     Eat,
     TargetMate,
     Mate,
-    TargetFuel,
+    TargetGenetium,
     Harvest,
     TargetBase,
     TargetEnemy,
@@ -39,8 +39,8 @@ public static class UnitStateMachine {
                 if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
                 if (UnitQueries.NeedsChange(unit)) { return UnitState.TargetBase; }
                 if (UnitQueries.IsHorny(unit) && UnitQueries.SeesMate(unit)) { return UnitState.TargetMate; }
-                if (UnitQueries.SeesFuel(unit) && !UnitQueries.IsStorageFull(unit)) { return UnitState.TargetFuel; }
-                if (UnitQueries.IsCarryingFuel(unit)) { return UnitState.TargetBase; }
+                if (UnitQueries.SeesGenetium(unit) && !UnitQueries.IsStorageFull(unit)) { return UnitState.TargetGenetium; }
+                if (UnitQueries.IsCarryingGenetium(unit)) { return UnitState.TargetBase; }
                 UnitActions.Wander(unit);
                 break;
             }
@@ -66,12 +66,12 @@ public static class UnitStateMachine {
                 if (UnitQueries.IsNearTarget(unit)) { return UnitState.Mate; }
                 break;
             }
-            case UnitState.TargetFuel: {
-                UnitActions.TargetFuel(unit);
+            case UnitState.TargetGenetium: {
+                UnitActions.TargetGenetium(unit);
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 if (UnitQueries.IsHungry(unit) && UnitQueries.SeesFood(unit)) { return UnitState.TargetFood; }
                 if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
-                if (!UnitQueries.SeesFuel(unit)) { return UnitState.Wander; }
+                if (!UnitQueries.SeesGenetium(unit)) { return UnitState.Wander; }
                 if (UnitQueries.IsNearTarget(unit)) { return UnitState.Harvest; }
                 break;
             }
@@ -80,7 +80,7 @@ public static class UnitStateMachine {
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 if (UnitQueries.IsHungry(unit) && UnitQueries.SeesFood(unit)) { return UnitState.TargetFood; }
                 if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
-                if (UnitQueries.IsNearTarget(unit)) { UnitActions.DropFuel(unit); return UnitState.Wander; }
+                if (UnitQueries.IsNearTarget(unit)) { UnitActions.DropGenetium(unit); return UnitState.Wander; }
                 break;
             }
             case UnitState.TargetEnemy: {
