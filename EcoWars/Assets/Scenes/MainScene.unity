@@ -1331,7 +1331,7 @@ Camera:
   far clip plane: 1000
   field of view: 61.1
   orthographic: 1
-  orthographic size: 7.92
+  orthographic size: 7.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1354,8 +1354,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -14.24}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1375,7 +1375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planet: {fileID: 1473334474}
   speed: 11
-  distance: 14.24
+  distanceToPlanetCenter: 0
   defaultSize: 7.5
   zoomedSize: 5.5
   cameraOffset: 20

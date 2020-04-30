@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
             if (wasButtonDown)
             {
                 isDragging = Mathf.Pow(Input.GetAxis("Mouse X") - lastMouseX, 2) +
-                Mathf.Pow(Input.GetAxis("Mouse Y") - lastMouseY, 2) > 0.01f || isDragging;
+                Mathf.Pow(Input.GetAxis("Mouse Y") - lastMouseY, 2) > 0.005f || isDragging;
             }
 
             lastMouseX = Input.GetAxis("Mouse X");
