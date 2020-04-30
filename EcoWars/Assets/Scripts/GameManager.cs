@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     public GameObject unitPrefab;
     public GameState gameState;
     public List<Species> mySpecies = new List<Species>();
+
+    // to update a species first change the attributes in the species class using GetSpecies("Tall").speed = 100 etc.
+    // then set this attribute (recall species) to the species name (i.e. "Tall") to recall all pets
     public string recallSpecies = null;
 
     private float lastMouseX;
