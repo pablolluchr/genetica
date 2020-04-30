@@ -16,6 +16,7 @@ public class SpeciesButton : MonoBehaviour
     {
         GameManager.gameManager.selectedSpecies = speciesName;
         GameManager.gameManager.gameState = GameState.MovingToArea;
+        GameManager.gameManager.cameraController.ResetMovingToSpeed();
     }
 
 

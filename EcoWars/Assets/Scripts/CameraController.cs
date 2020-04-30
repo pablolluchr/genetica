@@ -18,6 +18,7 @@ public class CameraController : MonoBehaviour
     public float panningStartTime;
     public CameraState cameraState;
     private Vector3 targetPosition;
+    private float moveToLocationSpeed;
 
     float oldMoveX;
     float oldMoveY;
@@ -85,17 +86,33 @@ public class CameraController : MonoBehaviour
         
 
     }
+    public void ResetMovingToSpeed()
+    {
+        moveToLocationSpeed = 30;
+    }
+
+
 
     public void MoveToLocation() {
-        //rotation around planet with target focused on center
 
+        //initial speed to avoid crossing through poles
+        moveToLocationSpeed = Mathf.Max(moveToLocationSpeed - Time.deltaTime*50, 0);
+
+        //if target is very far start spinning to avoid crossing through ppoles
+        if ((new Vector2(targetPosition.x, targetPosition.z).normalized +
+            new Vector2(transform.position.x, transform.position.z).normalized).magnitude < 0.8f){
+            transform.position = Vector3.Lerp(transform.position, transform.position + transform.right, Time.deltaTime * moveToLocationSpeed);
+        }
+        
+        //rotation around planet with target focused on center
         Vector3 cameraPosition = (planet.transform.position + (targetPosition - planet.transform.position).normalized * cameraOffset);
 
         //linear interpolation between positions
         Vector3 newLinearPosition = Vector3.Lerp(transform.position, cameraPosition, Time.deltaTime * cameraMoveSpeed);
-
-        //avoid crossing through the planet
         newLinearPosition = newLinearPosition.normalized * distanceToPlanetCenter;
+
+        //transform.position = new Vector3(transform.position.x, newLinearPosition.y, 0);
+        //avoid crossing through the planet
 
         transform.position = newLinearPosition;
 
@@ -107,9 +124,24 @@ public class CameraController : MonoBehaviour
 
 
         //zoom out
-        GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, movingToPositionSize, Time.deltaTime);
+        GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, movingToPositionSize, Time.deltaTime * 3f);
     }
-    
+
+    //clamp axis to avoid being close to poles
+    public float ClampRotationAxis(float axis)
+    {
+        if (axis < 180)
+        {
+            axis = Mathf.Min(axis, 70f);
+        }
+        else
+        {
+            axis = Mathf.Max(axis, 290f);
+
+        }
+        return axis;
+    }
+
 
 
 
@@ -135,22 +167,14 @@ public class CameraController : MonoBehaviour
             
         }
 
-        if (rotXAxis < 180)
-        {
-            rotXAxis = Mathf.Min(rotXAxis, 90f);
-        }
-        else
-        {
-            rotXAxis = Mathf.Max(rotXAxis, 270f);
-
-        }
+        rotXAxis = ClampRotationAxis(rotXAxis);
 
         //update rotation according to mouse input
 
         transform.rotation = Quaternion.Euler(rotXAxis, rotYAxis, 0f);
 
         transform.position = planet.transform.position - (transform.forward).normalized * distanceToPlanetCenter;
-        GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, defaultSize, Time.deltaTime * 2f);
+        GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, defaultSize, Time.deltaTime * 3f);
         
 
 
@@ -240,7 +264,7 @@ public class CameraController : MonoBehaviour
 
 
         //zoom in
-        GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, zoomedSize, Time.deltaTime);
+        GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, zoomedSize, Time.deltaTime*3f);
     }
 
 

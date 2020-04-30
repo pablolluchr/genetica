@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public GameObject dummyTargets;
     public GameObject units;
     public GameObject unitPrefab;
+    public GameObject areaGraphic;
+    public GameObject planet;
     
     public GameState gameState;
     public List<Species> speciesList = new List<Species>();
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour
     private bool isDragging;
     public bool wasButtonDown;
     public string selectedSpecies;
+    public string previousSelectedSpecies;
 
     private void Awake()
     {
@@ -39,7 +42,7 @@ public class GameManager : MonoBehaviour
         selectedSpecies = null;
 
         AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet");
-        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -5f, 5.5f),          2f,"Pet");
+        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Pet");
 
 
 
@@ -72,6 +75,8 @@ public class GameManager : MonoBehaviour
         if (gameState == GameState.MovingToArea)
         {
             cameraController.StartMoveToLocation(GetSpecies(selectedSpecies).areaCenter);
+            UnitActions.EnableAreaGraphics(GetSpecies(selectedSpecies).areaCenter);
+
         }
 
         if (recallSpecies != null) {
@@ -92,6 +97,7 @@ public class GameManager : MonoBehaviour
         {
             gameState = GameState.Panning;
             cameraController.StartPanning();
+            UnitActions.DisableAreaGraphics();
         }
 
         //stop following unit if species selected
@@ -181,10 +187,10 @@ public class GameManager : MonoBehaviour
             gameState = GameState.Panning;
             cameraController.StartPanning();
         }
-        
-        
 
-        
+
+
+        previousSelectedSpecies = selectedSpecies;
     }
 
 

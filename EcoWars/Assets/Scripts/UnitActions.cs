@@ -44,6 +44,17 @@ public static class UnitActions {
 
     }
 
+    public static void EnableAreaGraphics(Vector3 areaCenter)
+    {
+        GameManager.gameManager.areaGraphic.SetActive(true);
+        GameManager.gameManager.areaGraphic.GetComponent<AreaGraphic>().SetPosition(areaCenter, GameManager.gameManager.planet.transform.position);
+    }
+    public static void DisableAreaGraphics()
+    {
+        GameManager.gameManager.areaGraphic.SetActive(false);
+
+    }
+
     public static void HealthRegenEffect(Unit unit) {
         if (unit.health < unit.maxHealth) {
             unit.health += unit.healthRegen * Time.fixedDeltaTime;
