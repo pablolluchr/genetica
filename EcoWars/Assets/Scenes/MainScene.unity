@@ -138,172 +138,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Hostile
       objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944809, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: hornyChancePerSecond
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: carryingCapacity
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: criticalThirst
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: criticalHunger
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: criticalHealth
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: deathPeriod
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: healthRequirement
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: fedRequirement
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: attackRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: aggression
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: rotationSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: enemyDetectionRange
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: viewDistance
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: interactionRadius
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: bodySize
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: maxHealth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: healthRegen
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: amountFed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: maxFed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: feedingPerSecond
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: hungerPerSecond
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: hungerChanceExponent
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: hungerDamage
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: thirstPerSecond
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: thirstThreshold
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: matingDistance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: attackRange
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: targetGraphic
-      value: 
-      objectReference: {fileID: 8185286201820072343, guid: d9c1953182b2448e2828d46abf744428,
-        type: 3}
-    - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: health
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944811, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7111793131819944812, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_Drag
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944813, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -358,51 +192,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7948534224581369136, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.12106306
-      objectReference: {fileID: 0}
-    - target: {fileID: 7948534224581369136, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.69922274
-      objectReference: {fileID: 0}
-    - target: {fileID: 7948534224581369136, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.10838194
-      objectReference: {fileID: 0}
-    - target: {fileID: 7948534224581369136, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.696193
-      objectReference: {fileID: 0}
-    - target: {fileID: 7948534224581369136, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -0.97400004
-      objectReference: {fileID: 0}
-    - target: {fileID: 7948534224581369136, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90.409004
-      objectReference: {fileID: 0}
-    - target: {fileID: 7948534224581369136, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -18.678001
-      objectReference: {fileID: 0}
-    - target: {fileID: 7951663483690426591, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8898049497029710152, guid: fdade351b8732426fa1bddd5ec412a30,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdade351b8732426fa1bddd5ec412a30, type: 3}
@@ -885,6 +674,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 106.197044
       objectReference: {fileID: 0}
+    - target: {fileID: 8488186930727043628, guid: 1b629272f40b04204b2218ddab713f25,
+        type: 3}
+      propertyPath: maxFood
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b629272f40b04204b2218ddab713f25, type: 3}
 --- !u!4 &795280119 stripped
@@ -1028,7 +822,6 @@ MonoBehaviour:
   units: {fileID: 375400045}
   unitPrefab: {fileID: 7111793131819944809, guid: fdade351b8732426fa1bddd5ec412a30,
     type: 3}
-  species: {fileID: 0}
   gameState: 0
   shortClickDuration: 0.3
   wasButtonDown: 0
@@ -1197,7 +990,7 @@ PrefabInstance:
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: criticalHealth
-      value: 0.05
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
@@ -1227,7 +1020,7 @@ PrefabInstance:
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: rotationSpeed
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
@@ -1897,7 +1690,7 @@ PrefabInstance:
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: criticalHealth
-      value: 0.05
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
@@ -1927,7 +1720,7 @@ PrefabInstance:
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
       propertyPath: rotationSpeed
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7111793131819944810, guid: fdade351b8732426fa1bddd5ec412a30,
         type: 3}
@@ -2159,7 +1952,7 @@ MonoBehaviour:
   regenRate: 1
   capacity: 100
   currentAmount: 0
-  radius: 0.5
+  radius: 1
   consideredEmpty: 1
 --- !u!1001 &8488186931934817936
 PrefabInstance:
@@ -2227,6 +2020,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8488186930727043628, guid: 1b629272f40b04204b2218ddab713f25,
+        type: 3}
+      propertyPath: maxFood
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b629272f40b04204b2218ddab713f25, type: 3}
