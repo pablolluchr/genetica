@@ -1,15 +1,13 @@
 ﻿<Properties StartupConfiguration="{1F1CD5C9-A757-1657-5877-464F954CFE62}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/SelectionGraphic.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Unit.cs">
     <Files>
       <File FileName="Assets/Scripts/CameraController.cs" Line="99" Column="85" />
-      <File FileName="Assets/Scripts/Target.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/SpeciesButton.cs" Line="19" Column="71" />
-      <File FileName="Assets/Scripts/UnitActions.cs" Line="214" Column="53" />
-      <File FileName="Assets/Scripts/AreaGraphic.cs" Line="16" Column="33" />
-      <File FileName="Assets/Scripts/SilhouetteShader.shader" Line="81" Column="2" />
-      <File FileName="Assets/Scripts/UnitQueries.cs" Line="24" Column="1" />
-      <File FileName="Assets/Scripts/Unit.cs" Line="100" Column="5" />
-      <File FileName="Assets/Scripts/SelectionGraphic.cs" Line="9" Column="6" />
+      <File FileName="Assets/Scripts/Target.cs" />
+      <File FileName="Assets/Scripts/SpeciesButton.cs" />
+      <File FileName="Assets/Scripts/UnitActions.cs" />
+      <File FileName="Assets/Scripts/AreaGraphic.cs" />
+      <File FileName="Assets/Scripts/UnitQueries.cs" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="266" Column="10" />
       <File FileName="Assets/Scripts/Species.cs" Line="61" Column="57" />
     </Files>
     <Pads>
@@ -18,7 +16,7 @@
           <Node name="EcoWars" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="SelectionGraphic.cs" selected="True" />
+                <Node name="Unit.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -28,7 +26,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="23eadac7-9770-45a2-a6d7-d3f807b0f97b" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="97ff79fe-7870-4849-a54a-07c82c8ee706" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/TargetGraphic.cs" relfile="Assets/Scripts/TargetGraphic.cs" line="39" column="1" />
