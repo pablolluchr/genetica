@@ -80,6 +80,14 @@ public class Unit : MonoBehaviour {
     public float gallopingThreshold = 2f;
     public float rotationSpeed;
 
+    [Header("Thoughts")]
+    public Transform thoughtPivot;
+    public Sprite thirstSprite;
+    public Sprite hornySprite;
+    public Sprite hungrySprite;
+    public Sprite genetiumSprite;
+    public Sprite baseSprite;
+
     //not shown
 
     public Rigidbody rb;
@@ -134,7 +142,7 @@ public class Unit : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-
+        UnitActions.SetThought(this);
 
         UnitActions.WanderIfDeadTarget(this);
 

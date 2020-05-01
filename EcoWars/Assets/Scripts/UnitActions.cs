@@ -296,4 +296,20 @@ public static class UnitActions {
         unit.deathTimeStamp = Time.time;
     }
 
+    public static void SetThought(Unit unit) {
+        unit.thoughtPivot.transform.rotation = Camera.main.transform.rotation;
+        if (unit.hungry) {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.hungrySprite;
+        } else if (unit.thirsty) {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.thirstSprite;
+        } else if (unit.unitState == UnitState.TargetMate) {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.hornySprite;
+        } else if (unit.unitState == UnitState.TargetGenetium) {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.genetiumSprite;
+        } else if (unit.unitState == UnitState.TargetBase || unit.unitState == UnitState.Harvest) {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.baseSprite;
+        } else {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = null;
+        }
+    }
 }
