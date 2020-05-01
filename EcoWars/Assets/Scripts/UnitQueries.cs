@@ -61,9 +61,9 @@ public static class UnitQueries {
         return UnitHelperFunctions.InRangeOf(unit, nonEmptyGenetiums, unit.genetiumDetectionRange);
     }
 
-    public static bool IsNearTarget(Unit unit)
+    public static bool IsNearTarget(Unit unit,bool increasedRadius)
     {
-        return unit.GetComponent<Target>().IsNear(unit);
+        return unit.GetComponent<Target>().IsNear(unit, increasedRadius);
     }
 
     public static bool IsThreatened(Unit unit) {
@@ -84,7 +84,7 @@ public static class UnitQueries {
         if (unit.GetComponent<Target>().targetVector3 == Vector3.zero) { return true; }
 
         ////destination already reached
-        if (UnitQueries.IsNearTarget(unit)) { return true; }
+        if (UnitQueries.IsNearTarget(unit,false)) { return true; }
         //if its wandering and couldn't reach the destination in 10 sec reset 
         if (Time.time - unit.wanderTimeStamp > 10f && unit.unitState == UnitState.Wander) { return true; }
 

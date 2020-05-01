@@ -227,7 +227,7 @@ public class Unit : MonoBehaviour {
         else
         {
             transform.GetChild(0).GetComponent<Animator>().speed = Mathf.Lerp(transform.GetChild(0).GetComponent<Animator>().speed,
-                maxSpeed - (maxSpeed - minSpeed) * legsLength * 1.7f, Time.deltaTime);
+                maxSpeed - (maxSpeed - minSpeed) * legsLength, Time.deltaTime);
 
         }
 

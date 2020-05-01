@@ -14,8 +14,7 @@ public static class UnitActions {
     public static void Move(Unit unit)
     {
         
-
-        if (!unit.GetComponent<Target>().IsNear(unit)){
+        if (!unit.GetComponent<Target>().IsNear(unit,false)){
             Vector3 projectedDestination = Vector3.ProjectOnPlane(unit.GetComponent<Target>().targetVector3, unit.transform.up);
             Quaternion targetRotation = Quaternion.LookRotation(projectedDestination, Vector3.up);
             unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, targetRotation, Time.fixedDeltaTime * unit.rotationSpeed);
@@ -318,9 +317,9 @@ public static class UnitActions {
 
     public static void SetThought(Unit unit) {
         unit.thoughtPivot.transform.rotation = Camera.main.transform.rotation;
-        if (unit.unitState == UnitState.TargetGenetium) {
+        if (unit.unitState == UnitState.TargetGenetium || unit.unitState == UnitState.Harvest) {
             unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.genetiumSprite;
-        } else if (unit.unitState == UnitState.TargetBase || unit.unitState == UnitState.Harvest) {
+        } else if (unit.unitState == UnitState.TargetBase ) {
             unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.baseSprite;
         } else if (unit.hungry) {
             unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.hungrySprite;

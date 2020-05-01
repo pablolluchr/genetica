@@ -48,7 +48,7 @@ public static class UnitStateMachine {
                 UnitActions.TargetWater(unit);
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 if (!UnitQueries.SeesWater(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Drink; }
+                if (UnitQueries.IsNearTarget(unit,false)) { return UnitState.Drink; }
                 
                 break;
             }
@@ -56,14 +56,14 @@ public static class UnitStateMachine {
                 UnitActions.TargetFood(unit);
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 if (!UnitQueries.SeesFood(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Eat; }
+                if (UnitQueries.IsNearTarget(unit,false)) { return UnitState.Eat; }
                 break;
             }
             case UnitState.TargetMate: {
                 UnitActions.TargetMate(unit);
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 if (!UnitQueries.SeesMate(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Mate; }
+                if (UnitQueries.IsNearTarget(unit,false)) { return UnitState.Mate; }
                 break;
             }
             case UnitState.TargetGenetium: {
@@ -72,7 +72,7 @@ public static class UnitStateMachine {
                 if (UnitQueries.IsHungry(unit) && UnitQueries.SeesFood(unit)) { return UnitState.TargetFood; }
                 if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
                 if (!UnitQueries.SeesGenetium(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Harvest; }
+                if (UnitQueries.IsNearTarget(unit,false)) { return UnitState.Harvest; }
                 break;
             }
             case UnitState.TargetBase: {
@@ -80,7 +80,7 @@ public static class UnitStateMachine {
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 if (UnitQueries.IsHungry(unit) && UnitQueries.SeesFood(unit)) { return UnitState.TargetFood; }
                 if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
-                if (UnitQueries.IsNearTarget(unit)) { UnitActions.ReachBase(unit); return UnitState.Wander; }
+                if (UnitQueries.IsNearTarget(unit,false)) { UnitActions.ReachBase(unit); return UnitState.Wander; }
                 break;
             }
             case UnitState.TargetEnemy: {
@@ -88,7 +88,7 @@ public static class UnitStateMachine {
                 if (UnitQueries.HasLowHealth(unit)) { return UnitState.Flee; }
                 if (UnitQueries.IsVeryHungry(unit)) { return UnitState.Flee; }
                 if (UnitQueries.IsVeryThirsty(unit)) { return UnitState.Flee; }
-                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Attack; }
+                if (UnitQueries.IsNearTarget(unit,false)) { return UnitState.Attack; }
                 if (!UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 break;
             }
@@ -112,14 +112,14 @@ public static class UnitStateMachine {
             }
             case UnitState.Harvest: {
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
-                if (!UnitQueries.IsNearTarget(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsStorageFull(unit)) { return UnitState.Wander; }
+                    if (!UnitQueries.IsNearTarget(unit,true)) { return UnitState.Wander; }
+                    if (UnitQueries.IsStorageFull(unit)) { return UnitState.Wander; }
                 UnitActions.Harvest(unit);
                 break;
             }
             case UnitState.Attack: {
                 if (UnitQueries.HasLowHealth(unit)) { return UnitState.Flee; }
-                if (!UnitQueries.IsNearTarget(unit)) { return UnitState.TargetEnemy; }
+                if (!UnitQueries.IsNearTarget(unit,true)) { return UnitState.TargetEnemy; }
                 if (!UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 UnitActions.Attack(unit);
                 break;
@@ -130,7 +130,7 @@ public static class UnitStateMachine {
                 break;
             }
             case UnitState.Override:{
-                if (UnitQueries.IsNearTarget(unit)) { return UnitState.Wander; }
+                if (UnitQueries.IsNearTarget(unit,false)) { return UnitState.Wander; }
                 break;
             }
         }

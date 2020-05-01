@@ -38,9 +38,11 @@ public class Target : MonoBehaviour {
 
     }
 
-    public bool IsNear(Unit unit)
+    public bool IsNear(Unit unit,bool increasedRadius)
     {
-        return (unit.transform.position - targetVector3).magnitude <= radius + unit.interactionRadius;
+        float buffer = 0;
+        if (increasedRadius) buffer = .1f;
+        return (unit.transform.position - targetVector3).magnitude <= radius + unit.interactionRadius+buffer;
     }
 }
 

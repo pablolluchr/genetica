@@ -1292,6 +1292,7 @@ MonoBehaviour:
   thirstDamage: 0.1
   thirsty: 0
   criticalThirst: 0.1
+  quenchRate: 1
   hornyChancePerSecond: 0.02
   horny: 0
   matingDistance: 1
