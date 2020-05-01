@@ -5,17 +5,17 @@ using UnityEngine;
 public class AreaGraphic : MonoBehaviour
 {
     // Start is called before the first frame update
-    private float spawnTime;
+    //private float spawnTime;
     private float scaleMultiplier;
-    private float alphaMultiplier;
+    //private float alphaMultiplier;
     private Vector3 originalScale;
 
     private void Awake()
     {
         transform.position = Vector3.zero;
-        spawnTime = Time.time;
+        //spawnTime = Time.time;
         scaleMultiplier = 10;
-        alphaMultiplier = 1;
+        //alphaMultiplier = 1;
         originalScale = transform.localScale;
         transform.localScale = originalScale * scaleMultiplier;
 

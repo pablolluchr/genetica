@@ -257,6 +257,10 @@ public class Unit : MonoBehaviour {
         if (unitState==UnitState.Harvest) transform.GetChild(0).GetComponent<Animator>().SetBool("isCollectingGenetium", true);
         else transform.GetChild(0).GetComponent<Animator>().SetBool("isCollectingGenetium", false);
 
+        if (unitState == UnitState.Drink || unitState == UnitState.Eat) transform.GetChild(0).
+                GetComponent<Animator>().SetBool("isEating-Drinking", true);
+        else transform.GetChild(0).GetComponent<Animator>().SetBool("isEating-Drinking", false);
+
         if (speed >= gallopingThreshold)
         {
             //gallop

@@ -1979,14 +1979,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planet: {fileID: 1473334474}
-  speed: 11
-  distanceToPlanetCenter: 0
+  desktopSpeed: 0.08
+  phoneSpeed: 15
+  freeRotationDamper: 3
+  distanceToPlanetCenter: 20.00004
   defaultSize: 7.5
   zoomedSize: 5.5
   movingToPositionSize: 9
   cameraOffset: 20
   cameraMoveSpeed: 2.67
-  panningStartTime: 0
+  panningStartTime: -Infinity
   cameraState: 0
 --- !u!1001 &967206166
 PrefabInstance:

@@ -207,8 +207,20 @@ public static class UnitActions {
     public static void EnableSelectionGraphic(Unit unit)
     {
         unit.selectionGraphic.SetActive(true);
+        ResetSelectionGraphicPosition(unit);
 
     }
+
+    public static void ResetSelectionGraphicPosition(Unit unit)
+    {
+        //check first raycast collision
+        RaycastHit hitInfo = new RaycastHit();
+        Vector3 directionToCenter = (GameManager.gameManager.planet.transform.position- unit.transform.position).normalized;
+        bool hit = Physics.Raycast(unit.transform.position - directionToCenter* 5,
+            directionToCenter, out hitInfo,Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
+        if (hit) unit.selectionGraphic.transform.position = hitInfo.point;
+    }
+
     public static void DisableSelectionGraphic(Unit unit)
     {
         unit.selectionGraphic.SetActive(false);

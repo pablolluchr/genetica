@@ -1,15 +1,15 @@
 ﻿<Properties StartupConfiguration="{1F1CD5C9-A757-1657-5877-464F954CFE62}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UnitActions.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/GameManager.cs" Line="136" Column="71" />
-      <File FileName="Assets/Scripts/CameraController.cs" Line="99" Column="85" />
-      <File FileName="Assets/Scripts/Target.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/SpeciesButton.cs" Line="19" Column="71" />
-      <File FileName="Assets/Scripts/UnitActions.cs" Line="210" Column="23" />
-      <File FileName="Assets/Scripts/AreaGraphic.cs" Line="20" Column="64" />
-      <File FileName="Assets/Scripts/SilhouetteShader.shader" Line="81" Column="2" />
-      <File FileName="Assets/Scripts/UnitQueries.cs" Line="24" Column="1" />
-      <File FileName="Assets/Scripts/Unit.cs" Line="100" Column="45" />
+      <File FileName="Assets/Scripts/CameraController.cs" Line="9" Column="22" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="211" Column="1" />
+      <File FileName="Assets/Scripts/Target.cs" />
+      <File FileName="Assets/Scripts/SpeciesButton.cs" />
+      <File FileName="Assets/Scripts/UnitActions.cs" />
+      <File FileName="Assets/Scripts/AreaGraphic.cs" />
+      <File FileName="Assets/Scripts/UnitQueries.cs" />
+      <File FileName="Assets/Scripts/Unit.cs" />
+      <File FileName="Assets/Scripts/Species.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,7 +17,7 @@
           <Node name="EcoWars" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="UnitActions.cs" selected="True" />
+                <Node name="GameManager.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -27,11 +27,12 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="23eadac7-9770-45a2-a6d7-d3f807b0f97b" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="8ff3c51a-c38c-4887-bddd-473084e65c31" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/TargetGraphic.cs" relfile="Assets/Scripts/TargetGraphic.cs" line="39" column="1" />
       <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/BioFuel.cs" relfile="Assets/Scripts/BioFuel.cs" line="25" column="1" />
+      <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/GameManager.cs" relfile="Assets/Scripts/GameManager.cs" line="123" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

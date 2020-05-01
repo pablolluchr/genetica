@@ -242,7 +242,7 @@ MonoBehaviour:
   regenRate: 1
   capacity: 100
   currentAmount: 0
-  radius: 1
+  radius: 0.5
   consideredEmpty: 1
 --- !u!1 &5054437401557512752
 GameObject:

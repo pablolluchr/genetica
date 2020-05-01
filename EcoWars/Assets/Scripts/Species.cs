@@ -58,6 +58,7 @@ public class Species
         {
             throw new System.Exception("Wrong tag for unit");
         }
+        UnitActions.ResetSelectionGraphicPosition(unit);
         return true;
 
     }
