@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     private float lastMouseY;
     public float shortClickDuration=.3f;
     private bool isDragging;
+    private bool wasDragging;
     public bool wasButtonDown;
     public string selectedSpecies;
     public string previousSelectedSpecies;
@@ -115,7 +116,11 @@ public class GameManager : MonoBehaviour
 
 
         //SHORT CLICK
-        if (Input.GetMouseButtonUp(0) && !isDragging)
+        bool shortClick = false;
+        if (Input.touchCount == 1) shortClick = Input.GetTouch(0).phase == TouchPhase.Ended && !wasDragging;
+        else shortClick = Input.GetMouseButtonUp(0) && !isDragging;
+
+        if (shortClick)
         {
 
             //check first raycast collision
@@ -181,8 +186,6 @@ public class GameManager : MonoBehaviour
             }
 
 
-
-
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -194,20 +197,22 @@ public class GameManager : MonoBehaviour
             cameraController.StartPanning();
         }
 
-
-
         previousSelectedSpecies = selectedSpecies;
+        wasDragging = isDragging;
     }
 
 
     //check for dragging behaviour if mouse was pressed on the previous frame in a different position
     // and it's still pressed now
-    public void SetDraggingState()
-    {
-        if (Input.GetMouseButton(0))
+    public void SetDraggingState(){
+        if (Input.touchCount == 1)
         {
-            
+            if (Input.GetTouch(0).phase == TouchPhase.Moved) isDragging = true;
+            if (Input.GetTouch(0).phase == TouchPhase.Ended) isDragging = false;
+            return;
 
+        }if (Input.GetMouseButton(0))
+        {
             if (wasButtonDown)
             {
                 isDragging = Mathf.Pow(Input.GetAxis("Mouse X") - lastMouseX, 2) +

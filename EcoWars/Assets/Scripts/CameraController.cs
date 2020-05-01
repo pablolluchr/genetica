@@ -6,7 +6,9 @@ public class CameraController : MonoBehaviour
 {
     public GameObject planet;
     [System.NonSerialized] public Transform target;
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float desktopSpeed = 5f;
+    [SerializeField] private float phoneSpeed = 0.3f;
+    [SerializeField] private float freeRotationDamper = 0.1f;
     public float distanceToPlanetCenter;
     private float rotXAxis;
     private float rotYAxis;
@@ -19,9 +21,10 @@ public class CameraController : MonoBehaviour
     public CameraState cameraState;
     private Vector3 targetPosition;
     private float moveToLocationSpeed;
+    private float speed;
 
-    float oldMoveX;
-    float oldMoveY;
+    float oldXSpeed;
+    float oldYSpeed;
 
     private void Start()
     {
@@ -147,25 +150,47 @@ public class CameraController : MonoBehaviour
 
     public void Pan()
     {
-
-        if (Input.GetMouseButton(0))
+        //Check if the device running this is a desktop
+        float xSpeed = Input.GetAxis("Mouse X")/desktopSpeed;
+        float ySpeed = Input.GetAxis("Mouse Y")/ desktopSpeed;
+        if (Input.touchCount ==1)
         {
-            //get amount of rotation from panning.
-            rotYAxis = transform.eulerAngles.y + Input.GetAxis("Mouse X") * speed; //new y rotation after input
-            rotXAxis = transform.eulerAngles.x - Input.GetAxis("Mouse Y") * speed; //new x rotation after
-                                                                                   // Clamp rotation to avoid jiterry on the poles
-            oldMoveX = Input.GetAxis("Mouse X");
-            oldMoveY = Input.GetAxis("Mouse Y");
+
+            if (Input.touches[0].deltaPosition.magnitude < 10000)
+            {
+                xSpeed = Input.touches[0].deltaPosition.x/phoneSpeed;
+                ySpeed = Input.touches[0].deltaPosition.y/phoneSpeed;
+            }
 
         }
         else
         {
-            oldMoveX = Mathf.Lerp(oldMoveX, .0f, Time.deltaTime*3);
-            oldMoveY = Mathf.Lerp(oldMoveY, .0f, Time.deltaTime*3);
-            rotYAxis = transform.eulerAngles.y + oldMoveX * speed;
-            rotXAxis = transform.eulerAngles.x - oldMoveY * speed;
-            
+
         }
+
+
+        if (Input.GetMouseButton(0) || Input.touchCount>0)
+        {
+            //get amount of rotation from panning.
+            rotYAxis = transform.eulerAngles.y + xSpeed; //new y rotation after input
+            rotXAxis = transform.eulerAngles.x - ySpeed; //new x rotation after
+            oldXSpeed = xSpeed;
+            oldYSpeed = ySpeed;
+
+        }
+        else
+        {
+
+            oldXSpeed = Mathf.Lerp(oldXSpeed, .0f, Time.deltaTime * freeRotationDamper);
+            oldYSpeed = Mathf.Lerp(oldYSpeed, .0f, Time.deltaTime *freeRotationDamper);
+
+            rotYAxis = transform.eulerAngles.y + oldXSpeed;
+            rotXAxis = transform.eulerAngles.x - oldYSpeed;
+
+        }
+
+
+        
 
         rotXAxis = ClampRotationAxis(rotXAxis);
 
