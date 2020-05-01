@@ -1292,7 +1292,7 @@ MonoBehaviour:
   thirstDamage: 0.1
   thirsty: 0
   criticalThirst: 0.1
-  quenchRate: 1
+  quenchRate: 2
   hornyChancePerSecond: 0.02
   horny: 0
   matingDistance: 1
@@ -1320,7 +1320,7 @@ MonoBehaviour:
   healthbarPivot: {fileID: 1796684705754209550}
   healthbar: {fileID: 1640299171915854408}
   healthbarPetColor: {r: 0.29209104, g: 0.6981132, b: 0.14818443, a: 1}
-  healthbarHostileColor: {r: 0.5377358, g: 0, b: 0, a: 0}
+  healthbarHostileColor: {r: 0.5377358, g: 0, b: 0, a: 1}
   rb: {fileID: 0}
   isBeingOverride: 0
   planet: {fileID: 0}

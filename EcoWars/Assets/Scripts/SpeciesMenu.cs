@@ -17,7 +17,7 @@ public class SpeciesMenu : MonoBehaviour
             button.GetComponent<SpeciesButton>().speciesName = species.speciesName;
             button.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text=species.speciesName;
             button.transform.position += new Vector3(offset, 0, 0);
-            offset += 250f;
+            offset += 150f;
         }
     }
 }

@@ -37,7 +37,7 @@ public class Species
         if (unit.species != speciesName) { return false; } //cant modify another species
         unit.speed = speed;
         unit.legsLength = legsLength;
-        unit.interactionRadius = 0.5f + 0.8f * (legsLength - 0.2f);
+        unit.interactionRadius = UnitHelperFunctions.Interpolate(legsLength, new float[,]{{0.2f, 0.5f}, {0.6f, 0.6f}});
         unit.bodySize = bodySize;
         unit.headSize = headSize;
         unit.areaCenter = areaCenter;
