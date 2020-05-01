@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 //Handles the target-based movement of units
@@ -58,9 +59,7 @@ public class Unit : MonoBehaviour {
     public float hornyChancePerSecond;
     public bool horny;
     public float matingDistance;
-    public float healthRequirement;
-    public float fedRequirement;
-    public float thirstRequirement;
+    public float hornyCurveExponent;
 
     [Header("Attacking Attributes")]
     public float attackDamage = 1f;
@@ -81,6 +80,19 @@ public class Unit : MonoBehaviour {
     public float animationTilt = 10f;
     public float gallopingThreshold = 2f;
     public float rotationSpeed;
+
+    [Header("UI")]
+    public Transform thoughtPivot;
+    public Sprite thirstSprite;
+    public Sprite hornySprite;
+    public Sprite hungrySprite;
+    public Sprite genetiumSprite;
+    public Sprite baseSprite;
+    public Canvas healthbarPivot;
+    public SpriteRenderer healthbar;
+    public Color healthbarPetColor;
+    public Color healthbarHostileColor;
+
 
     //not shown
 
@@ -136,7 +148,8 @@ public class Unit : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-
+        UnitActions.SetThought(this);
+        UnitActions.SetHealthBar(this);
 
         UnitActions.WanderIfDeadTarget(this);
 
@@ -158,7 +171,7 @@ public class Unit : MonoBehaviour {
         UpdateHeadSizeModel();
         UpdateMovingAnimation();
 
-        if (!dead) { UnitActions.Move(this);; }
+        if (!dead) { UnitActions.Move(this); }
         
         UnitActions.GravityEffect(this);
 

@@ -33,8 +33,6 @@ public static class UnitHelperFunctions {
                 petUnit && 
                 petUnit.horny && 
                 petUnit != unit && 
-                petUnit.health / petUnit.maxHealth >= unit.healthRequirement &&
-                petUnit.amountFed / petUnit.maxFed >= unit.fedRequirement &&
                 petUnit.species == unit.species
             ) {
                 hornyPets.Add(pet);

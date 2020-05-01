@@ -278,7 +278,9 @@ public static class UnitActions {
 
     public static void TurnHornyChance(Unit unit) {
         float random = Random.Range(0f, 1f);
-        if (random < unit.hornyChancePerSecond * Time.fixedDeltaTime) {
+        float chanceMultiplier = (unit.health / unit.maxHealth) * (unit.amountQuenched / unit.maxQuenched) * (unit.amountFed / unit.maxFed);
+        chanceMultiplier = Mathf.Pow(chanceMultiplier, unit.hornyCurveExponent);
+        if (random < unit.hornyChancePerSecond * chanceMultiplier * Time.fixedDeltaTime) {
             unit.horny = true;
         }
     }
@@ -314,4 +316,26 @@ public static class UnitActions {
         unit.deathTimeStamp = Time.time;
     }
 
+    public static void SetThought(Unit unit) {
+        unit.thoughtPivot.transform.rotation = Camera.main.transform.rotation;
+        if (unit.unitState == UnitState.TargetGenetium) {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.genetiumSprite;
+        } else if (unit.unitState == UnitState.TargetBase || unit.unitState == UnitState.Harvest) {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.baseSprite;
+        } else if (unit.hungry) {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.hungrySprite;
+        } else if (unit.thirsty) {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.thirstSprite;
+        } else if (unit.horny) {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.hornySprite;
+        } else {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = null;
+        }
+    }
+
+    public static void SetHealthBar(Unit unit) {
+        unit.healthbarPivot.transform.rotation = Camera.main.transform.rotation;
+        unit.healthbar.size = new Vector2(unit.health / unit.maxHealth * 9f, 1);
+        // unit.healthbar.fillAmount = unit.health / unit.maxHealth;
+    }
 }
