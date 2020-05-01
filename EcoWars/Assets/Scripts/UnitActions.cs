@@ -324,4 +324,10 @@ public static class UnitActions {
             unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = null;
         }
     }
+
+    public static void SetHealthBar(Unit unit) {
+        unit.healthbarPivot.transform.rotation = Camera.main.transform.rotation;
+        unit.healthbar.size = new Vector2(unit.health / unit.maxHealth * 9f, 1);
+        // unit.healthbar.fillAmount = unit.health / unit.maxHealth;
+    }
 }

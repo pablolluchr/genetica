@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 //Handles the target-based movement of units
@@ -80,13 +81,15 @@ public class Unit : MonoBehaviour {
     public float gallopingThreshold = 2f;
     public float rotationSpeed;
 
-    [Header("Thoughts")]
+    [Header("UI")]
     public Transform thoughtPivot;
     public Sprite thirstSprite;
     public Sprite hornySprite;
     public Sprite hungrySprite;
     public Sprite genetiumSprite;
     public Sprite baseSprite;
+    public Canvas healthbarPivot;
+    public SpriteRenderer healthbar;
 
     //not shown
 
@@ -143,6 +146,7 @@ public class Unit : MonoBehaviour {
 
     private void FixedUpdate() {
         UnitActions.SetThought(this);
+        UnitActions.SetHealthBar(this);
 
         UnitActions.WanderIfDeadTarget(this);
 
