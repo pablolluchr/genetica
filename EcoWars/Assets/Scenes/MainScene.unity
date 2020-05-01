@@ -1751,6 +1751,7 @@ MonoBehaviour:
   shortClickDuration: 0.3
   wasButtonDown: 0
   selectedSpecies: 
+  previousSelectedSpecies: 
 --- !u!4 &858503912
 Transform:
   m_ObjectHideFlags: 0

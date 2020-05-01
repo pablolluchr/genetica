@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1109050583
 RectTransform:
   m_ObjectHideFlags: 0
@@ -860,6 +860,8 @@ MonoBehaviour:
   viewDistance: 8
   interactionRadius: 0.5
   areaRadius: 3
+  swimming: 0
+  needsChange: 0
   speed: 1
   legsLength: 0.2
   bodySize: 0.2
@@ -914,6 +916,7 @@ MonoBehaviour:
   enemyTag: 
   maxUnits: 50
   destinationGizmo: {fileID: 0}
+  selectionGraphic: {fileID: 1109050582}
   targetGraphic: {fileID: 8185286201820072343, guid: d9c1953182b2448e2828d46abf744428,
     type: 3}
   selectionColor: {x: 0, y: 0, z: 0, w: 0}

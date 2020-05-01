@@ -204,18 +204,17 @@ public static class UnitActions {
         }
 
     }
-
-    public static void DisableSelectionGraphic(Unit unit)
-    {
-        unit.selectionGraphic.GetChild(0).GetComponent<UnityEngine.UI.Image>().enabled = false;
-            //.color = unit.selectionColor;
-    }
-
     public static void EnableSelectionGraphic(Unit unit)
     {
-        unit.selectionGraphic.GetChild(0).GetComponent<UnityEngine.UI.Image>().color = new Color(1f, 1f, 0f, .8f);
-        
+        unit.selectionGraphic.SetActive(true);
+
     }
+    public static void DisableSelectionGraphic(Unit unit)
+    {
+        unit.selectionGraphic.SetActive(false);
+    }
+
+    
 
     public static void Harvest(Unit unit) {
         if (unit.currentGenetiumAmount > unit.carryingCapacity) { return; }

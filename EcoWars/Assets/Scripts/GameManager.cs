@@ -72,11 +72,15 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (gameState == GameState.MovingToArea)
+        if (gameState==GameState.MovingToArea)
         {
             cameraController.StartMoveToLocation(GetSpecies(selectedSpecies).areaCenter);
-            UnitActions.EnableAreaGraphics(GetSpecies(selectedSpecies).areaCenter);
+           
 
+        }
+        if (selectedSpecies != null)
+        {
+            UnitActions.EnableAreaGraphics(GetSpecies(selectedSpecies).areaCenter);
         }
 
         if (recallSpecies != null) {
@@ -97,7 +101,7 @@ public class GameManager : MonoBehaviour
         {
             gameState = GameState.Panning;
             cameraController.StartPanning();
-            UnitActions.DisableAreaGraphics();
+            //UnitActions.DisableAreaGraphics();
         }
 
         //stop following unit if species selected
@@ -120,13 +124,15 @@ public class GameManager : MonoBehaviour
             //todo: check if ui click and return.
 
 
-            if (hit)//unit clicked
+            if (hit)//somehting hit
             {
-
+                //unit hit
                 if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Units"))
                 {
                     gameState = GameState.Following;
                     cameraController.StartFollowing(hitInfo.transform);
+                    UnitActions.DisableAreaGraphics();
+
 
                     //unit clicked is a new target
                     if (target != hitInfo.transform.gameObject)

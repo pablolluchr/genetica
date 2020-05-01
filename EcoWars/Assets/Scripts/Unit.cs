@@ -97,7 +97,7 @@ public class Unit : MonoBehaviour {
     private Transform body;
     private Transform head;
     public Transform destinationGizmo;
-    [System.NonSerialized] public Transform selectionGraphic;
+    public GameObject selectionGraphic;
     public GameObject targetGraphic;
     public Vector4 selectionColor;
 
@@ -126,10 +126,6 @@ public class Unit : MonoBehaviour {
         amountFed = maxFed;
         wanderTimeStamp = -Mathf.Infinity;
         destinationGizmo = transform.Find("Destination");
-        selectionGraphic = transform.Find("SelectionGraphic");
-        selectionGraphic.GetChild(0).GetComponent<UnityEngine.UI.Image>().color = selectionColor;
-
-
 
         planet = GameObject.FindGameObjectWithTag("Planet").GetComponent<GravityAttractor>();
         GetComponent<Rigidbody>().useGravity = false; //deactivate built-in downwards gravity
