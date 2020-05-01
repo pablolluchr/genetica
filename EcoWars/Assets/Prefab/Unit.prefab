@@ -1281,23 +1281,21 @@ MonoBehaviour:
   maxFed: 20
   feedingPerSecond: 1
   hungerPerSecond: 0.2
-  hungerChanceExponent: 3
-  hungerDamage: 0.4
+  hungerChanceExponent: 2
+  hungerDamage: 0.5
   hungry: 0
   criticalHunger: 0.1
   amountQuenched: 20
   maxQuenched: 20
   thirstPerSecond: 0.3
-  thirstChanceExponent: 3
+  thirstChanceExponent: 4
   thirstDamage: 0.1
   thirsty: 0
   criticalThirst: 0.1
-  hornyChancePerSecond: 0.01
+  hornyChancePerSecond: 0.02
   horny: 0
   matingDistance: 1
-  healthRequirement: 0.9
-  fedRequirement: 0.7
-  thirstRequirement: 0
+  hornyCurveExponent: 2
   attackDamage: 1
   attackRange: 1
   enemyDetectionRange: 5
@@ -1320,6 +1318,8 @@ MonoBehaviour:
   baseSprite: {fileID: 21300000, guid: 227ed95a6004d754daee108e5a5bd225, type: 3}
   healthbarPivot: {fileID: 1796684705754209550}
   healthbar: {fileID: 1640299171915854408}
+  healthbarPetColor: {r: 0.29209104, g: 0.6981132, b: 0.14818443, a: 1}
+  healthbarHostileColor: {r: 0.5377358, g: 0, b: 0, a: 0}
   rb: {fileID: 0}
   isBeingOverride: 0
   planet: {fileID: 0}

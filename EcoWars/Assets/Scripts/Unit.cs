@@ -57,9 +57,7 @@ public class Unit : MonoBehaviour {
     public float hornyChancePerSecond;
     public bool horny;
     public float matingDistance;
-    public float healthRequirement;
-    public float fedRequirement;
-    public float thirstRequirement;
+    public float hornyCurveExponent;
 
     [Header("Attacking Attributes")]
     public float attackDamage = 1f;
@@ -90,6 +88,9 @@ public class Unit : MonoBehaviour {
     public Sprite baseSprite;
     public Canvas healthbarPivot;
     public SpriteRenderer healthbar;
+    public Color healthbarPetColor;
+    public Color healthbarHostileColor;
+
 
     //not shown
 
@@ -168,7 +169,7 @@ public class Unit : MonoBehaviour {
         UpdateHeadSizeModel();
         UpdateMovingAnimation();
 
-        if (!dead) { UnitActions.Move(this);; }
+        if (!dead) { UnitActions.Move(this); }
         
         UnitActions.GravityEffect(this);
 
