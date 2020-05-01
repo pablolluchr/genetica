@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GameObject unitPrefab;
     public GameObject areaGraphic;
     public GameObject planet;
+    public GameObject water;
     
     public GameState gameState;
     public List<Species> speciesList = new List<Species>();

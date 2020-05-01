@@ -41,9 +41,11 @@ public static class UnitQueries {
         return UnitHelperFunctions.InRangeOf(unit, hornyPets, unit.viewDistance);
     }
 
+    
     public static bool SeesWater(Unit unit) {
-        GameObject[] waterPoints = GameObject.FindGameObjectsWithTag("Water");
-        return UnitHelperFunctions.InRangeOf(unit, waterPoints, unit.viewDistance);
+
+        Vector3 closestWaterSource = UnitActions.ClosestWaterSource(unit);
+        return (closestWaterSource - unit.transform.position).magnitude <= unit.viewDistance;
     }
 
     public static bool SeesFood(Unit unit) {

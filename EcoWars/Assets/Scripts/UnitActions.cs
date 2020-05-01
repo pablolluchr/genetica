@@ -100,10 +100,15 @@ public static class UnitActions {
         unit.GetComponent<Target>().Change(closestFood, closestFood.GetComponent<Food>().radius);
     }
 
+    public static Vector3 ClosestWaterSource(Unit unit)
+    {
+        return GameManager.gameManager.water.GetComponent<Collider>().ClosestPoint(unit.transform.position);
+    }
+
     public static void TargetWater(Unit unit) {
-        GameObject[] waterPoints = GameObject.FindGameObjectsWithTag("Water");
-        GameObject closestWaterPoint = UnitHelperFunctions.GetClosest(unit, waterPoints);
-        unit.GetComponent<Target>().Change(closestWaterPoint, closestWaterPoint.GetComponent<WaterPoint>().radius);
+
+        Vector3 closestWaterPoint = ClosestWaterSource(unit);
+        unit.GetComponent<Target>().Change(closestWaterPoint, unit.interactionRadius);
     }
 
     public static void TargetMate(Unit unit) {
@@ -175,11 +180,12 @@ public static class UnitActions {
     }
 
     public static void Drink(Unit unit) {
-        WaterPoint waterPoint = unit.GetComponent<Target>().targetGameObject.GetComponent<WaterPoint>();
-        unit.amountQuenched = Mathf.Min(unit.maxQuenched, unit.amountQuenched + waterPoint.quenchRate * Time.fixedDeltaTime);
+        unit.amountQuenched = Mathf.Min(unit.maxQuenched, unit.amountQuenched + unit.quenchRate * Time.fixedDeltaTime);
     }
 
     public static void SetSwimming(Unit unit) {
+
+
         GameObject[] waterPoints = GameObject.FindGameObjectsWithTag("Water");
         foreach (GameObject waterPoint in waterPoints) {
             float distance = (unit.transform.position - waterPoint.transform.position).magnitude;

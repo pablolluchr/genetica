@@ -15,6 +15,6 @@ public class Sun : MonoBehaviour
     void Update()
     {
         //rotate sun around planet lol
-        transform.rotation = Quaternion.Euler(sunSpeed*Time.deltaTime, 0,0) * transform.rotation;
+        transform.rotation = Quaternion.Euler(0, sunSpeed * Time.deltaTime, 0) * transform.rotation;
     }
 }

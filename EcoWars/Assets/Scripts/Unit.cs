@@ -51,6 +51,8 @@ public class Unit : MonoBehaviour {
     public float thirstDamage;
     public bool thirsty;
     public float criticalThirst;
+    public float quenchRate;
+
 
     [Header("Mating Attributes")]
     public float hornyChancePerSecond;
