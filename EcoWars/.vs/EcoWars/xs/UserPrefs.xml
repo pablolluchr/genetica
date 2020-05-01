@@ -1,15 +1,16 @@
 ﻿<Properties StartupConfiguration="{1F1CD5C9-A757-1657-5877-464F954CFE62}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UnitActions.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/SelectionGraphic.cs">
     <Files>
-      <File FileName="Assets/Scripts/GameManager.cs" Line="136" Column="71" />
       <File FileName="Assets/Scripts/CameraController.cs" Line="99" Column="85" />
       <File FileName="Assets/Scripts/Target.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/SpeciesButton.cs" Line="19" Column="71" />
-      <File FileName="Assets/Scripts/UnitActions.cs" Line="210" Column="23" />
-      <File FileName="Assets/Scripts/AreaGraphic.cs" Line="20" Column="64" />
+      <File FileName="Assets/Scripts/UnitActions.cs" Line="214" Column="53" />
+      <File FileName="Assets/Scripts/AreaGraphic.cs" Line="16" Column="33" />
       <File FileName="Assets/Scripts/SilhouetteShader.shader" Line="81" Column="2" />
       <File FileName="Assets/Scripts/UnitQueries.cs" Line="24" Column="1" />
-      <File FileName="Assets/Scripts/Unit.cs" Line="100" Column="45" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="100" Column="5" />
+      <File FileName="Assets/Scripts/SelectionGraphic.cs" Line="9" Column="6" />
+      <File FileName="Assets/Scripts/Species.cs" Line="61" Column="57" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,7 +18,7 @@
           <Node name="EcoWars" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="UnitActions.cs" selected="True" />
+                <Node name="SelectionGraphic.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -32,6 +33,7 @@
     <BreakpointStore>
       <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/TargetGraphic.cs" relfile="Assets/Scripts/TargetGraphic.cs" line="39" column="1" />
       <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/BioFuel.cs" relfile="Assets/Scripts/BioFuel.cs" line="25" column="1" />
+      <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/UnitActions.cs" relfile="Assets/Scripts/UnitActions.cs" line="221" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
