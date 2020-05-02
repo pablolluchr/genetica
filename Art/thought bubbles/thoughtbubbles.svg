@@ -147,11 +147,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.17625813"
-     inkscape:cx="3386.252"
-     inkscape:cy="-26.114471"
+     inkscape:zoom="0.49853328"
+     inkscape:cx="1059.4332"
+     inkscape:cy="2093.8965"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g868"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -167,11 +167,6 @@
        id="grid3720"
        originx="-547.59593"
        originy="458.10388" />
-    <sodipodi:guide
-       position="-513.2001,630.08306"
-       orientation="0,1"
-       id="guide4552"
-       inkscape:locked="false" />
     <sodipodi:guide
        position="-513.2001,630.08306"
        orientation="1,0"
@@ -341,6 +336,56 @@
          id="path931"
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cccccccc" />
+    </g>
+    <g
+       id="g868"
+       inkscape:label="attack"
+       inkscape:export-filename="C:\Users\felix\git\ecowars\EcoWars\Assets\Thoughts\attack.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100">
+      <path
+         inkscape:connector-curvature="0"
+         id="path862"
+         d="m 982.78919,182.98393 -75.89346,5.83796 -53.60307,-37.15065 -11.67593,-65.809707 53.07235,-40.334988 107.20612,5.307224 49.3573,74.187071 -23.8825,45.75644 z"
+         style="fill:url(#linearGradient859);stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path864"
+         d="m 1036.923,182.71856 5.5726,-16.71778 21.7596,-0.53073 3.7151,18.04459 -16.187,9.02231 z"
+         style="fill:url(#linearGradient859);stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <g
+         id="g866">
+        <path
+           sodipodi:nodetypes="ccccc"
+           inkscape:label="path870"
+           inkscape:connector-curvature="0"
+           id="path870"
+           d="M 987.81772,157.10172 910.96721,99.880171 899.73095,66.755487 993.15165,151.15937 Z"
+           style="fill:#676767;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path872"
+           d="m 952.25143,142.10717 8.75694,3.71507 17.47845,-19.95776 -5.83795,-7.69551 z"
+           style="fill:#676767;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           sodipodi:nodetypes="ccccc" />
+      </g>
+      <g
+         id="g879"
+         transform="matrix(-1,0,0,1,1892.8826,0)">
+        <path
+           style="fill:#676767;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="M 987.81772,157.10172 910.96721,99.880171 899.73095,66.755487 993.15165,151.15937 Z"
+           id="path875"
+           inkscape:connector-curvature="0"
+           inkscape:label="path870"
+           sodipodi:nodetypes="ccccc" />
+        <path
+           sodipodi:nodetypes="ccccc"
+           style="fill:#676767;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 952.25143,142.10717 8.75694,3.71507 17.47845,-19.95776 -5.83795,-7.69551 z"
+           id="path877"
+           inkscape:connector-curvature="0" />
+      </g>
     </g>
   </g>
 </svg>

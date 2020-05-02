@@ -4,9 +4,35 @@ using UnityEngine;
 
 public static class UnitQueries {
 
-    // unit behaviour query functions here (not allowed to modify state) ##################################################
+    // unit behaviour query functions here (not allowed to modify state) 
 
-    #region thirst // #####################
+    #region hunger // ################################################################################
+
+    public static bool IsFed(Unit unit) {
+        return unit.amountFed / unit.maxFed >= 0.99;
+    }
+
+    public static bool IsHungry(Unit unit) {
+        return unit.hungry;
+    }
+
+    public static bool IsVeryHungry(Unit unit) {
+        return unit.amountFed / unit.maxFed <= unit.criticalHunger;
+    }
+
+    public static bool SeesFood(Unit unit) {
+        return ClosestFoodInView(unit) != null;
+    }
+
+    // null if no food in viewing range
+    public static GameObject ClosestFoodInView(Unit unit) {
+        GameObject[] foods = GameObject.FindGameObjectsWithTag("Food");
+        return UnitHelperFunctions.GetClosestInView(unit, foods);
+    }
+
+    #endregion
+
+    #region thirst // ################################################################################
 
     public static bool IsQuenched(Unit unit) {
         return unit.amountQuenched / unit.maxQuenched >= 0.99;
@@ -37,32 +63,9 @@ public static class UnitQueries {
                 closestDistance = (waterSourcePosition - unit.transform.position).magnitude;
                 closestSource = waterSourcePosition;
             }
-
         }
         if (closestSource == Vector3.zero) throw new System.Exception("No water found");
         return closestSource;
-    }
-
-    #endregion
-
-    #region hunger // ################################################################################
-
-    public static bool IsFed(Unit unit) {
-        return unit.amountFed / unit.maxFed >= 0.99;
-    }
-
-    public static bool IsHungry(Unit unit) {
-        return unit.hungry;
-    }
-
-    public static bool IsVeryHungry(Unit unit) {
-        return unit.amountFed / unit.maxFed <= unit.criticalHunger;
-    }
-
-    public static bool SeesFood(Unit unit) {
-        GameObject[] foods = GameObject.FindGameObjectsWithTag("Food");
-        GameObject[] nonEmptyFoods = UnitHelperFunctions.FilterEmptyFoods(foods);
-        return UnitHelperFunctions.InRangeOf(unit, nonEmptyFoods, unit.viewDistance);
     }
 
     #endregion
@@ -74,21 +77,14 @@ public static class UnitQueries {
     }
 
     public static bool SeesMate(Unit unit) {
-        return ClosestMate(unit) != null;
+        return ClosestMateInView(unit) != null;
     }
 
     // returns null if does not see a mate
-    public static GameObject ClosestMate(Unit unit) {
+    public static GameObject ClosestMateInView(Unit unit) {
         GameObject[] pets = GameObject.FindGameObjectsWithTag(unit.gameObject.tag);
         GameObject[] hornyPets = UnitHelperFunctions.FilterUnmatable(unit, pets);
-        GameObject closestMate = UnitHelperFunctions.GetClosest(unit, hornyPets);
-        if (closestMate == null) return null;
-        float distance = (unit.transform.position - closestMate.transform.position).magnitude;
-        if (distance < unit.viewDistance) {
-            return closestMate;
-        } else {
-            return null;
-        }
+        return UnitHelperFunctions.GetClosestInView(unit, hornyPets);
     }
 
     #endregion
@@ -97,9 +93,13 @@ public static class UnitQueries {
 
     public static bool SeesGenetium(Unit unit) {
         if (unit.gameObject.tag == "Hostile") { return false; }
+        return ClosestGenetiumInView(unit) != null;
+    }
+
+    public static GameObject ClosestGenetiumInView(Unit unit) {
         GameObject[] genetiums = GameObject.FindGameObjectsWithTag("Genetium");
         GameObject[] nonEmptyGenetiums = UnitHelperFunctions.FilterEmptyGenetium(genetiums);
-        return UnitHelperFunctions.InRangeOf(unit, nonEmptyGenetiums, unit.genetiumDetectionRange);
+        return UnitHelperFunctions.GetClosestInView(unit, nonEmptyGenetiums);
     }
 
     public static bool IsCarryingGenetium(Unit unit) {
@@ -119,9 +119,14 @@ public static class UnitQueries {
     #region attacking // ################################################################################
 
     public static bool IsThreatened(Unit unit) {
+        return ClosestEnemyInThreatRange(unit) != null;
+    }
+
+    // null if not in range
+    public static GameObject ClosestEnemyInThreatRange(Unit unit) {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
         GameObject[] aliveEnemies = UnitHelperFunctions.FilterDeadEnemies(enemies);
-        return UnitHelperFunctions.InRangeOf(unit, aliveEnemies, unit.enemyDetectionRange);
+        return UnitHelperFunctions.GetClosestInRange(unit, aliveEnemies, unit.enemyDetectionRange);
     }
 
     public static bool ShouldBeAggressive(Unit unit) {

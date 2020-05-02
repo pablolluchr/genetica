@@ -17,8 +17,8 @@ public static class UnitActions {
     }
 
     public static void TargetFood(Unit unit) {
-        GameObject[] foods = GameObject.FindGameObjectsWithTag("Food");
-        GameObject closestFood = UnitHelperFunctions.GetClosest(unit, foods);
+        GameObject closestFood = UnitQueries.ClosestFoodInView(unit);
+        if (closestFood == null) return;
         unit.GetComponent<Target>().Change(closestFood, closestFood.GetComponent<Food>().radius);
     }
 
@@ -81,19 +81,20 @@ public static class UnitActions {
     #region mating // ################################################################################
 
     public static void TargetMate(Unit unit) {
-        GameObject closestMate = UnitQueries.ClosestMate(unit);
+        GameObject closestMate = UnitQueries.ClosestMateInView(unit);
         if (closestMate == null) return;
         unit.GetComponent<Target>().Change(closestMate, closestMate.GetComponent<Unit>().matingDistance);
     }
 
     public static void Mate(Unit unit) {
-        GameObject[] allies = GameObject.FindGameObjectsWithTag(unit.gameObject.tag);
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
-        GameObject[] hornyAllies = UnitHelperFunctions.FilterUnmatable(unit, allies);
-        if (hornyAllies.Length <= 0) { return; }
-        Unit closestMate = UnitHelperFunctions.GetClosest(unit, hornyAllies).GetComponent<Unit>();
+        GameObject closestMateObj = UnitQueries.ClosestMateInView(unit);
+        if (closestMateObj == null) return;
+        Unit closestMate = closestMateObj.GetComponent<Unit>();
         closestMate.horny = false;
         unit.horny = false;
+
+        GameObject[] allies = GameObject.FindGameObjectsWithTag(unit.gameObject.tag);
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
         if (allies.Length + enemies.Length < unit.maxUnits) {
             MonoBehaviour.Instantiate(unit.gameObject).transform.parent = GameManager.gameManager.units.transform;
         }
@@ -114,8 +115,8 @@ public static class UnitActions {
     #region genetium // ################################################################################
 
     public static void TargetGenetium(Unit unit) {
-        GameObject[] genetiums = GameObject.FindGameObjectsWithTag("Genetium");
-        GameObject closestGenetium = UnitHelperFunctions.GetClosest(unit, genetiums);
+        GameObject closestGenetium = UnitQueries.ClosestGenetiumInView(unit);
+        if (closestGenetium == null) return;
         unit.GetComponent<Target>().Change(closestGenetium, closestGenetium.GetComponent<Genetium>().radius);
     }
 
@@ -143,8 +144,7 @@ public static class UnitActions {
     #region attacking // ################################################################################
 
     public static void TargetEnemy(Unit unit) {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
-        GameObject closestEnemy = UnitHelperFunctions.GetClosest(unit, enemies);
+        GameObject closestEnemy = UnitQueries.ClosestEnemyInThreatRange(unit);
         if (closestEnemy == null || closestEnemy.GetComponent<Unit>() == null) return;
         unit.GetComponent<Target>().Change(closestEnemy, closestEnemy.GetComponent<Unit>().interactionRadius);
     }
@@ -170,8 +170,7 @@ public static class UnitActions {
     }
 
     public static void Flee(Unit unit) {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
-        GameObject closestEnemy = UnitHelperFunctions.GetClosest(unit, enemies);
+        GameObject closestEnemy = UnitQueries.ClosestEnemyInThreatRange(unit);
         if (closestEnemy == null || closestEnemy.GetComponent<Unit>() == null) return;
         SetFleeingTarget(unit, closestEnemy.GetComponent<Unit>());
     }
@@ -326,7 +325,9 @@ public static class UnitActions {
 
     public static void SetThought(Unit unit) {
         unit.thoughtPivot.transform.rotation = Camera.main.transform.rotation;
-        if (unit.unitState == UnitState.TargetGenetium || unit.unitState == UnitState.Harvest) {
+        if (unit.unitState == UnitState.TargetEnemy || unit.unitState == UnitState.Attack) {
+            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.attackSprite;
+        } else if (unit.unitState == UnitState.TargetGenetium || unit.unitState == UnitState.Harvest) {
             unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.genetiumSprite;
         } else if (unit.unitState == UnitState.TargetBase) {
             unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.baseSprite;

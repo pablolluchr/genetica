@@ -15,14 +15,22 @@ public static class UnitHelperFunctions {
         }
         return closestObj;
     }
-    public static bool InRangeOf(Unit unit, GameObject[] objects, float range) {
-        foreach (GameObject obj in objects) {
-            float distance = (unit.transform.position - obj.transform.position).magnitude;
-            if (distance < range) {
-                return true;
-            }
+
+    // null if not in view
+    public static GameObject GetClosestInRange(Unit unit, GameObject[] objects, float range) {
+        GameObject closestObj = GetClosest(unit, objects);
+        if (closestObj == null) return null;
+        float distance = (unit.transform.position - closestObj.transform.position).magnitude;
+        if (distance < range) {
+            return closestObj;
+        } else {
+            return null;
         }
-        return false;
+    }
+
+    // null if not in view
+    public static GameObject GetClosestInView(Unit unit, GameObject[] objects) {
+        return GetClosestInRange(unit, objects, unit.viewDistance);
     }
 
     public static GameObject[] FilterUnmatable(Unit unit, GameObject[] pets) {

@@ -84,14 +84,18 @@ public class GameManager : MonoBehaviour
         selectedSpecies = null;
 
         AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet");
-        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(4.6f, -2.18f, -2.7f),          2f,"Pet");
+        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Hostile");
 
 
 
         GetSpecies("Tall").Spawn(unitPrefab);
         GetSpecies("Tall").Spawn(unitPrefab);
         GetSpecies("Tall").Spawn(unitPrefab);
+        GetSpecies("Tall").Spawn(unitPrefab);
+        GetSpecies("Tall").Spawn(unitPrefab);
 
+        GetSpecies("Fast").Spawn(unitPrefab);
+        GetSpecies("Fast").Spawn(unitPrefab);
         GetSpecies("Fast").Spawn(unitPrefab);
         GetSpecies("Fast").Spawn(unitPrefab);
         GetSpecies("Fast").Spawn(unitPrefab);
