@@ -1,20 +1,11 @@
 ﻿<Properties StartupConfiguration="{1F1CD5C9-A757-1657-5877-464F954CFE62}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LightBehaviour.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Sun.cs">
     <Files>
-      <File FileName="Assets/Scripts/CameraController.cs" Line="9" Column="22" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="17" Column="23" />
-      <File FileName="Assets/Scripts/Unit.cs" Line="143" Column="1" />
-      <File FileName="Assets/Scripts/Species.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Sun.cs" Line="18" Column="48" />
-      <File FileName="Assets/Scripts/UnitStateMachine.cs" Line="58" Column="42" />
-      <File FileName="Assets/Scripts/UnitActions.cs" Line="40" Column="56" />
-      <File FileName="Assets/Scripts/TargetGraphic.cs" Line="39" Column="1" />
-      <File FileName="Assets/Scripts/UnitQueries.cs" Line="47" Column="53" />
-      <File FileName="Assets/Scripts/UnitHelperFunctions.cs" Line="135" Column="1" />
-      <File FileName="Assets/Scripts/Target.cs" Line="44" Column="28" />
-      <File FileName="Assets/Scripts/Matte.shader" Line="44" Column="3" />
-      <File FileName="Assets/Scripts/GravityAttractor.cs" Line="8" Column="33" />
-      <File FileName="Assets/Scripts/LightBehaviour.cs" Line="16" Column="18" />
+      <File FileName="Assets/Scripts/CameraController.cs" Line="134" Column="22" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="18" Column="27" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="297" Column="2" />
+      <File FileName="Assets/Scripts/LightBehaviour.cs" Line="48" Column="45" />
+      <File FileName="Assets/Scripts/Sun.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,7 +13,7 @@
           <Node name="EcoWars" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="LightBehaviour.cs" selected="True" />
+                <Node name="Sun.cs" selected="True" />
               </Node>
             </Node>
           </Node>
