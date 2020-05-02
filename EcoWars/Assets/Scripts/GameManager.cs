@@ -2,6 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/***
+
+http://www.plantuml.com/ state diagram:
+
+@startuml
+UnitSelection:
+
+ObjectSelection:
+
+SpeciesSelection:
+
+FreeSelection:
+
+[*] --> FreeSelection
+FreeSelection --> UnitSelection : click on unit
+FreeSelection --> ObjectSelection : click on object
+FreeSelection --> SpeciesSelection : toggle species button
+
+ObjectSelection --> FreeSelection : click on planet
+ObjectSelection --> FreeSelection : dragging
+ObjectSelection --> UnitSelection : click on unit
+ObjectSelection --> SpeciesSelection : toggle species button
+
+UnitSelection --> FreeSelection : override
+UnitSelection --> SpeciesSelection : toggle species button
+
+SpeciesSelection --> FreeSelection : untoggle species button
+SpeciesSelection --> FreeSelection : click on planet
+@enduml
+
+- new file: gameManagerStateMachine
+- new file: inputManager: responsible for setting isDragging, selectedGameObjectInThisFrame, selectedPointInThisFrame
+    inputManager vars are set to null after every statemachine update by statemachine
+- new file: gameManagerActions: functions called by the stateMachine to modify the game
+
+***/
+
 
 
 public class GameManager : MonoBehaviour
@@ -99,7 +136,7 @@ public class GameManager : MonoBehaviour
         RaycastHit hitInfo;
         bool hit;
 
-        SetDraggingState();
+        SetDraggingState(); //sets isdragging
         if ((target == null && gameState == GameState.Following) ||
             (gameState == GameState.MovingToArea && isDragging))
         {
