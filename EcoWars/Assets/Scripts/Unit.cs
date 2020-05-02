@@ -141,7 +141,6 @@ public class Unit : MonoBehaviour {
         wanderTimeStamp = -Mathf.Infinity;
         destinationGizmo = transform.Find("Destination");
 
-        planet = GameObject.FindGameObjectWithTag("Planet").GetComponent<GravityAttractor>();
         GetComponent<Rigidbody>().useGravity = false; //deactivate built-in downwards gravity
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         rb = GetComponent<Rigidbody>();
@@ -160,7 +159,7 @@ public class Unit : MonoBehaviour {
         UnitActions.TurnThirstyChance(this);
         UnitActions.TurnHornyChance(this);
 
-        UnitActions.SetSwimming(this);
+        //UnitActions.SetSwimming(this);
 
         UnitActions.HealthRegenEffect(this);
 

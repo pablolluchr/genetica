@@ -6,7 +6,7 @@ using UnityEngine;
 public class GravityAttractor : MonoBehaviour
 {
     public float gravity = -10f;
-    
+
     //nake body stand up on planet (force + rotation)
     public void Attract(Transform body){
 

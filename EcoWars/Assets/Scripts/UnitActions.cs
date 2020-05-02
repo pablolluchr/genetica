@@ -37,7 +37,7 @@ public static class UnitActions {
 
         //display target selection animation.
         MonoBehaviour.Instantiate(unit.targetGraphic).GetComponent<TargetGraphic>()
-            .SetPosition(target,unit.planet.transform.position);
+            .SetPosition(target,GameManager.gameManager.planet.transform.position);
 
 
 
@@ -90,7 +90,7 @@ public static class UnitActions {
 
     public static void GravityEffect(Unit unit)
     {
-        unit.planet.Attract(unit.transform);
+        GameManager.gameManager.planet.GetComponent<GravityAttractor>().Attract(unit.transform);
     }
 
     public static void TargetFood(Unit unit) {
@@ -101,7 +101,22 @@ public static class UnitActions {
 
     public static Vector3 ClosestWaterSource(Unit unit)
     {
-        return GameManager.gameManager.water.GetComponent<Collider>().ClosestPoint(unit.transform.position);
+        GameObject[] waterSources = GameObject.FindGameObjectsWithTag("Water");
+
+        Vector3 closestSource = Vector3.zero;
+        float closestDistance = Mathf.Infinity;
+        foreach (var waterSource in waterSources)
+        {
+            Vector3 waterSourcePosition = waterSource.GetComponent<Collider>().ClosestPoint(unit.transform.position);
+            if ((waterSourcePosition - unit.transform.position).magnitude < closestDistance)
+            {
+                closestDistance = (waterSourcePosition - unit.transform.position).magnitude;
+                closestSource = waterSourcePosition;
+            }
+
+        }
+        if (closestSource == Vector3.zero) throw new System.Exception("No water found");
+        return closestSource;
     }
 
     public static void TargetWater(Unit unit) {
@@ -152,8 +167,8 @@ public static class UnitActions {
         //project on planet. raycast has to be projected from the sky
         RaycastHit hitInfo = new RaycastHit();
         
-        bool hit = Physics.Raycast(position + 20f * (position - unit.planet.transform.position),
-            (unit.planet.transform.position - position), out hitInfo,
+        bool hit = Physics.Raycast(position + 20f * (position - GameManager.gameManager.planet.transform.position),
+            (GameManager.gameManager.planet.transform.position), out hitInfo,
             Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
         if (hit) unit.GetComponent<Target>().Change(hitInfo.point);
         else Debug.Log("not hit");
@@ -182,19 +197,19 @@ public static class UnitActions {
         unit.amountQuenched = Mathf.Min(unit.maxQuenched, unit.amountQuenched + unit.quenchRate * Time.fixedDeltaTime);
     }
 
-    public static void SetSwimming(Unit unit) {
+    //public static void SetSwimming(Unit unit) {
 
 
-        GameObject[] waterPoints = GameObject.FindGameObjectsWithTag("Water");
-        foreach (GameObject waterPoint in waterPoints) {
-            float distance = (unit.transform.position - waterPoint.transform.position).magnitude;
-            if (distance < waterPoint.GetComponent<WaterPoint>().radius) {
-                unit.swimming = true;
-                return;
-            }
-        }
-        unit.swimming = false;
-    }
+    //    GameObject[] waterPoints = GameObject.Fin("Water");
+    //    foreach (GameObject waterPoint in waterPoints) {
+    //        float distance = (unit.transform.position - waterPoint.transform.position).magnitude;
+    //        if (distance < waterPoint.GetComponent<WaterPoint>().radius) {
+    //            unit.swimming = true;
+    //            return;
+    //        }
+    //    }
+    //    unit.swimming = false;
+    //}
 
     public static void Mate(Unit unit) {
         GameObject[] allies = GameObject.FindGameObjectsWithTag(unit.gameObject.tag);
