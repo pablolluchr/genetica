@@ -180,8 +180,8 @@ public static class UnitActions {
         Vector3 position = enemy.transform.position;
         RaycastHit hitInfo = new RaycastHit();
         
-        bool hit = Physics.Raycast(position - 20f * (position - enemy.planet.transform.position),
-            (position - enemy.planet.transform.position), out hitInfo,
+        bool hit = Physics.Raycast(position - 20f * (position - GameManager.gameManager.transform.position),
+            (position - GameManager.gameManager.planet.transform.position), out hitInfo,
             Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
         if (hit) unit.GetComponent<Target>().Change(hitInfo.point);
         else Debug.Log("not hit");
