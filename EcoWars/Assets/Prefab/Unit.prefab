@@ -200,7 +200,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 980d6f2fbd62aef4e9b2bbd22ab9a917, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5d8c47375f8349849a6be208cd485ec7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1317,6 +1317,7 @@ MonoBehaviour:
   hungrySprite: {fileID: 21300000, guid: 5d8c47375f8349849a6be208cd485ec7, type: 3}
   genetiumSprite: {fileID: 21300000, guid: c00c29211ffdc124abe809410223625e, type: 3}
   baseSprite: {fileID: 21300000, guid: 227ed95a6004d754daee108e5a5bd225, type: 3}
+  attackSprite: {fileID: 21300000, guid: 497a55e93460e214f8d8ce839eb6bd35, type: 3}
   healthbarPivot: {fileID: 1796684705754209550}
   healthbar: {fileID: 1640299171915854408}
   healthbarPetColor: {r: 0.29209104, g: 0.6981132, b: 0.14818443, a: 1}

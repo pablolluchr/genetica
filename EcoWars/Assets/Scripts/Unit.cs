@@ -88,6 +88,7 @@ public class Unit : MonoBehaviour {
     public Sprite hungrySprite;
     public Sprite genetiumSprite;
     public Sprite baseSprite;
+    public Sprite attackSprite;
     public Canvas healthbarPivot;
     public SpriteRenderer healthbar;
     public Color healthbarPetColor;
