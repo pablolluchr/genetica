@@ -704,6 +704,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 916507586}
     m_Modifications:
+    - target: {fileID: 1175101682, guid: fe421970b8448467f81c2ae54d539d71, type: 3}
+      propertyPath: radius
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1241655336, guid: fe421970b8448467f81c2ae54d539d71, type: 3}
       propertyPath: m_LocalPosition.y
       value: 3.57
@@ -719,17 +723,17 @@ PrefabInstance:
     - target: {fileID: 218055390065049808, guid: fe421970b8448467f81c2ae54d539d71,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 218055390065049808, guid: fe421970b8448467f81c2ae54d539d71,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.11
+      value: 5.89
       objectReference: {fileID: 0}
     - target: {fileID: 218055390065049808, guid: fe421970b8448467f81c2ae54d539d71,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 218055390065049808, guid: fe421970b8448467f81c2ae54d539d71,
         type: 3}
@@ -3609,7 +3613,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -6281194796659335961, guid: f81ade28363cc4151aa8fd3abcba3c65, type: 3}
 --- !u!1001 &2744592913474069541
@@ -3744,6 +3748,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 707079437358065818, guid: 02a58f5cfe6764ca0908517c74e4a067,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1359019393297604445, guid: 02a58f5cfe6764ca0908517c74e4a067,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3803,6 +3812,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: planet3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315876533876525988, guid: 02a58f5cfe6764ca0908517c74e4a067,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315876534039099366, guid: 02a58f5cfe6764ca0908517c74e4a067,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315876534964114003, guid: 02a58f5cfe6764ca0908517c74e4a067,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02a58f5cfe6764ca0908517c74e4a067, type: 3}
