@@ -51,7 +51,7 @@ public class BottomButton : MonoBehaviour
             else if (bottomButtonType == BottomButtonType.Enemy)
             {
                 //show speciesSelectionPanel of enemies
-                speciesSelectionPanel.GetComponent<SpeciesSelectionPanel>().unitType = "Enemy";
+                speciesSelectionPanel.GetComponent<SpeciesSelectionPanel>().unitType = "Hostile";
                 speciesSelectionPanel.GetComponent<SpeciesSelectionPanel>().ShowSpecies();
                 speciesSelectionPanel.SetActive(true);
             }
