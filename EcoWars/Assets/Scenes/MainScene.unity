@@ -1893,6 +1893,7 @@ GameObject:
   m_Component:
   - component: {fileID: 858503912}
   - component: {fileID: 858503911}
+  - component: {fileID: 858503913}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1912,9 +1913,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e857f6a622148c080f6ce2e5910219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bioFuel: 0
+  selectedObject: {fileID: 0}
+  selectedPoint: {x: 0, y: 0, z: 0}
   cameraController: {fileID: 963194229}
-  dummyTargets: {fileID: 0}
   units: {fileID: 375400045}
   unitPrefab: {fileID: 7111793131819944809, guid: fdade351b8732426fa1bddd5ec412a30,
     type: 3}
@@ -1923,7 +1924,11 @@ MonoBehaviour:
   sun: {fileID: 705507993}
   gameState: 0
   recallSpecies: 
+  lastMouseX: 0
+  lastMouseY: 0
   shortClickDuration: 0.3
+  isDragging: 0
+  wasDraggingInPrevFrame: 0
   wasButtonDown: 0
   selectedSpecies: 
   previousSelectedSpecies: 
@@ -1941,6 +1946,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &858503913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858503910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd0876e4356812b479613139ee82cd99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &903866914
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3848,11 +3865,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BerryBush
       objectReference: {fileID: 0}
-    - target: {fileID: 499323537349842534, guid: 1b629272f40b04204b2218ddab713f25,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3510184018923250805, guid: 1b629272f40b04204b2218ddab713f25,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3907,26 +3919,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3510184018923250805, guid: 1b629272f40b04204b2218ddab713f25,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 38.683308
-      objectReference: {fileID: 0}
-    - target: {fileID: 3510184018923250805, guid: 1b629272f40b04204b2218ddab713f25,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 38.683304
-      objectReference: {fileID: 0}
-    - target: {fileID: 3510184018923250805, guid: 1b629272f40b04204b2218ddab713f25,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 38.683304
-      objectReference: {fileID: 0}
-    - target: {fileID: 8488186930727043628, guid: 1b629272f40b04204b2218ddab713f25,
-        type: 3}
-      propertyPath: maxFood
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b629272f40b04204b2218ddab713f25, type: 3}

@@ -19,7 +19,6 @@ public class SpeciesButton : MonoBehaviour
     {
         if (selected) {
             GameManager.gameManager.selectedSpecies = null;
-            GameManager.gameManager.gameState = GameState.Panning;
             GameManager.gameManager.cameraController.StartPanning();
             selected = false;
             GetComponent<Image>().color = normalColor;
@@ -27,11 +26,10 @@ public class SpeciesButton : MonoBehaviour
         }
         
         GameManager.gameManager.selectedSpecies = speciesName;
-        GameManager.gameManager.gameState = GameState.MovingToArea;
         GameManager.gameManager.cameraController.ResetMovingToSpeed();
         
         SpeciesButton[] speciesButtons = GetComponentInParent<SpeciesMenu>().GetComponentsInChildren<SpeciesButton>();
-        Debug.Log(speciesButtons.Length);
+        // Debug.Log(speciesButtons.Length);
         foreach (SpeciesButton speciesButton in speciesButtons) {
             speciesButton.GetComponent<Image>().color = normalColor;
             speciesButton.selected = false;
