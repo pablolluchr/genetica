@@ -122,7 +122,16 @@ public class Unit : MonoBehaviour {
     // void (modifier) functions at the top #########################################################################
     //TODO: add spaces and headers to variables
 
+    public void Start() {
+        if (gameObject.tag == "Pet") {
+            healthbar.color = healthbarPetColor;
+        } else {
+            healthbar.color = healthbarHostileColor;
+        }
+    }
+
     public void Awake() {
+
         //set selection color
 
         //set up transforms of bodyparts

@@ -132,6 +132,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4d41194572ba4ce2991539288ec0c6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selected: 0
+  selectedColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
   speciesName: 
 --- !u!1 &8131413941388832347
 GameObject:

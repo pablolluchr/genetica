@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         selectedSpecies = null;
 
         AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet");
-        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Pet");
+        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Hostile");
 
 
 
@@ -82,6 +82,8 @@ public class GameManager : MonoBehaviour
         if (selectedSpecies != null)
         {
             UnitActions.EnableAreaGraphics(GetSpecies(selectedSpecies).areaCenter);
+        } else {
+            UnitActions.DisableAreaGraphics();
         }
 
         if (recallSpecies != null) {
