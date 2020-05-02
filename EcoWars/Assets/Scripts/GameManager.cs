@@ -53,7 +53,10 @@ public class GameManager : MonoBehaviour
     public GameObject areaGraphic;
     public GameObject planet;
     public GameObject sun;
-    
+    public GameObject attributePanel;
+    public GameObject bottomControls;
+    public GameObject speciesSelectionPanel;
+
     public GameState gameState;
     public List<Species> speciesList = new List<Species>();
 
@@ -80,8 +83,8 @@ public class GameManager : MonoBehaviour
         target = null;
         selectedSpecies = null;
 
-        AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Hostile");
-        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Pet");
+        AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet");
+        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(4.6f, -2.18f, -2.7f),          2f,"Pet");
 
 
 
