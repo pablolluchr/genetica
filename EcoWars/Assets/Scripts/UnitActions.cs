@@ -9,10 +9,10 @@ public static class UnitActions {
 
     public static void HungerEffect(Unit unit) {
         if (unit.amountFed <= 0) {
-            UnitActions.TakeDamage(unit, unit.hungerDamage * Time.fixedDeltaTime);
+            UnitActions.TakeDamage(unit, unit.hungerDamage * Time.deltaTime);
             unit.amountFed = 0;
         } else {
-            unit.amountFed -= unit.hungerPerSecond * Time.fixedDeltaTime;
+            unit.amountFed -= unit.hungerPerSecond * Time.deltaTime;
         }
     }
 
@@ -35,7 +35,7 @@ public static class UnitActions {
     public static void TurnHungryChance(Unit unit) {
         float random = Random.Range(0f, 1f);
         float hungerRatio = (unit.amountFed / unit.maxFed);
-        float chanceOfHungerPerSec = Mathf.Pow(1 - hungerRatio, unit.hungerChanceExponent) * Time.fixedDeltaTime;
+        float chanceOfHungerPerSec = Mathf.Pow(1 - hungerRatio, unit.hungerChanceExponent) * Time.deltaTime;
         if (random < chanceOfHungerPerSec) {
             unit.hungry = true;
         }
@@ -47,10 +47,10 @@ public static class UnitActions {
 
     public static void ThirstEffect(Unit unit) {
         if (unit.amountQuenched <= 0) {
-            UnitActions.TakeDamage(unit, unit.thirstDamage * Time.fixedDeltaTime);
+            UnitActions.TakeDamage(unit, unit.thirstDamage * Time.deltaTime);
             unit.amountQuenched = 0;
         } else {
-            unit.amountQuenched -= unit.thirstPerSecond * Time.fixedDeltaTime;
+            unit.amountQuenched -= unit.thirstPerSecond * Time.deltaTime;
         }
     }
 
@@ -64,13 +64,13 @@ public static class UnitActions {
     }
 
     public static void Drink(Unit unit) {
-        unit.amountQuenched = Mathf.Min(unit.maxQuenched, unit.amountQuenched + unit.quenchRate * Time.fixedDeltaTime);
+        unit.amountQuenched = Mathf.Min(unit.maxQuenched, unit.amountQuenched + unit.quenchRate * Time.deltaTime);
     }
 
     public static void TurnThirstyChance(Unit unit) {
         float random = Random.Range(0f, 1f);
         float thirstRatio = (unit.amountQuenched / unit.maxQuenched);
-        float chanceOfThirstPerSec = Mathf.Pow(1 - thirstRatio, unit.thirstChanceExponent) * Time.fixedDeltaTime;
+        float chanceOfThirstPerSec = Mathf.Pow(1 - thirstRatio, unit.thirstChanceExponent) * Time.deltaTime;
         if (random < chanceOfThirstPerSec) {
             unit.thirsty = true;
         }
@@ -112,7 +112,7 @@ public static class UnitActions {
         float chanceMultiplier = (unit.health / unit.maxHealth) 
             * (unit.amountQuenched / unit.maxQuenched) * (unit.amountFed / unit.maxFed);
         chanceMultiplier = Mathf.Pow(chanceMultiplier, unit.hornyCurveExponent);
-        if (random < unit.hornyChancePerSecond * chanceMultiplier * Time.fixedDeltaTime) {
+        if (random < unit.hornyChancePerSecond * chanceMultiplier * Time.deltaTime) {
             unit.horny = true;
         }
     }
@@ -142,8 +142,8 @@ public static class UnitActions {
         if (unit.currentGenetiumAmount > unit.carryingCapacity) return;
         Genetium genetium = unit.GetComponent<Target>().targetGameObject.GetComponent<Genetium>();
         if (genetium == null) return;
-        genetium.currentAmount -= genetium.transferRate * Time.fixedDeltaTime;
-        unit.currentGenetiumAmount += genetium.transferRate * Time.fixedDeltaTime;
+        genetium.currentAmount -= genetium.transferRate * Time.deltaTime;
+        unit.currentGenetiumAmount += genetium.transferRate * Time.deltaTime;
     }
 
     #endregion
@@ -200,7 +200,7 @@ public static class UnitActions {
 
     public static void HealthRegenEffect(Unit unit) {
         if (unit.health < unit.maxHealth) {
-            unit.health += unit.healthRegen * Time.fixedDeltaTime;
+            unit.health += unit.healthRegen * Time.deltaTime;
         }
     }
 

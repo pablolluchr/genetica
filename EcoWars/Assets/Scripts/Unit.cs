@@ -158,7 +158,7 @@ public class Unit : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
     }
 
-    private void FixedUpdate() {
+    void Update() {
         UnitActions.SetThought(this);
         UnitActions.SetHealthBar(this);
         UnitActions.SetIsSwimming(this);
@@ -183,10 +183,11 @@ public class Unit : MonoBehaviour {
         UpdateHeadSizeModel();
         UpdateMovingAnimation();
 
-        if (!dead) { UnitActions.Move(this); }
-        
         UnitActions.GravityEffect(this);
+    }
 
+    private void FixedUpdate() {
+        if (!dead) { UnitActions.Move(this); }
     }
     
 
