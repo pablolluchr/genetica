@@ -95,8 +95,8 @@ public class GameManager : MonoBehaviour
         selectedSpecies = null;
         previousSelectedSpecies = null;
 
-        AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet");
-        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Pet");
+        AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet", 0.5f);
+        AddSpecies("Fast", 2.5f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Pet", 0.7f);
 
         GetSpecies("Tall").Spawn(unitPrefab);
         GetSpecies("Tall").Spawn(unitPrefab);
@@ -112,8 +112,17 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void AddSpecies(string name, float speed, float legsLength, float bodySize, float headSize,Vector3 areaCenter, float areaRadius,string tag) {
-        speciesList.Add(new Species(name, speed, legsLength, bodySize, headSize, areaCenter, areaRadius,tag));
+    public void AddSpecies(string name,
+        float speed,
+        float legsLength,
+        float bodySize,
+        float headSize,
+        Vector3 areaCenter,
+        float areaRadius,
+        string tag,
+        float swimVsWalk
+    ) {
+        speciesList.Add(new Species(name, speed, legsLength, bodySize, headSize, areaCenter, areaRadius, tag, swimVsWalk));
     }
 
     public Species GetSpecies(string name) {

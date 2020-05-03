@@ -100,7 +100,7 @@ public class GameManagerOld : MonoBehaviour
     }
 
     public void AddSpecies(string name, float speed, float legsLength, float bodySize, float headSize,Vector3 areaCenter, float areaRadius,string tag) {
-        speciesList.Add(new Species(name, speed, legsLength, bodySize, headSize, areaCenter, areaRadius,tag));
+        // speciesList.Add(new Species(name, speed, legsLength, bodySize, headSize, areaCenter, areaRadius,tag));
     }
 
     public Species GetSpecies(string name) {
