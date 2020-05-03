@@ -738,7 +738,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.2, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2816,7 +2816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &885826461
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3459,7 +3459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planet: {fileID: 1473334474}
   desktopSpeed: 0.08
-  phoneSpeed: 15
+  phoneSpeed: 0.001
   freeRotationDamper: 3
   distanceToPlanetCenter: 20.00004
   defaultSize: 8.5
@@ -4066,8 +4066,8 @@ RectTransform:
   m_Father: {fileID: 261812546}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.2, y: 0}
+  m_AnchorMax: {x: 0.2, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4125,7 +4125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1226950524
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4612,8 +4612,8 @@ RectTransform:
   m_Father: {fileID: 1806454131}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.2, y: 0}
+  m_AnchorMax: {x: 0.2, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5132,6 +5132,25 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 953746282}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1679700137 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3845486806161765059, guid: fe421970b8448467f81c2ae54d539d71,
+    type: 3}
+  m_PrefabInstance: {fileID: 376796554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1679700138
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679700137}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1686593978
 GameObject:
   m_ObjectHideFlags: 0
@@ -5165,7 +5184,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.2, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5206,25 +5225,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1686593978}
   m_CullTransparentMesh: 0
---- !u!1 &1679700137 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3845486806161765059, guid: fe421970b8448467f81c2ae54d539d71,
-    type: 3}
-  m_PrefabInstance: {fileID: 376796554}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &1679700138
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1679700137}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1696593927 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: ec239d67741b14e3390356863c49b5c7,
@@ -5338,7 +5338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1725717930
 RectTransform:
   m_ObjectHideFlags: 0

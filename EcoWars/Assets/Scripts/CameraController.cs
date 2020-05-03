@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class CameraController : MonoBehaviour
 {
@@ -23,8 +24,11 @@ public class CameraController : MonoBehaviour
     private float moveToLocationSpeed;
     private float speed;
 
-    float oldXSpeed;
-    float oldYSpeed;
+    private Queue<float> oldXSpeed;
+    private Queue<float> oldYSpeed;
+
+    private float averageOldXSpeed=0f;
+    private float averageOldYSpeed=0f;
 
     private void Start()
     {
@@ -40,6 +44,8 @@ public class CameraController : MonoBehaviour
         //to rotate around)
         float rotYAxis = transform.eulerAngles.y;
         float rotXAxis = transform.eulerAngles.x;
+        oldXSpeed= new Queue<float>(3);
+        oldYSpeed= new Queue<float>(3);
 
         //distance between me and what I'm rotating around
         distanceToPlanetCenter = Vector3.Magnitude(initialVector);
@@ -150,46 +156,64 @@ public class CameraController : MonoBehaviour
 
     public void Pan()
     {
+        
         //Check if the device running this is a desktop
         float xSpeed = Input.GetAxis("Mouse X")/desktopSpeed;
         float ySpeed = Input.GetAxis("Mouse Y")/ desktopSpeed;
+
+        //or a phone
         if (Input.touchCount ==1)
         {
 
             if (Input.touches[0].deltaPosition.magnitude < 10000)
             {
-                xSpeed = Input.touches[0].deltaPosition.x/phoneSpeed;
-                ySpeed = Input.touches[0].deltaPosition.y/phoneSpeed;
+                //TODO: Make speeds relative to the number of pixels on screen
+                xSpeed = Input.touches[0].deltaPosition.x/Time.deltaTime*phoneSpeed;
+                ySpeed = Input.touches[0].deltaPosition.y/Time.deltaTime* phoneSpeed;
+            }
+
+        }
+
+        //if phone/touch down
+        if (Input.GetMouseButton(0) || Input.touchCount==1)
+        {
+            //get amount of rotation from panning.
+            rotYAxis = transform.eulerAngles.y + xSpeed; //new y rotation after input
+            rotXAxis = transform.eulerAngles.x - ySpeed; //new x rotation after
+
+            //handle queue of past speeds
+            oldXSpeed.Enqueue(xSpeed);
+            oldYSpeed.Enqueue(ySpeed);
+            if (oldXSpeed.Count > 3)
+            {
+                oldXSpeed.Dequeue();
+                oldYSpeed.Dequeue();
+            }
+
+            //update average speed over the last 3 frames
+            if (oldXSpeed.Count > 0)
+            {
+                float[] oldXArray = oldXSpeed.ToArray();
+                foreach (var old in oldXArray) averageOldXSpeed += old;
+                averageOldXSpeed = averageOldXSpeed / oldXArray.Length;
+
+
+                float[] oldYArray = oldYSpeed.ToArray();
+                foreach (var old in oldYArray) averageOldYSpeed += old;
+                averageOldYSpeed = averageOldYSpeed / oldYArray.Length;
             }
 
         }
         else
         {
 
-        }
+            averageOldXSpeed = Mathf.Lerp(averageOldXSpeed, .0f, Time.deltaTime * freeRotationDamper);
+            averageOldYSpeed = Mathf.Lerp(averageOldYSpeed, .0f, Time.deltaTime *freeRotationDamper);
 
-
-        if (Input.GetMouseButton(0) || Input.touchCount>0)
-        {
-            //get amount of rotation from panning.
-            rotYAxis = transform.eulerAngles.y + xSpeed; //new y rotation after input
-            rotXAxis = transform.eulerAngles.x - ySpeed; //new x rotation after
-            oldXSpeed = xSpeed;
-            oldYSpeed = ySpeed;
+            rotYAxis = transform.eulerAngles.y + averageOldXSpeed;
+            rotXAxis = transform.eulerAngles.x - averageOldYSpeed;
 
         }
-        else
-        {
-
-            oldXSpeed = Mathf.Lerp(oldXSpeed, .0f, Time.deltaTime * freeRotationDamper);
-            oldYSpeed = Mathf.Lerp(oldYSpeed, .0f, Time.deltaTime *freeRotationDamper);
-
-            rotYAxis = transform.eulerAngles.y + oldXSpeed;
-            rotXAxis = transform.eulerAngles.x - oldYSpeed;
-
-        }
-
-
         
 
         rotXAxis = ClampRotationAxis(rotXAxis);
@@ -201,71 +225,6 @@ public class CameraController : MonoBehaviour
         transform.position = planet.transform.position - (transform.forward).normalized * distanceToPlanetCenter;
         GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, defaultSize, Time.deltaTime * 3f);
         
-
-
-        //Vector3 cameraToPlanet = planet.transform.position - transform.position;
-        //float distanceToPlanet = cameraToPlanet.magnitude;
-        //Vector3 cameraPointing = transform.rotation.eulerAngles;
-
-        ////move camera so that it looks to planet
-
-        //Vector3 negDistance = new Vector3(0, 0, -distance);
-        //Vector3 position = rotation * negDistance + planet.transform.position;
-        //transform.rotation = rotation;
-
-
-        //if (Input.GetMouseButton(0))
-        //{
-        //    oldMoveX = Input.GetAxis("Mouse X");
-        //    oldMoveY = Input.GetAxis("Mouse Y");
-
-        //}
-        ////if pressing the mouse and didnt just get in orbit pan planet
-        //if (Input.GetMouseButton(0)&&Time.time - panningStartTime > .1f){
-        //    rotYAxis = transform.eulerAngles.y + Input.GetAxis("Mouse X") * speed;
-        //    rotXAxis = transform.eulerAngles.x - Input.GetAxis("Mouse Y") * speed;
-        //}else if (!Input.GetMouseButton(0))
-        //{
-        //    oldMoveX = Mathf.Lerp(oldMoveX,.0f,Time.deltaTime);
-        //    oldMoveY =Mathf.Lerp(oldMoveY, .0f, Time.deltaTime);
-        //    rotYAxis = transform.eulerAngles.y + oldMoveX * speed;
-        //    rotXAxis = transform.eulerAngles.x - oldMoveY * speed;
-        //}
-        //else
-        //{
-        //    rotYAxis = transform.eulerAngles.y;
-        //    rotXAxis = transform.eulerAngles.x;
-        //}
-
-        //// Clamp rotation to avoid jiterry on the poles
-        //if (rotXAxis < 180)
-        //{
-        //    rotXAxis = Mathf.Min(rotXAxis, 90f);
-        //}
-        //else
-        //{
-        //    rotXAxis = Mathf.Max(rotXAxis, 270f);
-
-        //}
-        ////rotXAxis = Mathf.Min(Mathf.Max(rotXAxis, 80f);
-        ////if (rotXAxis < 0) rotXAxis = 360 + rotXAxis; // e.g. 360 + -40 = 320 which is the same rotation
-        //Quaternion toRotation = Quaternion.Euler(rotXAxis, rotYAxis, 0);
-        //Quaternion rotation = toRotation;
-
-        ////figure out what your distance should be (so that it's rotating around not just rotating)
-        //Vector3 negDistance = new Vector3(0, 0, -distance);
-        //Vector3 position = rotation * negDistance + planet.transform.position;
-        //transform.rotation = rotation;
-
-
-        ////just entered orbit: smooth
-        //if (Time.time - panningStartTime < .1) transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime*20f);
-        //transform.position = position;
-
-
-        ////zoom out
-        //GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, defaultSize, Time.deltaTime*2f);
-
 
     }
 
