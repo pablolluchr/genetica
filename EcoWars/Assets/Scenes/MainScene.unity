@@ -2768,6 +2768,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0876e4356812b479613139ee82cd99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  touchSpeed: {x: 0, y: 0}
+  touchDraggingThresholdSpeed: 2
+  touchSpeedCorrection: 1.6
 --- !u!1 &872341218
 GameObject:
   m_ObjectHideFlags: 0
@@ -3459,16 +3462,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planet: {fileID: 1473334474}
   desktopSpeed: 0.08
-  phoneSpeed: 0.001
-  freeRotationDamper: 3
-  distanceToPlanetCenter: 20.00004
-  defaultSize: 8.5
-  zoomedSize: 6.5
-  movingToPositionSize: 10
+  freeRotationDamper: 4
+  distanceToPlanetCenter: 12.96
+  defaultSize: 8
+  zoomedSize: 6
+  movingToPositionSize: 11
   cameraOffset: 20
   cameraMoveSpeed: 2.67
   panningStartTime: -Infinity
-  cameraState: 0
+  cameraState: 2
+  sceneWidth: 10
 --- !u!1 &1029659568
 GameObject:
   m_ObjectHideFlags: 0

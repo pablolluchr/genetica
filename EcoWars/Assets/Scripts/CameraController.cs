@@ -7,7 +7,6 @@ public class CameraController : MonoBehaviour
     public GameObject planet;
     [System.NonSerialized] public Transform target;
     [SerializeField] private float desktopSpeed = 5f;
-    [SerializeField] private float phoneSpeed = 0.3f;
     [SerializeField] private float freeRotationDamper = 0.1f;
     public float distanceToPlanetCenter;
     private float rotXAxis;
@@ -21,7 +20,7 @@ public class CameraController : MonoBehaviour
     public CameraState cameraState;
     private Vector3 targetPosition;
     private float moveToLocationSpeed;
-    private float speed;
+    public float sceneWidth=10f;
 
     private Queue<float> oldXSpeed;
     private Queue<float> oldYSpeed;
@@ -31,6 +30,11 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
+        //float unitsPerPixel = sceneWidth / Screen.width;
+        //defaultSize = defaultSize * unitsPerPixel;
+        //    / Screen.width* screenScaler;
+        //zoomedSize = zoomedSize / Screen.width* screenScaler;
+        //movingToPositionSize = movingToPositionSize / Screen.width* screenScaler;
         target = null;
         GetComponent<Camera>().orthographicSize = defaultSize;
         panningStartTime = -Mathf.Infinity;
@@ -80,7 +84,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (cameraState==CameraState.Panning)
         {
@@ -167,8 +171,10 @@ public class CameraController : MonoBehaviour
             if (Input.touches[0].deltaPosition.magnitude < 10000)
             {
                 //TODO: Make speeds relative to the number of pixels on screen
-                xSpeed = Input.touches[0].deltaPosition.x/Time.deltaTime*phoneSpeed;
-                ySpeed = Input.touches[0].deltaPosition.y/Time.deltaTime* phoneSpeed;
+                //xSpeed = Input.touches[0].deltaPosition.x/Time.deltaTime*phoneSpeed;
+                //ySpeed = Input.touches[0].deltaPosition.y/Time.deltaTime* phoneSpeed;
+                Vector2 speed = GameManager.gameManager.GetComponent<InputManager>().touchSpeed;
+                xSpeed = speed.x; ySpeed = speed.y;
             }
 
         }

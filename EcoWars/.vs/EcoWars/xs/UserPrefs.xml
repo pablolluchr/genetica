@@ -1,12 +1,14 @@
 ﻿<Properties StartupConfiguration="{1F1CD5C9-A757-1657-5877-464F954CFE62}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/AttributeSlider.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/InputManager.cs">
     <Files>
       <File FileName="Assets/Scripts/UI/SpeciesSelectionPanel.cs" Line="32" Column="73" />
-      <File FileName="Assets/Scripts/UI/SpeciesButton.cs" Line="23" Column="33" />
-      <File FileName="Assets/Scripts/UI/AttributesPanel.cs" Line="39" Column="19" />
-      <File FileName="Assets/Scripts/Species.cs" Line="8" Column="18" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="99" Column="92" />
-      <File FileName="Assets/Scripts/UI/AttributeSlider.cs" Line="39" Column="17" />
+      <File FileName="Assets/Scripts/UI/SpeciesButton.cs" />
+      <File FileName="Assets/Scripts/Species.cs" />
+      <File FileName="Assets/Scripts/UI/AttributeSlider.cs" />
+      <File FileName="Assets/Scripts/InputManager.cs" Line="68" Column="37" />
+      <File FileName="Assets/Scripts/CameraController.cs" />
+      <File FileName="Assets/Scripts/GameManager.cs" />
+      <File FileName="Assets/Scripts/GameManagerStateMachine.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,9 +16,8 @@
           <Node name="EcoWars" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="UI" expanded="True">
-                  <Node name="AttributeSlider.cs" selected="True" />
-                </Node>
+                <Node name="UI" expanded="True" />
+                <Node name="InputManager.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -26,7 +27,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="f944a2b0-02d5-4050-b1c9-445a6d87b1c2" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="e44728da-3721-4c02-9e61-5d2c4c743173" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/pablolluch/Documents/ecowars/EcoWars/Assets/Scripts/BioFuel.cs" relfile="Assets/Scripts/BioFuel.cs" line="25" column="1" />

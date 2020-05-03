@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
+    Vector2 lastTouch;
+    public Vector2 touchSpeed;
+    public float touchDraggingThresholdSpeed = 0.1f;
+    public float touchSpeedCorrection = 0.8f;
     // Update is called once per frame
     void Update() {
+
+        UpdateTouchSpeed();
         GameManager gm = GameManager.gameManager;
         gm.isDragging = isDragging();
         gm.isShortClick = isShortClick();
@@ -14,6 +20,23 @@ public class InputManager : MonoBehaviour {
             gm.selectedPoint = pointHitWithRaycast();
         }
         saveFrameInfo();
+    }
+
+    private void UpdateTouchSpeed()
+    {
+        if (Input.touchCount == 1)
+        {
+            Vector2 newTouchPosition = Input.GetTouch(0).position;
+            if (lastTouch == Vector2.zero) touchSpeed = Vector2.zero;
+            else touchSpeed = (newTouchPosition - lastTouch) / Screen.width / Time.deltaTime*touchSpeedCorrection;
+            lastTouch = newTouchPosition;
+
+        }
+        else
+        {
+            touchSpeed = new Vector2(0f, 0f);
+            lastTouch = Vector2.zero;
+        }
     }
 
     private Vector3 pointHitWithRaycast() {
@@ -34,7 +57,7 @@ public class InputManager : MonoBehaviour {
     private bool isShortClick() {
         GameManager gm = GameManager.gameManager;
         if (Input.touchCount == 1) {
-            return Input.GetTouch(0).phase == TouchPhase.Ended && !gm.wasDraggingInPrevFrame;
+            return Input.GetTouch(0).phase == TouchPhase.Ended && !gm.isDragging;
         } else {
             return Input.GetMouseButtonUp(0) && !gm.isDragging;
         }
@@ -42,9 +65,9 @@ public class InputManager : MonoBehaviour {
 
     private bool isDragging() {
         GameManager gm = GameManager.gameManager;
-        if (Input.touchCount == 1) {
-            if (Input.GetTouch(0).phase == TouchPhase.Moved) return true;
-            if (Input.GetTouch(0).phase == TouchPhase.Ended) return false;
+        if (Input.touchCount == 1) {;
+            return touchSpeed.magnitude > touchDraggingThresholdSpeed || gm.isDragging;
+            //if (Input.GetTouch(0).phase == TouchPhase.Ended) return false;
         }
         if (Input.GetMouseButton(0)) {
             if (gm.wasButtonDown) {
