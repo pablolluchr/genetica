@@ -29,6 +29,7 @@ public class SpeciesSelectionPanel : MonoBehaviour
                 GameObject button = Instantiate(speciesButton);
                 button.transform.SetParent(this.gameObject.transform);
                 button.GetComponent<SpeciesButton>().speciesName = species.speciesName;
+                button.GetComponent<SpeciesButton>().unitType = unitType;
                 button.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = species.speciesName;
                 RectTransform rt = button.GetComponent<RectTransform>();
                 rt.anchoredPosition = new Vector2(offset, 0);

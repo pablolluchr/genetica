@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
         previousSelectedSpecies = null;
 
         AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet");
-        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Hostile");
+        AddSpecies("Fast", 3f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Pet");
 
         GetSpecies("Tall").Spawn(unitPrefab);
         GetSpecies("Tall").Spawn(unitPrefab);

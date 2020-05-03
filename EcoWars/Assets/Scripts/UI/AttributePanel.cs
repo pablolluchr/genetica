@@ -40,6 +40,11 @@ public class AttributePanel : MonoBehaviour
         species.legsLength = legsLength;
 
         //TODO: recall all units to base
+        GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
+        GameObject[] filteredSpecied = UnitHelperFunctions.FilterSpecies(pets, speciesName);
+        foreach (GameObject pet in filteredSpecied) pet.GetComponent<Unit>().needsChange = true;
+
+        ClosePanel();
     }
 }
 

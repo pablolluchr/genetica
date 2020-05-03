@@ -1,14 +1,12 @@
 ﻿<Properties StartupConfiguration="{1F1CD5C9-A757-1657-5877-464F954CFE62}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CameraController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/AttributeSlider.cs">
     <Files>
-      <File FileName="Assets/Scripts/UI/SpeciesSelectionPanel.cs" Line="20" Column="37" />
-      <File FileName="Assets/Scripts/UI/AttributesPanel.cs" Line="42" Column="41" />
-      <File FileName="Assets/Scripts/Species.cs" Line="91" Column="2" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="221" Column="1" />
-      <File FileName="Assets/Scripts/UI/AttributeSlider.cs" Line="38" Column="23" />
-      <File FileName="Assets/Scripts/UnitActions.cs" Line="123" Column="34" />
-      <File FileName="Assets/Scripts/UI/SpeciesButton.cs" Line="27" Column="109" />
-      <File FileName="Assets/Scripts/CameraController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/SpeciesSelectionPanel.cs" Line="32" Column="73" />
+      <File FileName="Assets/Scripts/UI/SpeciesButton.cs" Line="23" Column="33" />
+      <File FileName="Assets/Scripts/UI/AttributesPanel.cs" Line="39" Column="19" />
+      <File FileName="Assets/Scripts/Species.cs" Line="8" Column="18" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="99" Column="92" />
+      <File FileName="Assets/Scripts/UI/AttributeSlider.cs" Line="39" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,8 +14,9 @@
           <Node name="EcoWars" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="UI" expanded="True" />
-                <Node name="CameraController.cs" selected="True" />
+                <Node name="UI" expanded="True">
+                  <Node name="AttributeSlider.cs" selected="True" />
+                </Node>
               </Node>
             </Node>
           </Node>

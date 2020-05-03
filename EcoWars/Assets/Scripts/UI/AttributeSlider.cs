@@ -14,7 +14,7 @@ public class AttributeSlider : MonoBehaviour
 
     private void Start()
     {
-
+        //todo: get values from species and available ranges and display them accordingly.
         slider = transform.Find("Slider").GetComponent<Slider>();
         attributePanel = transform.parent.GetComponentInParent<AttributePanel>();
         slider.onValueChanged.AddListener(ThresholdValue);
@@ -25,15 +25,18 @@ public class AttributeSlider : MonoBehaviour
         int clampedValue = (int) Mathf.Clamp(value, lowerThreshold, upperThreshold);
         slider.value = clampedValue;
 
-        //map that int value to the actual parameter value
-        float paramValue = (float)clampedValue;
-        
+        float paramValue;
+
         switch (attribute)
         {
             case Attribute.Speed:
+                //map that int value to the actual parameter value
+                paramValue = (float)clampedValue;
                 attributePanel.speed = paramValue;
                 break;
             case Attribute.LegsLength:
+                //map that int value to the actual parameter value
+                paramValue = (float)clampedValue / 4f ;
                 attributePanel.legsLength = paramValue;
                 break;
         }
