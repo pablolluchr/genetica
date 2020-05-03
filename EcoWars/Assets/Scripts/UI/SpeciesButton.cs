@@ -24,6 +24,7 @@ public class SpeciesButton : MonoBehaviour
             GameManager.gameManager.cameraController.StartPanning();
 
             //Show attribute panel for the species and hide everything else
+            GameManager.gameManager.attributePanel.GetComponent<AttributePanel>().speciesName = speciesName;
             GameManager.gameManager.attributePanel.SetActive(true);
             GameManager.gameManager.bottomControls.SetActive(false);
             transform.parent.gameObject.SetActive(false);
