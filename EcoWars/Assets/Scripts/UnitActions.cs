@@ -76,6 +76,13 @@ public static class UnitActions {
         }
     }
 
+    public static void SetIsSwimming(Unit unit) {
+        Vector3 closestWaterSource = UnitQueries.ClosestWaterSource(unit);
+        float distance = (closestWaterSource - unit.transform.position).magnitude;
+        if (distance <= 0) unit.swimming = true;
+        else unit.swimming = false;
+    }
+
     #endregion
 
     #region mating // ################################################################################
@@ -271,8 +278,12 @@ public static class UnitActions {
             Quaternion targetRotation = Quaternion.LookRotation(projectedDestination, Vector3.up);
             unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, targetRotation, Time.fixedDeltaTime * unit.rotationSpeed);
 
+            float movementMultiplier;
+            if (unit.swimming) movementMultiplier = unit.swimspeed;
+            else movementMultiplier = unit.walkspeed;
+
             //move forward in the local axis
-            unit.rb.MovePosition(unit.rb.position + unit.transform.forward * Time.fixedDeltaTime * unit.speed);
+            unit.rb.MovePosition(unit.rb.position + unit.transform.forward * Time.fixedDeltaTime * unit.speed * movementMultiplier);
 
         }
     }

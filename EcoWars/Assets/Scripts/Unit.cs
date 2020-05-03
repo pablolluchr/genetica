@@ -17,6 +17,8 @@ public class Unit : MonoBehaviour {
     public float areaRadius = 3f;
     public bool swimming;
     public bool needsChange;
+    public float swimspeed;
+    public float walkspeed;
 
     [Range(.5f, 3.0f)] public float speed = 1f;
     [Range(.0f, 1.0f)] public float legsLength = .2f;
@@ -159,6 +161,7 @@ public class Unit : MonoBehaviour {
     private void FixedUpdate() {
         UnitActions.SetThought(this);
         UnitActions.SetHealthBar(this);
+        UnitActions.SetIsSwimming(this);
 
         UnitActions.WanderIfDeadTarget(this);
 

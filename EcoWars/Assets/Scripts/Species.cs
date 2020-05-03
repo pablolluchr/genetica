@@ -12,7 +12,19 @@ public class Species
     public Vector3 areaCenter;
     public float areaRadius;
     public string tag;
-    public Species(string name, float speed, float legsLength, float bodySize, float headSize,Vector3 areaCenter, float areaRadius,string tag) {
+    public float swimspeed;
+    public float walkspeed;
+
+    public Species(string name,
+        float speed,
+        float legsLength,
+        float bodySize,
+        float headSize,
+        Vector3 areaCenter,
+        float areaRadius,
+        string tag,
+        float swimVsWalk
+    ) {
         this.speciesName = name;
         this.speed = speed;
         this.legsLength = legsLength;
@@ -21,7 +33,8 @@ public class Species
         this.areaCenter = areaCenter;
         this.tag = tag;
         this.areaRadius = areaRadius;
-
+        this.swimspeed = (1 - swimVsWalk) / 0.5f;
+        this.walkspeed = swimVsWalk / 0.5f;
     }
 
     public void Spawn(GameObject unitPrefab) {
@@ -43,6 +56,9 @@ public class Species
         unit.areaCenter = areaCenter;
         unit.areaRadius = areaRadius;
         unit.gameObject.tag = tag;
+        unit.swimspeed = swimspeed;
+        unit.walkspeed = walkspeed;
+
         if (tag == "Pet")
         {
             unit.enemyTag = "Hostile";
