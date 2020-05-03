@@ -59,6 +59,10 @@ public class GameManager : MonoBehaviour
     public Unit selectedUnit;
     
     public GMState gameState;
+    public GameObject attributePanel;
+    public GameObject bottomControls;
+    public GameObject speciesSelectionPanel;
+
     public List<Species> speciesList = new List<Species>();
 
     // to update a species first change the attributes in the species class using GetSpecies("Tall").speed = 100 etc.
@@ -201,7 +205,8 @@ public class GameManager : MonoBehaviour
 
         return selectedObject &&  (
             selectedObject.GetComponent<Food>() != null ||
-            selectedObject.gameObject.tag == "Base"
+            selectedObject.gameObject.tag == "Base" ||
+            selectedObject.gameObject.tag == "Genetium"
         );
     }
 
