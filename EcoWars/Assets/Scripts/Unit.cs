@@ -19,6 +19,7 @@ public class Unit : MonoBehaviour {
     public bool needsChange;
     public float swimspeed;
     public float walkspeed;
+    public int updateCycleCounter;
 
     [Range(.5f, 3.0f)] public float speed = 1f;
     [Range(.0f, 1.0f)] public float legsLength = .2f;
@@ -138,6 +139,7 @@ public class Unit : MonoBehaviour {
         //set selection color
 
         //set up transforms of bodyparts
+        updateCycleCounter = Random.Range(0, 50);
 
         legFL = transform.GetChild(0).Find("LegFLPivot");
         legFR = transform.GetChild(0).Find("LegFRPivot");
@@ -158,36 +160,41 @@ public class Unit : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update() {
-        UnitActions.SetThought(this);
-        UnitActions.SetHealthBar(this);
-        UnitActions.SetIsSwimming(this);
-
-        UnitActions.WanderIfDeadTarget(this);
-
-        UnitActions.HungerEffect(this);
-        UnitActions.ThirstEffect(this);
-
-        UnitActions.TurnHungryChance(this);
-        UnitActions.TurnThirstyChance(this);
-        UnitActions.TurnHornyChance(this);
-
-        //UnitActions.SetSwimming(this);
-
-        UnitActions.HealthRegenEffect(this);
-
-        unitState = UnitStateMachine.NextState(this);
-
-        UpdateLegsLenghtModel();
-        UpdateBodySizeModel();
-        UpdateHeadSizeModel();
-        UpdateMovingAnimation();
-
-        UnitActions.GravityEffect(this);
-    }
 
     private void FixedUpdate() {
-        if (!dead) { UnitActions.Move(this); }
+        updateCycleCounter = (updateCycleCounter + 1) % 50;
+        if (updateCycleCounter == 0)
+        {
+            UnitActions.SetThought(this);
+            UnitActions.SetHealthBar(this);
+            UnitActions.SetIsSwimming(this);
+
+            UnitActions.WanderIfDeadTarget(this);
+
+            UnitActions.HungerEffect(this);
+            UnitActions.ThirstEffect(this);
+
+            UnitActions.TurnHungryChance(this);
+            UnitActions.TurnThirstyChance(this);
+            UnitActions.TurnHornyChance(this);
+
+            //UnitActions.SetSwimming(this);
+
+            UnitActions.HealthRegenEffect(this);
+
+            unitState = UnitStateMachine.NextState(this);
+
+            UpdateLegsLenghtModel();
+            UpdateBodySizeModel();
+            UpdateHeadSizeModel();
+            UpdateMovingAnimation();
+
+        }
+
+        if (!dead) {
+            UnitActions.Move(this);
+        UnitActions.GravityEffect(this);
+        }
     }
     
 
