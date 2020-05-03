@@ -63,17 +63,29 @@ public class Species
 
     }
 
-    public List<Unit> UpdateAllUnitsOfSpecies()
-    {
-        List<Unit> unitsOfSpecies = new List<Unit>();
-        Unit[] allUnits = GameObject.FindObjectsOfType<Unit>();
-        foreach (var unit in allUnits)
-        {
-            if (updateUnit(unit)) unitsOfSpecies.Add(unit);
-
-            
-
+    public void UpdateAllUnits() {
+        GameObject[] unitObjects = GameObject.FindGameObjectsWithTag("Pet");
+        foreach (GameObject unitObject in unitObjects) {
+            Unit unit = unitObject.GetComponent<Unit>();
+            if (unit.species != speciesName) continue;
+            updateUnit(unit);
         }
-        return unitsOfSpecies;
+    }
+
+    public Unit[] GetAllUnits() {
+        List<Unit> units = new List<Unit>();
+        GameObject[] unitObjects = GameObject.FindGameObjectsWithTag("Pet");
+        foreach (GameObject unitObject in unitObjects) {
+            Unit unit = unitObject.GetComponent<Unit>();
+            if (unit.species != speciesName) continue;
+            units.Add(unit);
+        }
+        unitObjects = GameObject.FindGameObjectsWithTag("Hostile");
+        foreach (GameObject unitObject in unitObjects) {
+            Unit unit = unitObject.GetComponent<Unit>();
+            if (unit.species != speciesName) continue;
+            units.Add(unit);
+        }
+        return units.ToArray();
     }
 }

@@ -212,20 +212,18 @@ public static class UnitActions {
 
     #region selection // ################################################################################
 
-    public static void EnableAreaGraphics(Vector3 areaCenter) {
+    public static void EnableAreaGraphics(Species species) {
         GameManager.gameManager.areaGraphic.SetActive(true);
         GameManager.gameManager.areaGraphic.GetComponent<AreaGraphic>()
-            .SetPosition(areaCenter, GameManager.gameManager.planet.transform.position);
+            .SetPosition(species.areaCenter, GameManager.gameManager.planet.transform.position);
+        Unit[] units = species.GetAllUnits();
+        foreach (Unit unit in units) {
+            UnitActions.EnableSelectionGraphic(unit);
+        }
     }
 
     public static void DisableAreaGraphics() {
         GameManager.gameManager.areaGraphic.SetActive(false);
-    }
-
-    public static void EnableSelectionGraphic(Unit unit) {
-        unit.selectionGraphic.SetActive(true);
-        ResetSelectionGraphicPosition(unit);
-
     }
 
     public static void ResetSelectionGraphicPosition(Unit unit) {
@@ -237,8 +235,24 @@ public static class UnitActions {
         if (hit) unit.selectionGraphic.transform.position = hitInfo.point;
     }
 
+    public static void EnableSelectionGraphic(Unit unit) {
+        unit.selectionGraphic.SetActive(true);
+        ResetSelectionGraphicPosition(unit);
+    }
+
     public static void DisableSelectionGraphic(Unit unit) {
         unit.selectionGraphic.SetActive(false);
+    }
+
+    public static void DisableAllSelectionGraphics() {
+        GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
+        GameObject[] hostiles = GameObject.FindGameObjectsWithTag("Hostile");
+        foreach (GameObject pet in pets) {
+            DisableSelectionGraphic(pet.GetComponent<Unit>());
+        }
+        foreach (GameObject hostile in hostiles) {
+            DisableSelectionGraphic(hostile.GetComponent<Unit>());
+        }
     }
 
     #endregion

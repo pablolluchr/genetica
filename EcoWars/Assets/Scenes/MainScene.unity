@@ -2698,6 +2698,7 @@ GameObject:
   m_Component:
   - component: {fileID: 858503912}
   - component: {fileID: 858503911}
+  - component: {fileID: 858503913}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2717,21 +2718,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e857f6a622148c080f6ce2e5910219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bioFuel: 0
+  selectedObject: {fileID: 0}
+  selectedPoint: {x: 0, y: 0, z: 0}
   cameraController: {fileID: 963194229}
-  dummyTargets: {fileID: 0}
   units: {fileID: 375400045}
   unitPrefab: {fileID: 7111793131819944809, guid: fdade351b8732426fa1bddd5ec412a30,
     type: 3}
   areaGraphic: {fileID: 1400431782}
   planet: {fileID: 8296172668393341202}
   sun: {fileID: 705507993}
+  selectedUnit: {fileID: 0}
+  gameState: 0
   attributePanel: {fileID: 1725717929}
   bottomControls: {fileID: 1226950523}
   speciesSelectionPanel: {fileID: 885826460}
-  gameState: 0
   recallSpecies: 
+  lastMouseX: 0
+  lastMouseY: 0
   shortClickDuration: 0.3
+  isDragging: 0
+  isShortClick: 0
+  wasDraggingInPrevFrame: 0
   wasButtonDown: 0
   selectedSpecies: 
   previousSelectedSpecies: 
@@ -2749,6 +2756,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &858503913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858503910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd0876e4356812b479613139ee82cd99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &872341218
 GameObject:
   m_ObjectHideFlags: 0
@@ -5187,6 +5206,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1686593978}
   m_CullTransparentMesh: 0
+--- !u!1 &1679700137 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3845486806161765059, guid: fe421970b8448467f81c2ae54d539d71,
+    type: 3}
+  m_PrefabInstance: {fileID: 376796554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1679700138
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679700137}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1696593927 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: ec239d67741b14e3390356863c49b5c7,
