@@ -59,6 +59,11 @@ public class Species
         unit.swimspeed = swimspeed;
         unit.walkspeed = walkspeed;
 
+        //update models
+        unit.UpdateLegsLenghtModel();
+        unit.UpdateBodySizeModel();
+        unit.UpdateHeadSizeModel();
+
         if (tag == "Pet")
         {
             unit.enemyTag = "Hostile";

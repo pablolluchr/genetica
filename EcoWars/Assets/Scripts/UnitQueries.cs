@@ -27,7 +27,8 @@ public static class UnitQueries {
     // null if no food in viewing range
     public static GameObject ClosestFoodInView(Unit unit) {
         GameObject[] foods = GameObject.FindGameObjectsWithTag("Food");
-        return UnitHelperFunctions.GetClosestInView(unit, foods);
+        GameObject[] nonEmptyFoods = UnitHelperFunctions.FilterEmptyFoods(foods);
+        return UnitHelperFunctions.GetClosestInView(unit, nonEmptyFoods);
     }
 
     #endregion

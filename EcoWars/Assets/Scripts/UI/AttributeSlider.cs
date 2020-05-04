@@ -45,5 +45,4 @@ public class AttributeSlider : MonoBehaviour
 
     }
 
-    //todo: for performance add and remove listeners on enable and disable.
 }

@@ -33,8 +33,6 @@ public class SpeciesSelectionPanel : MonoBehaviour
                 button.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = species.speciesName;
                 RectTransform rt = button.GetComponent<RectTransform>();
                 rt.anchoredPosition = new Vector2(offset, 0);
-                //rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, offset, rt.rect.width);
-                //rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, rt.rect.height);
                 offset += 125;
             }
 

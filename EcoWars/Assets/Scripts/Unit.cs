@@ -20,7 +20,7 @@ public class Unit : MonoBehaviour {
     public float swimspeed;
     public float walkspeed;
     public int updateCycleCounter;
-
+  
     [Range(.5f, 3.0f)] public float speed = 1f;
     [Range(.0f, 1.0f)] public float legsLength = .2f;
     [Range(.0f, 1.0f)] public float bodySize = .1f;
@@ -75,7 +75,6 @@ public class Unit : MonoBehaviour {
     [Header("Harvesting Attributes")]
     public float carryingCapacity;
     public float currentGenetiumAmount;
-    public float genetiumDetectionRange;
 
     [Header("Animation")]
     public float walkAnimationSpeed = 10f;
@@ -122,7 +121,6 @@ public class Unit : MonoBehaviour {
     [System.NonSerialized] public Vector3 areaCenter;
 
 
-
     // void (modifier) functions at the top #########################################################################
     //TODO: add spaces and headers to variables
 
@@ -139,7 +137,6 @@ public class Unit : MonoBehaviour {
         //set selection color
 
         //set up transforms of bodyparts
-        updateCycleCounter = Random.Range(0, 50);
 
         legFL = transform.GetChild(0).Find("LegFLPivot");
         legFR = transform.GetChild(0).Find("LegFRPivot");
@@ -162,38 +159,29 @@ public class Unit : MonoBehaviour {
 
 
     private void FixedUpdate() {
-        updateCycleCounter = (updateCycleCounter + 1) % 50;
-        if (updateCycleCounter == 0)
-        {
-            UnitActions.SetThought(this);
-            UnitActions.SetHealthBar(this);
-            UnitActions.SetIsSwimming(this);
+        UnitActions.SetThought(this);
+        UpdateMovingAnimation();
 
-            UnitActions.WanderIfDeadTarget(this);
 
-            UnitActions.HungerEffect(this);
-            UnitActions.ThirstEffect(this);
+        UnitActions.SetHealthBar(this); //no longer scales the value
+        UnitActions.SetIsSwimming(this);
 
-            UnitActions.TurnHungryChance(this);
-            UnitActions.TurnThirstyChance(this);
-            UnitActions.TurnHornyChance(this);
+        UnitActions.WanderIfDeadTarget(this);
 
-            //UnitActions.SetSwimming(this);
+        UnitActions.HungerEffect(this);
+        UnitActions.ThirstEffect(this);
 
-            UnitActions.HealthRegenEffect(this);
+        UnitActions.TurnHungryChance(this);
+        UnitActions.TurnThirstyChance(this);
+        UnitActions.TurnHornyChance(this);
 
-            unitState = UnitStateMachine.NextState(this);
+        UnitActions.HealthRegenEffect(this);
 
-            UpdateLegsLenghtModel();
-            UpdateBodySizeModel();
-            UpdateHeadSizeModel();
-            UpdateMovingAnimation();
-
-        }
+        unitState = UnitStateMachine.NextState(this);
 
         if (!dead) {
             UnitActions.Move(this);
-        UnitActions.GravityEffect(this);
+            UnitActions.GravityEffect(this);
         }
     }
     

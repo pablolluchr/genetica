@@ -28,20 +28,20 @@ public static class UnitStateMachine {
 
         switch (unit.unitState) {
             case UnitState.Wander: {
-                if (UnitQueries.IsThreatened(unit)) {
-                    if (UnitQueries.ShouldBeAggressive(unit)) {
-                        return UnitState.TargetEnemy;
-                    } else {
-                        return UnitState.Flee;
+                    if (UnitQueries.IsThreatened(unit)){
+                        if (UnitQueries.ShouldBeAggressive(unit)){
+                            return UnitState.TargetEnemy;
+                        }else{
+                            return UnitState.Flee;
+                        }
                     }
-                }
-                if (UnitQueries.IsHungry(unit) && UnitQueries.SeesFood(unit)) { return UnitState.TargetFood; }
-                if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
-                if (UnitQueries.NeedsChange(unit)) { return UnitState.TargetBase; }
-                if (UnitQueries.IsHorny(unit) && UnitQueries.SeesMate(unit)) { return UnitState.TargetMate; }
-                if (UnitQueries.SeesGenetium(unit) && !UnitQueries.IsStorageFull(unit)) { return UnitState.TargetGenetium; }
-                if (UnitQueries.IsCarryingGenetium(unit)) { return UnitState.TargetBase; }
-                UnitActions.Wander(unit);
+                    if (UnitQueries.IsHungry(unit) && UnitQueries.SeesFood(unit)) { return UnitState.TargetFood; }
+                    if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
+                    if (UnitQueries.NeedsChange(unit)) { return UnitState.TargetBase; }
+                    if (UnitQueries.IsHorny(unit) && UnitQueries.SeesMate(unit)) { return UnitState.TargetMate; }
+                    if (UnitQueries.SeesGenetium(unit) && !UnitQueries.IsStorageFull(unit)) { return UnitState.TargetGenetium; }
+                    if (UnitQueries.IsCarryingGenetium(unit)) { return UnitState.TargetBase; }
+                    UnitActions.Wander(unit);
                 break;
             }
             case UnitState.TargetWater: {
@@ -114,7 +114,8 @@ public static class UnitStateMachine {
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                     if (!UnitQueries.IsNearTarget(unit,true)) { return UnitState.Wander; }
                     if (UnitQueries.IsStorageFull(unit)) { return UnitState.Wander; }
-                UnitActions.Harvest(unit);
+                    if (!UnitQueries.SeesGenetium(unit)) { return UnitState.Wander; }
+                    UnitActions.Harvest(unit);
                 break;
             }
             case UnitState.Attack: {

@@ -6,7 +6,7 @@ public static class UnitActions {
     //Unit behaviour functions that change values of the unit
 
     #region hunger // ##################################################################################
-
+    
     public static void HungerEffect(Unit unit) {
         if (unit.amountFed <= 0) {
             UnitActions.TakeDamage(unit, unit.hungerDamage * Time.deltaTime);
@@ -31,7 +31,7 @@ public static class UnitActions {
     public static void TurnFed(Unit unit) {
         unit.hungry = false;
     }
-
+    
     public static void TurnHungryChance(Unit unit) {
         float random = Random.Range(0f, 1f);
         float hungerRatio = (unit.amountFed / unit.maxFed);
@@ -44,7 +44,7 @@ public static class UnitActions {
     #endregion
 
     #region thirst // ################################################################################
-
+   
     public static void ThirstEffect(Unit unit) {
         if (unit.amountQuenched <= 0) {
             UnitActions.TakeDamage(unit, unit.thirstDamage * Time.deltaTime);
@@ -86,7 +86,7 @@ public static class UnitActions {
     #endregion
 
     #region mating // ################################################################################
-
+  
     public static void TargetMate(Unit unit) {
         GameObject closestMate = UnitQueries.ClosestMateInView(unit);
         if (closestMate == null) return;
@@ -142,8 +142,9 @@ public static class UnitActions {
         if (unit.currentGenetiumAmount > unit.carryingCapacity) return;
         Genetium genetium = unit.GetComponent<Target>().targetGameObject.GetComponent<Genetium>();
         if (genetium == null) return;
-        genetium.currentAmount -= genetium.transferRate * Time.deltaTime;
-        unit.currentGenetiumAmount += genetium.transferRate * Time.deltaTime;
+        float amountHarvested = Mathf.Min(genetium.transferRate * Time.deltaTime, genetium.currentAmount);
+        genetium.currentAmount -= amountHarvested;
+        unit.currentGenetiumAmount += amountHarvested;
     }
 
     #endregion
@@ -164,7 +165,6 @@ public static class UnitActions {
             (position - GameManager.gameManager.planet.transform.position), out hitInfo,
             Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
         if (hit) unit.GetComponent<Target>().Change(hitInfo.point);
-        else Debug.Log("not hit");
     }
 
     public static void Attack(Unit unit) {
@@ -207,12 +207,12 @@ public static class UnitActions {
     public static void TakeDamage(Unit unit, float damage) {
         if (unit.dead) return;
         unit.health -= damage;
+        unit.healthbar.size = new Vector2(unit.health / unit.maxHealth * 9f, 1);
         if (unit.health <= 0) UnitActions.Die(unit);
     }
 
     public static void SetHealthBar(Unit unit) {
         unit.healthbarPivot.transform.rotation = Camera.main.transform.rotation;
-        unit.healthbar.size = new Vector2(unit.health / unit.maxHealth * 9f, 1);
     }
 
     #endregion
@@ -292,9 +292,10 @@ public static class UnitActions {
         unit.GetComponent<Target>().Change(target);
         unit.unitState = UnitState.Override;
 
-        //display target selection animation.
-        MonoBehaviour.Instantiate(unit.targetGraphic).GetComponent<TargetGraphic>()
-            .SetPosition(target, GameManager.gameManager.planet.transform.position);
+        //TODO: only display selection animation when a single unit is selected (not habitat)
+        ////display target selection animation.
+        //MonoBehaviour.Instantiate(unit.targetGraphic).GetComponent<TargetGraphic>()
+        //    .SetPosition(target, GameManager.gameManager.planet.transform.position);
     }
 
     //Find a random point in planet's surface 
@@ -310,8 +311,6 @@ public static class UnitActions {
             Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
         if (hit) {
             unit.GetComponent<Target>().Change(hitInfo.point);
-        } else {
-            Debug.Log("not hit");
         }
 
         unit.wanderTimeStamp = Time.time;
