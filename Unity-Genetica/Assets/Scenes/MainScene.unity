@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
+  m_AmbientSkyColor: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 1}
   m_AmbientEquatorColor: {r: 0, g: 0.5999999, b: 1, a: 1}
   m_AmbientGroundColor: {r: 1, g: 0.6666667, b: 0, a: 1}
   m_AmbientIntensity: 3.47
@@ -3477,9 +3477,9 @@ MonoBehaviour:
   desktopSpeed: 0.08
   freeRotationDamper: 4
   distanceToPlanetCenter: 12.96
-  defaultSize: 8
+  defaultSize: 9.5
   zoomedSize: 6
-  movingToPositionSize: 11
+  movingToPositionSize: 12
   cameraOffset: 20
   cameraMoveSpeed: 2.67
   panningStartTime: -Infinity
