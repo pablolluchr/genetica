@@ -76,12 +76,6 @@ public static class UnitActions {
         }
     }
 
-    public static void SetIsSwimming(Unit unit) {
-        Vector3 closestWaterSource = UnitQueries.ClosestWaterSource(unit);
-        float distance = (closestWaterSource - unit.transform.position).magnitude;
-        if (distance <= 0) unit.swimming = true;
-        else unit.swimming = false;
-    }
 
     #endregion
 
@@ -173,7 +167,7 @@ public static class UnitActions {
         if (unit.GetComponent<Target>().targetGameObject == null) return;
         Unit enemy = unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>();
         UnitActions.TakeDamage(enemy, unit.attackDamage);
-        enemy.GetComponent<Rigidbody>().AddForce(unit.transform.forward * 20, ForceMode.Impulse);
+        enemy.GetComponent<Rigidbody>().AddForce(unit.transform.forward * unit.attackForce, ForceMode.Impulse);
     }
 
     public static void Flee(Unit unit) {
@@ -292,10 +286,12 @@ public static class UnitActions {
         unit.GetComponent<Target>().Change(target);
         unit.unitState = UnitState.Override;
 
-        //TODO: only display selection animation when a single unit is selected (not habitat)
-        ////display target selection animation.
-        //MonoBehaviour.Instantiate(unit.targetGraphic).GetComponent<TargetGraphic>()
-        //    .SetPosition(target, GameManager.gameManager.planet.transform.position);
+    }
+
+    public static void ShowTargetGraphic(Unit unit)
+    {
+        MonoBehaviour.Instantiate(unit.targetGraphic).GetComponent<TargetGraphic>()
+            .SetPosition(unit.GetComponent<Target>().targetVector3, GameManager.gameManager.planet.transform.position);
     }
 
     //Find a random point in planet's surface 
@@ -334,18 +330,6 @@ public static class UnitActions {
         GameManager.gameManager.planet.GetComponent<GravityAttractor>().Attract(unit.transform);
     }
 
-    //public static void SetSwimming(Unit unit) {
-
-    //    GameObject[] waterPoints = GameObject.Fin("Water");
-    //    foreach (GameObject waterPoint in waterPoints) {
-    //        float distance = (unit.transform.position - waterPoint.transform.position).magnitude;
-    //        if (distance < waterPoint.GetComponent<WaterPoint>().radius) {
-    //            unit.swimming = true;
-    //            return;
-    //        }
-    //    }
-    //    unit.swimming = false;
-    //}
 
     public static void SetThought(Unit unit) {
         unit.thoughtPivot.transform.rotation = Camera.main.transform.rotation;

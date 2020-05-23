@@ -1268,6 +1268,7 @@ MonoBehaviour:
   needsChange: 0
   swimspeed: 0.5
   walkspeed: 1
+  updateCycleCounter: 0
   speed: 1
   legsLength: 0.2
   bodySize: 0.2
@@ -1307,7 +1308,6 @@ MonoBehaviour:
   aggression: 1
   carryingCapacity: 10
   currentGenetiumAmount: 0
-  genetiumDetectionRange: 4
   walkAnimationSpeed: 10
   eatAnimationSpeed: 1
   animationTilt: 10

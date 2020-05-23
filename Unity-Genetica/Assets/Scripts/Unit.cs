@@ -21,7 +21,7 @@ public class Unit : MonoBehaviour {
     public float walkspeed;
     public int updateCycleCounter;
   
-    [Range(.5f, 3.0f)] public float speed = 1f;
+    [Range(.01f, 3.0f)] public float speed = 1f;
     [Range(.0f, 1.0f)] public float legsLength = .2f;
     [Range(.0f, 1.0f)] public float bodySize = .1f;
     [Range(.0f, 1.0f)] public float headSize = .2f;
@@ -71,6 +71,7 @@ public class Unit : MonoBehaviour {
     public float attackRate;
     public float lastAttacked = 0;
     public float aggression;
+    public int attackForce;
     
     [Header("Harvesting Attributes")]
     public float carryingCapacity;
@@ -117,26 +118,17 @@ public class Unit : MonoBehaviour {
     public GameObject selectionGraphic;
     public GameObject targetGraphic;
     public Vector4 selectionColor;
+    private Animator animator;
+
+    private int fixedUpdateCounter;
 
     [System.NonSerialized] public Vector3 areaCenter;
 
-
-    // void (modifier) functions at the top #########################################################################
-    //TODO: add spaces and headers to variables
-
-    public void Start() {
-        if (gameObject.tag == "Pet") {
-            healthbar.color = healthbarPetColor;
-        } else {
-            healthbar.color = healthbarHostileColor;
-        }
-    }
-
     public void Awake() {
+        if (gameObject.tag == "Pet") healthbar.color = healthbarPetColor;
+        else healthbar.color = healthbarHostileColor;
 
-        //set selection color
 
-        //set up transforms of bodyparts
 
         legFL = transform.GetChild(0).Find("LegFLPivot");
         legFR = transform.GetChild(0).Find("LegFRPivot");
@@ -150,50 +142,57 @@ public class Unit : MonoBehaviour {
         isBeingOverride = false;
         amountFed = maxFed;
         wanderTimeStamp = -Mathf.Infinity;
-        destinationGizmo = transform.Find("Destination");
+        destinationGizmo = transform.Find("DestinationGizmo");
 
         GetComponent<Rigidbody>().useGravity = false; //deactivate built-in downwards gravity
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         rb = GetComponent<Rigidbody>();
+        animator = transform.GetChild(0).GetComponent<Animator>();
+
+        fixedUpdateCounter = Random.Range(0, 15);
     }
 
 
-    private void FixedUpdate() {
-        UnitActions.SetThought(this);
-        UpdateMovingAnimation();
 
-
-        UnitActions.SetHealthBar(this); //no longer scales the value
-        UnitActions.SetIsSwimming(this);
-
-        UnitActions.WanderIfDeadTarget(this);
-
-        UnitActions.HungerEffect(this);
-        UnitActions.ThirstEffect(this);
-
-        UnitActions.TurnHungryChance(this);
-        UnitActions.TurnThirstyChance(this);
-        UnitActions.TurnHornyChance(this);
-
-        UnitActions.HealthRegenEffect(this);
-
-        unitState = UnitStateMachine.NextState(this);
-
-        if (!dead) {
+    private void FixedUpdate()
+    {
+        //if (transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Renderer>().isVisible)
+        //    transform.GetChild(0).GetComponent<Animator>().enabled = true;
+        //else transform.GetChild(0).GetComponent<Animator>().enabled = false;
+        
+        if (!dead)
+        {
             UnitActions.Move(this);
             UnitActions.GravityEffect(this);
+            UnitActions.SetThought(this);
+            UnitActions.SetHealthBar(this);
+        }
+
+        fixedUpdateCounter = (fixedUpdateCounter + 1) % 15;
+        if (fixedUpdateCounter == 0) {
+
+            UpdateMovingAnimation();
+            UnitActions.WanderIfDeadTarget(this);
+            UnitActions.HungerEffect(this);
+            UnitActions.ThirstEffect(this);
+            UnitActions.TurnHungryChance(this);
+            UnitActions.TurnThirstyChance(this);
+            UnitActions.TurnHornyChance(this);
+            UnitActions.HealthRegenEffect(this);
+            unitState = UnitStateMachine.NextState(this);
         }
     }
-    
 
-   /// <summary>
-   /// Physical changes
-   /// </summary>
+
+    /// <summary>
+    /// Physical changes
+    /// </summary>
 
 
     //Physically change legs length
     public void UpdateLegsLenghtModel()
     {
+        return;
         float minLength = 0.6f;
         float maxLength = 5f;
 
@@ -245,6 +244,7 @@ public class Unit : MonoBehaviour {
     //Physically change size of body
     public void UpdateBodySizeModel()
     {
+        return;
         float minSize = 0.8f;
         float maxSize = 1.4f;
 
@@ -257,6 +257,7 @@ public class Unit : MonoBehaviour {
     //Physically change size of head
     public void UpdateHeadSizeModel()
     {
+        return;
         float minSize = 1f;
         float maxSize = 3.0f;
 
@@ -265,33 +266,42 @@ public class Unit : MonoBehaviour {
             headSize * (maxSize - minSize) + minSize,
             headSize * (maxSize - minSize) + minSize), Time.deltaTime * 2);
     }
+    //check water to start swimming
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Water") swimming = true;
+    }
 
-    //toggles from walking to galloping based on the speed
+    //check for water to stop swimming
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Water") swimming = false;
+    }
+
+
     public void UpdateMovingAnimation()
     {
-        if (unitState==UnitState.Harvest) transform.GetChild(0).GetComponent<Animator>().SetBool("isCollectingGenetium", true);
-        else transform.GetChild(0).GetComponent<Animator>().SetBool("isCollectingGenetium", false);
+        if (unitState==UnitState.Harvest) animator.SetBool("isCollectingGenetium", true);
+        else animator.SetBool("isCollectingGenetium", false);
 
-        if (unitState == UnitState.Drink || unitState == UnitState.Eat) transform.GetChild(0).
-                GetComponent<Animator>().SetBool("isEating-Drinking", true);
-        else transform.GetChild(0).GetComponent<Animator>().SetBool("isEating-Drinking", false);
+        //start eating
+        if (unitState == UnitState.Drink || unitState == UnitState.Eat) animator.SetBool("isEating-Drinking", true);
+        else animator.SetBool("isEating-Drinking", false);
 
-        if (speed >= gallopingThreshold)
-        {
-            //gallop
-            transform.GetChild(0).GetComponent<Animator>().SetBool("isGalloping", true);
-            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", false);
+        //start swimming
+        if (swimming){
+            if (!animator.GetBool("isSwimming"))
+            {
+                animator.SetBool("isSwimming", true);
+                animator.SetBool("isWalking", false);
+            }
+        }
+        //start walkiing
+        else if (!animator.GetBool("isWalking")){
+                transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", true);
+                transform.GetChild(0).GetComponent<Animator>().SetBool("isSwimming", false);
 
         }
-        else
-        {
-            //walk
-            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", true);
-            transform.GetChild(0).GetComponent<Animator>().SetBool("isGalloping", false);
-
-
-        }
-        return;
        
     }
 }

@@ -76,14 +76,6 @@ public class CameraController : MonoBehaviour
         targetPosition = position;
     }
 
-    private void FixedUpdate()
-    {
-        if (cameraState == CameraState.Following)
-        {
-            FollowTarget();
-        }
-    }
-
     void LateUpdate()
     {
         if (cameraState==CameraState.Panning)
@@ -95,8 +87,18 @@ public class CameraController : MonoBehaviour
 
             MoveToLocation();
         }
+        //TODO: stop moving if target didnt change position (for when focusing objects)
         
 
+
+
+    }
+    private void FixedUpdate()
+    {
+        if (cameraState == CameraState.Following)
+        {
+            FollowTarget();
+        }
     }
     public void ResetMovingToSpeed()
     {
@@ -241,9 +243,9 @@ public class CameraController : MonoBehaviour
 
         Vector3 cameraPosition = (planet.transform.position + (target.position - planet.transform.position).normalized * cameraOffset);
 
-        //transform.position = cameraPosition;
 
-        transform.position = Vector3.Lerp(transform.position, cameraPosition, Time.deltaTime * cameraMoveSpeed);
+        //if ((cameraPosition-transform.position).magnitude>1f)
+        transform.position=Vector3.Lerp(transform.position, cameraPosition, Time.fixedDeltaTime * cameraMoveSpeed);
 
         //rotate to look at position
         Quaternion targetRotation = Quaternion.LookRotation(planet.transform.position - transform.position);

@@ -1,0 +1,34 @@
+﻿<Properties StartupConfiguration="{4C7EB0CC-8906-19E4-8AD1-8C53653A637D}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Unit.cs" Line="201" Column="1" />
+      <File FileName="../../../../../../Applications/2019.3.13f1/Unity.app/Contents/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Target.cs" Line="8" Column="33" />
+      <File FileName="Assets/Scripts/Species.cs" Line="18" Column="12" />
+      <File FileName="Assets/Scripts/UnitActions.cs" Line="291" Column="41" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="116" Column="46" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Unity-Genetica" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="GameManager.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="36e24d7b-413d-476b-92a5-ef1d0bf7453c" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/pablolluch/Documents/UnityProjects/Genetica/Unity-Genetica/Assets/Scripts/UnitQueries.cs" relfile="Assets/Scripts/UnitQueries.cs" line="64" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f81ade28363cc4151aa8fd3abcba3c65
+guid: 6430777b0b5dc4786ad61c9688516cd5
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
@@ -31,7 +31,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1
@@ -61,12 +61,12 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 0
-    normalImportMode: 0
+    normalImportMode: 1
     tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
-    normalSmoothingSource: 2
+    normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 1
   humanDescription:

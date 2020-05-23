@@ -4,7 +4,12 @@ using UnityEngine;
 
 public static class UnitQueries {
 
-    // unit behaviour query functions here (not allowed to modify state) 
+    // unit behaviour query functions here (not allowed to modify state)
+
+    public static bool AreaGraphicsState()
+    {
+        return GameManager.gameManager.areaGraphic.activeSelf;
+    }
 
     #region hunger // ################################################################################
 
@@ -59,14 +64,43 @@ public static class UnitQueries {
         Vector3 closestSource = Vector3.zero;
         float closestDistance = Mathf.Infinity;
         foreach (var waterSource in waterSources) {
-            Vector3 waterSourcePosition = waterSource.GetComponent<Collider>().ClosestPoint(unit.transform.position);
+            Vector3 waterSourcePosition = NearestVertexTo(waterSource, unit.transform.position);
+
+            //Vector3 waterSourcePosition = waterSource.GetComponent<Collider>().ClosestPoint(unit.transform.position);
             if ((waterSourcePosition - unit.transform.position).magnitude < closestDistance) {
                 closestDistance = (waterSourcePosition - unit.transform.position).magnitude;
                 closestSource = waterSourcePosition;
             }
         }
         if (closestSource == Vector3.zero) throw new System.Exception("No water found");
+        unit.transform.Find("ClosestWater").transform.position = closestSource;
+
         return closestSource;
+    }
+
+    public static Vector3 NearestVertexTo(GameObject source, Vector3 point)
+    {
+        // convert point to local space
+        point = source.transform.InverseTransformPoint(point);
+
+
+        Mesh mesh = source.GetComponent<MeshFilter>().mesh;
+        float minDistanceSqr = Mathf.Infinity;
+        Vector3 nearestVertex = Vector3.zero;
+        // scan all vertices to find nearest
+        foreach (Vector3 vertex in mesh.vertices)
+        {
+            Vector3 diff = point - vertex;
+            float distSqr = diff.sqrMagnitude;
+            if (distSqr < minDistanceSqr)
+            {
+                minDistanceSqr = distSqr;
+                nearestVertex = vertex;
+            }
+        }
+        // convert nearest vertex back to world space
+        return source.transform.TransformPoint(nearestVertex);
+
     }
 
     #endregion

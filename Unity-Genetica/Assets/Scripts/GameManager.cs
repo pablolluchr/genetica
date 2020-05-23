@@ -81,6 +81,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+
+
         if (gameManager != null && gameManager != this) {
             Destroy(this.gameObject);
         }
@@ -96,134 +98,22 @@ public class GameManager : MonoBehaviour
         previousSelectedSpecies = null;
 
         //AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet", 0.5f);
-        AddSpecies("Fast", 2.5f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Pet", 0.7f);
+        AddSpecies("Fast", 1.5f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Pet", 0.7f);
+        //AddSpecies("FastEnemy", 1.5f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Hostile", 0.7f);
 
         //GetSpecies("Tall").Spawn(unitPrefab);
         //GetSpecies("Tall").Spawn(unitPrefab);
         //GetSpecies("Tall").Spawn(unitPrefab);
         //GetSpecies("Tall").Spawn(unitPrefab);
         //GetSpecies("Tall").Spawn(unitPrefab);
-        
+
+        GetSpecies("Fast").Spawn(unitPrefab);
+        //GetSpecies("FastEnemy").Spawn(unitPrefab);
         GetSpecies("Fast").Spawn(unitPrefab);
         GetSpecies("Fast").Spawn(unitPrefab);
         GetSpecies("Fast").Spawn(unitPrefab);
         GetSpecies("Fast").Spawn(unitPrefab);
         GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
         //GetSpecies("Fast").Spawn(unitPrefab);
         //GetSpecies("Fast").Spawn(unitPrefab);
         //GetSpecies("Fast").Spawn(unitPrefab);
@@ -259,28 +149,40 @@ public class GameManager : MonoBehaviour
         return null;
     }
     
-    void Update() {
+    void FixedUpdate() {
         gameState = GameManagerStateMachine.NextState();
     }
 
     #region ACTIONS ##############################################################################
 
+    public bool NewUnitSelected()
+    {
+        return selectedUnit != selectedObject.GetComponent<Unit>();
+    }
     public void SetTargetsToNull() {
         selectedObject = null;
         selectedPoint = Vector3.zero;
     }
 
     public void TargetUnit() {
-        UnitActions.DisableAreaGraphics();
-        UnitActions.DisableAllSelectionGraphics();
-        UnitActions.EnableSelectionGraphic(selectedObject.GetComponent<Unit>());
         cameraController.StartFollowing(selectedObject.transform);
         selectedUnit = selectedObject.GetComponent<Unit>();
     }
 
-    public void OverrideUnit() {
-        if (selectedUnit.tag == "Pet") UnitActions.OverrideTarget(selectedUnit, selectedPoint);
+    public void SetTargetUnitGraphics()
+    {
+        UnitActions.DisableAreaGraphics();
         UnitActions.DisableAllSelectionGraphics();
+        UnitActions.EnableSelectionGraphic(selectedObject.GetComponent<Unit>());
+    }
+
+
+    public void OverrideUnit() {
+        if (selectedUnit.tag == "Pet") {
+            UnitActions.OverrideTarget(selectedUnit, selectedPoint);
+            UnitActions.ShowTargetGraphic(selectedUnit);
+            UnitActions.DisableAllSelectionGraphics();
+        }
         FreePan();
     }
 

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Destination : MonoBehaviour
 {
+    public Color color;
     void OnDrawGizmos() {
-        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        Gizmos.color = color;
         Gizmos.DrawCube(transform.position, new Vector3(1, 1, 1));
     }
 }
