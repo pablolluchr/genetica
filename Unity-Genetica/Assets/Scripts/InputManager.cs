@@ -1,18 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 public class InputManager : MonoBehaviour {
 
     Vector2 lastTouch;
     public Vector2 touchSpeed;
     public float touchDraggingThresholdSpeed = 0.1f;
     public float touchSpeedCorrection = 0.8f;
+    private GameManager gm;
+    public bool blockedByUI;
     // Update is called once per frame
+    private void Start()
+    {
+         gm = GameManager.gameManager;
+
+    }
     void Update() {
+        if (IsPointerOverUIObject()) return;
 
         UpdateTouchSpeed();
-        GameManager gm = GameManager.gameManager;
         gm.isDragging = isDragging();
         gm.isShortClick = isShortClick();
         if (gm.isShortClick) {
@@ -20,6 +27,15 @@ public class InputManager : MonoBehaviour {
             gm.selectedPoint = pointHitWithRaycast();
         }
         saveFrameInfo();
+    }
+
+    private bool IsPointerOverUIObject()
+    {
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+        return results.Count > 0;
     }
 
     private void UpdateTouchSpeed()

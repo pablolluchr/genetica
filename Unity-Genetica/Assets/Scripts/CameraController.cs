@@ -87,25 +87,31 @@ public class CameraController : MonoBehaviour
 
             MoveToLocation();
         }
-        //TODO: stop moving if target didnt change position (for when focusing objects)
         
+        //TODO: stop moving if target didnt change position (performance improvement for static object)
+
+        if (cameraState == CameraState.Following && (FollowTargetPosition() - transform.position).magnitude > 3f)
+            FollowTarget(Time.deltaTime);
 
 
 
     }
     private void FixedUpdate()
     {
-        if (cameraState == CameraState.Following)
-        {
-            FollowTarget();
-        }
+        if (cameraState == CameraState.Following && (FollowTargetPosition() - transform.position).magnitude <= 3f)
+            FollowTarget(Time.fixedDeltaTime);
     }
+
+
     public void ResetMovingToSpeed()
     {
         moveToLocationSpeed = 30;
     }
 
-
+    private Vector3 FollowTargetPosition()
+    {
+        return planet.transform.position + (target.position - planet.transform.position).normalized * cameraOffset;
+    }
 
     public void MoveToLocation() {
 
@@ -237,15 +243,15 @@ public class CameraController : MonoBehaviour
 
     
 
-    public void FollowTarget()
+    public void FollowTarget(float timeMultiplier)
     {
         //rotation around planet with target focused on center
 
-        Vector3 cameraPosition = (planet.transform.position + (target.position - planet.transform.position).normalized * cameraOffset);
+        Vector3 cameraPosition = FollowTargetPosition();
 
 
         //if ((cameraPosition-transform.position).magnitude>1f)
-        transform.position=Vector3.Lerp(transform.position, cameraPosition, Time.fixedDeltaTime * cameraMoveSpeed);
+        transform.position=Vector3.Lerp(transform.position, cameraPosition, timeMultiplier * cameraMoveSpeed);
 
         //rotate to look at position
         Quaternion targetRotation = Quaternion.LookRotation(planet.transform.position - transform.position);

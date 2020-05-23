@@ -78,6 +78,12 @@ public class GameManager : MonoBehaviour
     public bool wasButtonDown;
     public string selectedSpecies;
     public string previousSelectedSpecies;
+    public int countsBetweenFixedUpdates = 15;
+
+
+    //UI stuff
+    public GameObject infoPanel;
+    public bool forceUnitSelectionExit;
 
     private void Awake()
     {
@@ -96,6 +102,7 @@ public class GameManager : MonoBehaviour
         lastMouseY = Mathf.Infinity;
         selectedSpecies = null;
         previousSelectedSpecies = null;
+        forceUnitSelectionExit = false;
 
         //AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet", 0.5f);
         AddSpecies("Fast", 1.5f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Pet", 0.7f);
@@ -114,11 +121,11 @@ public class GameManager : MonoBehaviour
         GetSpecies("Fast").Spawn(unitPrefab);
         GetSpecies("Fast").Spawn(unitPrefab);
         GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
+        GetSpecies("Fast").Spawn(unitPrefab);
+        GetSpecies("Fast").Spawn(unitPrefab);
+        GetSpecies("Fast").Spawn(unitPrefab);
+        GetSpecies("Fast").Spawn(unitPrefab);
+        GetSpecies("Fast").Spawn(unitPrefab);
         //GetSpecies("Fast").Spawn(unitPrefab);
         //GetSpecies("Fast").Spawn(unitPrefab);
         //GetSpecies("Fast").Spawn(unitPrefab);
@@ -174,6 +181,12 @@ public class GameManager : MonoBehaviour
         UnitActions.DisableAreaGraphics();
         UnitActions.DisableAllSelectionGraphics();
         UnitActions.EnableSelectionGraphic(selectedObject.GetComponent<Unit>());
+        infoPanel.GetComponent<InfoPanel>().Show(selectedObject.GetComponent<Unit>());
+    }
+    public void HideInfoPanel()
+    {
+        infoPanel.GetComponent<InfoPanel>().Hide();
+        forceUnitSelectionExit = false;
     }
 
 
@@ -184,6 +197,15 @@ public class GameManager : MonoBehaviour
             UnitActions.DisableAllSelectionGraphics();
         }
         FreePan();
+    }
+
+    public void ForceSelectionExit()
+    {
+        FreePan();
+        HideInfoPanel();
+        UnitActions.DisableAllSelectionGraphics();
+
+        SetTargetsToNull();
     }
 
     public void TargetObject() {

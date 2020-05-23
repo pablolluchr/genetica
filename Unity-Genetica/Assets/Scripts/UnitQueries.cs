@@ -73,7 +73,7 @@ public static class UnitQueries {
             }
         }
         if (closestSource == Vector3.zero) throw new System.Exception("No water found");
-        unit.transform.Find("ClosestWater").transform.position = closestSource;
+        unit.transform.Find("ClosestWaterGizmo").transform.position = closestSource;
 
         return closestSource;
     }

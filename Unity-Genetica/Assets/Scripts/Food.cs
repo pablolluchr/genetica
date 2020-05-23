@@ -18,12 +18,14 @@ public class Food : MonoBehaviour
 
     void FixedUpdate()
     {
-        availableFood = Mathf.Min(maxFood, availableFood + regeneratePerSecond*Time.fixedDeltaTime);
+        availableFood = Mathf.Min(maxFood, availableFood + regeneratePerSecond*
+            Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates);
     }
 
     public float Eat(float stomachLeft)
     {
-        float foodEaten = Mathf.Min(stomachLeft, stomachFillPerSecond * Time.fixedDeltaTime,availableFood);
+        float foodEaten = Mathf.Min(stomachLeft, stomachFillPerSecond *
+            Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates, availableFood);
         availableFood -= foodEaten;
         return foodEaten;
     }

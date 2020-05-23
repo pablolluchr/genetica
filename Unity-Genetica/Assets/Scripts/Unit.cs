@@ -149,7 +149,7 @@ public class Unit : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         animator = transform.GetChild(0).GetComponent<Animator>();
 
-        fixedUpdateCounter = Random.Range(0, 15);
+        fixedUpdateCounter = Random.Range(0, GameManager.gameManager.countsBetweenFixedUpdates);
     }
 
 
@@ -168,7 +168,7 @@ public class Unit : MonoBehaviour {
             UnitActions.SetHealthBar(this);
         }
 
-        fixedUpdateCounter = (fixedUpdateCounter + 1) % 15;
+        fixedUpdateCounter = (fixedUpdateCounter + 1) % GameManager.gameManager.countsBetweenFixedUpdates;
         if (fixedUpdateCounter == 0) {
 
             UpdateMovingAnimation();
