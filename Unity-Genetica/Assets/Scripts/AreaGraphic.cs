@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AreaGraphic : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class AreaGraphic : MonoBehaviour
     private float scaleMultiplier;
     //private float alphaMultiplier;
     private Vector3 originalScale;
+    public Species species;
 
     private void Awake()
     {
@@ -19,30 +21,37 @@ public class AreaGraphic : MonoBehaviour
         originalScale = transform.localScale;
         transform.localScale = originalScale * scaleMultiplier;
 
-
+        //TODO: the species icon should be the highlight color of the pet.
     }
 
-    private void Update()
+    public void SetSpecies(Species species)
     {
+        this.species = species;
+        Vector3 planetPosition = GameManager.gameManager.planet.transform.position;
 
-        //scaleMultiplier = Mathf.Lerp(scaleMultiplier, 5, Time.deltaTime * 2);
-        //alphaMultiplier = Mathf.Lerp(alphaMultiplier, 0, Time.deltaTime * 4);
-
-        //transform.localScale = originalScale * scaleMultiplier;
-        //UnityEngine.UI.Image image = transform.GetChild(0).GetComponent<UnityEngine.UI.Image>();
-        //image.color = new Color(image.color.r, image.color.g, image.color.b, alphaMultiplier);
-
-    }
-
-
-    public void SetPosition(Vector3 position, Vector3 planetPosition)
-    {
-        Vector3 targetDir = (planetPosition - position).normalized; //center of the planet
+        Vector3 targetDir = (planetPosition - species.areaCenter).normalized; //center of the planet
         Vector3 bodyUP = transform.up;
 
         //transition to the target direction (pointing to the center of the planet)
         transform.rotation = Quaternion.FromToRotation(bodyUP, targetDir) * transform.rotation;
-        transform.position = position - targetDir * .2f;
+        transform.position = species.areaCenter - targetDir * .2f;
+    }
+
+    public void SelectArea()
+    {
+        //UnitActions.DisableAllSelectionGraphics();
+        transform.Find("Image").GetComponent<RectTransform>().localScale = new Vector3(2, 2, 2);
+        transform.Find("Image").GetComponent<Image>().color = (new Vector4(1, 1, 1, 1));
+
+    }
+
+    public void DeselectArea()
+    {
+        //UnitActions.DisableAllSelectionGraphics();
+        transform.Find("Image").GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1.5f);
+
+        transform.Find("Image").GetComponent<Image>().color = (new Vector4(1, 1, 1, 0.5f)) ;
+
 
     }
 }

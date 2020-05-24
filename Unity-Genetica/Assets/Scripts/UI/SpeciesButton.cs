@@ -37,7 +37,6 @@ public class SpeciesButton : MonoBehaviour
         }
         else //first click (select)
         {
-            GameManager.gameManager.selectedSpecies = speciesName;
             GameManager.gameManager.cameraController.ResetMovingToSpeed();
 
 

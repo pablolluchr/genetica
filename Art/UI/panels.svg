@@ -98,7 +98,7 @@
 	.st92{font-size:9.7484px;}
 	.st93{font-size:11.7079px;}
 	.st94{fill:#1C1205;}
-	.st95{font-size:15.3894px;}
+	.st95{font-size:15.3908px;}
 	.st96{fill:#443627;}
 	.st97{font-size:9.6298px;}
 	.st98{fill:#E8C8A6;}
@@ -114,46 +114,58 @@
 <g id="mainScreenMockup.psd" class="st1">
 	<g class="st2">
 		<g>
-			<defs>
-				<rect id="SVGID_1_" x="-171.8" y="-186.3" width="122" height="256.5"/>
-			</defs>
-			<clipPath id="SVGID_2_">
-				<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-			</clipPath>
-			<g transform="matrix(1 0 0 1 0 -7.629395e-06)" class="st3">
-				
-					<image style="overflow:visible;enable-background:new    ;" width="369" height="747" id="Layer_1_2_" xlink:href="3138F960C9C701DE.png"  transform="matrix(0.3388 0 0 0.3313 -173.3649 -181.7615)">
-				</image>
+			<g>
+				<g>
+					<defs>
+						<rect id="SVGID_1_" x="-171.8" y="-186.3" width="122" height="256.5"/>
+					</defs>
+					<clipPath id="SVGID_2_">
+						<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+					</clipPath>
+					<g transform="matrix(1 0 0 1 0 -7.629395e-06)" class="st3">
+						
+							<image style="overflow:visible;enable-background:new    ;" width="369" height="747" id="Layer_1_2_" xlink:href="3138F960C9C701DE.png"  transform="matrix(0.3388 0 0 0.3313 -173.3649 -181.7615)">
+						</image>
+					</g>
+				</g>
 			</g>
 		</g>
 	</g>
 	<g class="st2">
 		<g>
-			<defs>
-				<rect id="SVGID_3_" x="-171.8" y="-186.3" width="122" height="256.5"/>
-			</defs>
-			<clipPath id="SVGID_4_">
-				<use xlink:href="#SVGID_3_"  style="overflow:visible;"/>
-			</clipPath>
-			<g transform="matrix(1 0 0 1 0 -7.629395e-06)" class="st4">
-				
-					<image style="overflow:visible;enable-background:new    ;" width="369" height="747" id="Layer_2_3_" xlink:href="3138F960C9C701DD.png"  transform="matrix(0.3388 0 0 0.3313 -173.3649 -181.7615)">
-				</image>
+			<g>
+				<g>
+					<defs>
+						<rect id="SVGID_3_" x="-171.8" y="-186.3" width="122" height="256.5"/>
+					</defs>
+					<clipPath id="SVGID_4_">
+						<use xlink:href="#SVGID_3_"  style="overflow:visible;"/>
+					</clipPath>
+					<g transform="matrix(1 0 0 1 0 -7.629395e-06)" class="st4">
+						
+							<image style="overflow:visible;enable-background:new    ;" width="369" height="747" id="Layer_2_3_" xlink:href="3138F960C9C701DD.png"  transform="matrix(0.3388 0 0 0.3313 -173.3649 -181.7615)">
+						</image>
+					</g>
+				</g>
 			</g>
 		</g>
 	</g>
 	<g class="st2">
 		<g>
-			<defs>
-				<rect id="SVGID_5_" x="-171.8" y="-186.3" width="122" height="256.5"/>
-			</defs>
-			<clipPath id="SVGID_6_">
-				<use xlink:href="#SVGID_5_"  style="overflow:visible;"/>
-			</clipPath>
-			<g transform="matrix(1 0 0 1 0 0)" class="st5">
-				
-					<image style="overflow:visible;enable-background:new    ;" width="286" height="148" id="Unit_panel" xlink:href="3138F960C9C701DA.png"  transform="matrix(0.3278 0 0 0.3205 -157.3913 13.3403)">
-				</image>
+			<g>
+				<g>
+					<defs>
+						<rect id="SVGID_5_" x="-171.8" y="-186.3" width="122" height="256.5"/>
+					</defs>
+					<clipPath id="SVGID_6_">
+						<use xlink:href="#SVGID_5_"  style="overflow:visible;"/>
+					</clipPath>
+					<g transform="matrix(1 0 0 1 0 0)" class="st5">
+						
+							<image style="overflow:visible;enable-background:new    ;" width="286" height="148" id="Unit_panel" xlink:href="3138F960C9C701DA.png"  transform="matrix(0.3278 0 0 0.3205 -157.3913 13.3403)">
+						</image>
+					</g>
+				</g>
 			</g>
 		</g>
 	</g>
@@ -344,7 +356,7 @@
 			<polygon class="st17" points="-169.3,417.9 -176.8,429.6 -169.3,430.3 -167.2,423.4 			"/>
 		</g>
 		<g>
-			<text transform="matrix(1.0768 6.369392e-02 -5.909435e-02 0.9983 -162.0428 434.3099)" class="st94 st91 st95">5</text>
+			<text transform="matrix(1.0766 6.368788e-02 -5.908874e-02 0.9983 -162.0426 434.3104)" class="st94 st91 st95">5</text>
 		</g>
 		<text transform="matrix(0.9943 0 0 1 -146.6187 432.6638)" class="st96 st91 st97">/30</text>
 	</g>
@@ -421,7 +433,7 @@
 			<g>
 				<g>
 					
-						<text transform="matrix(0.9999 -1.100087e-02 1.100087e-02 0.9999 -447.1426 -266.7844)" class="st0 st91" style="font-size:4.6805px;">Head size</text>
+						<text transform="matrix(0.9999 -1.100173e-02 1.100173e-02 0.9999 -447.1435 -266.7841)" class="st0 st91" style="font-size:4.6801px;">Head size</text>
 				</g>
 			</g>
 			<polygon class="st72" points="-330.7,-283.7 -336.4,-282.4 -338.6,-273.7 -331.3,-269.1 -323.4,-272.8 -324.3,-280.6 			"/>
@@ -464,7 +476,7 @@
 			<g>
 				<g>
 					
-						<text transform="matrix(0.9999 -1.100087e-02 1.100087e-02 0.9999 -447.0712 -244.8044)" class="st0 st91" style="font-size:4.6805px;">Belly size</text>
+						<text transform="matrix(0.9999 -1.100173e-02 1.100173e-02 0.9999 -447.0716 -244.804)" class="st0 st91" style="font-size:4.6801px;">Belly size</text>
 				</g>
 			</g>
 			<polygon class="st78" points="-330.6,-261.7 -336.3,-260.4 -338.6,-251.8 -331.3,-247.2 -323.3,-250.8 -324.2,-258.7 			"/>
@@ -506,7 +518,7 @@
 			<g>
 				<g>
 					
-						<text transform="matrix(0.9999 -1.100087e-02 1.100087e-02 0.9999 -444.2307 -221.4622)" class="st0 st91" style="font-size:4.6805px;">Leg size</text>
+						<text transform="matrix(0.9999 -1.100173e-02 1.100173e-02 0.9999 -444.2316 -221.4618)" class="st0 st91" style="font-size:4.6801px;">Leg size</text>
 				</g>
 			</g>
 			<polygon class="st81" points="-330.6,-238.4 -336.3,-237.1 -338.6,-228.4 -331.3,-223.8 -323.3,-227.5 -324.2,-235.3 			"/>
@@ -551,7 +563,7 @@
 			<g>
 				<g>
 					
-						<text transform="matrix(0.9999 -1.100087e-02 1.100087e-02 0.9999 -446.8993 -197.7107)" class="st0 st91" style="font-size:4.1162px;">Udder size</text>
+						<text transform="matrix(0.9999 -1.100173e-02 1.100173e-02 0.9999 -446.9001 -197.7103)" class="st0 st91" style="font-size:4.1158px;">Udder size</text>
 				</g>
 			</g>
 			<polygon class="st84" points="-330.8,-214.9 -336.5,-213.6 -338.7,-205 -331.4,-200.4 -323.5,-204.1 -324.4,-211.9 			"/>
@@ -591,7 +603,7 @@
 			<g>
 				<g>
 					
-						<text transform="matrix(0.9999 -1.100087e-02 1.100087e-02 0.9999 -443.0735 -173.18)" class="st0 st91" style="font-size:4.1162px;">Fin size</text>
+						<text transform="matrix(0.9999 -1.100173e-02 1.100173e-02 0.9999 -443.0743 -173.1796)" class="st0 st91" style="font-size:4.1158px;">Fin size</text>
 				</g>
 			</g>
 			<polygon class="st87" points="-330.6,-190.4 -336.3,-189.1 -338.6,-180.5 -331.3,-175.8 -323.4,-179.5 -324.2,-187.4 			"/>
@@ -633,7 +645,7 @@
 			<g>
 				<g>
 					
-						<text transform="matrix(0.9999 -1.100087e-02 1.100087e-02 0.9999 -442.5355 -149.5722)" class="st0 st91" style="font-size:4.1162px;">Tail size</text>
+						<text transform="matrix(0.9999 -1.100173e-02 1.100173e-02 0.9999 -442.5363 -149.5718)" class="st0 st91" style="font-size:4.1158px;">Tail size</text>
 				</g>
 			</g>
 			<g>
@@ -671,9 +683,9 @@
 			<rect x="-344" y="-164.5" class="st88" width="11.2" height="9.6"/>
 		</g>
 		
-			<rect x="-331.7" y="-360.9" transform="matrix(0.7071 -0.7071 0.7071 0.7071 158.4122 -335.4071)" class="st71" width="12.1" height="4"/>
+			<rect x="-331.7" y="-360.9" transform="matrix(0.7071 -0.7071 0.7071 0.7071 158.4016 -335.3708)" class="st71" width="12.1" height="4"/>
 		
-			<rect x="-327.7" y="-364.9" transform="matrix(0.7071 -0.7071 0.7071 0.7071 158.3604 -335.3826)" class="st71" width="4" height="12.1"/>
+			<rect x="-327.7" y="-364.9" transform="matrix(0.7071 -0.7071 0.7071 0.7071 158.3337 -335.4109)" class="st71" width="4" height="12.1"/>
 		<g>
 			<polygon class="st51" points="-439.4,-312.5 -438.8,-318.7 -439.4,-319 -440.3,-318.3 -440.8,-313 -442.9,-310.7 -441.4,-310.2 
 							"/>
@@ -745,7 +757,7 @@
 		</g>
 		<polygon class="st69" points="123.7,-84 125.8,-89.6 123.6,-95.1 86.7,-95.1 84.8,-88.2 87.7,-84 		"/>
 		<g>
-			<text transform="matrix(0.9943 -6.979814e-03 7.019826e-03 1 89.5086 -86.9261)" class="st0 st91" style="font-size:7.1315px;">Species</text>
+			<text transform="matrix(0.9943 -6.979814e-03 7.019826e-03 1 89.5095 -86.9262)" class="st0 st91" style="font-size:7.1315px;">Species</text>
 		</g>
 	</g>
 	<g>
@@ -763,8 +775,8 @@
 		</g>
 		<polygon class="st69" points="71,-75.9 72.8,-84.5 70.9,-93.2 39,-93.2 37.3,-82.5 39.9,-75.9 		"/>
 		<g>
-			<text transform="matrix(0.9943 -6.979814e-03 7.019826e-03 1 41.4254 -86.1472)" class="st0 st91" style="font-size:6.1706px;">Move</text>
-			<text transform="matrix(0.9943 -6.979814e-03 7.019826e-03 1 41.4774 -78.7473)" class="st0 st91" style="font-size:6.1706px;">Habitat</text>
+			<text transform="matrix(0.9943 -6.979814e-03 7.019826e-03 1 41.4264 -86.1472)" class="st0 st91" style="font-size:6.1706px;">Move</text>
+			<text transform="matrix(0.9943 -6.979814e-03 7.019826e-03 1 41.4784 -78.7473)" class="st0 st91" style="font-size:6.1706px;">Habitat</text>
 		</g>
 	</g>
 </g>
@@ -880,9 +892,9 @@
 			<polygon class="st17" points="219.9,233.9 212.4,245.6 219.9,246.3 222,239.4 			"/>
 		</g>
 		<g>
-			<text transform="matrix(1.0768 6.369392e-02 -5.909435e-02 0.9983 227.1217 250.3298)" class="st94 st91 st95">5</text>
+			<text transform="matrix(1.0766 6.368788e-02 -5.908874e-02 0.9983 227.1218 250.3301)" class="st94 st91 st95">5</text>
 		</g>
-		<text transform="matrix(0.9943 0 0 1 242.5453 248.6831)" class="st96 st91 st97">/30</text>
+		<text transform="matrix(0.9943 0 0 1 242.5459 248.6833)" class="st96 st91 st97">/30</text>
 	</g>
 	<g>
 		<polygon class="st40" points="62.5,254.8 63.3,229.8 42.3,221.2 23,229.2 21.5,253.1 42.9,263 		"/>
@@ -1041,9 +1053,9 @@
 			<polygon class="st17" points="-166.1,249.3 -173.6,261 -166.1,261.7 -163.9,254.8 			"/>
 		</g>
 		<g>
-			<text transform="matrix(1.0768 6.369392e-02 -5.909435e-02 0.9983 -158.783 265.6797)" class="st94 st91 st95">5</text>
+			<text transform="matrix(1.0766 6.368788e-02 -5.908874e-02 0.9983 -158.7827 265.6803)" class="st94 st91 st95">5</text>
 		</g>
-		<text transform="matrix(0.9943 0 0 1 -143.3594 264.0331)" class="st96 st91 st97">/30</text>
+		<text transform="matrix(0.9943 0 0 1 -143.3594 264.0329)" class="st96 st91 st97">/30</text>
 	</g>
 	<g>
 		<polygon class="st40" points="-322.9,269.9 -322.1,247.5 -341,239.7 -358.4,246.9 -359.6,268.4 -340.5,277.3 		"/>

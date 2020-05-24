@@ -22,9 +22,7 @@ public class Unit : MonoBehaviour {
     public int updateCycleCounter;
   
     [Range(.01f, 3.0f)] public float speed = 1f;
-    [Range(.0f, 1.0f)] public float legsLength = .2f;
-    [Range(.0f, 1.0f)] public float bodySize = .1f;
-    [Range(.0f, 1.0f)] public float headSize = .2f;
+    
     //public float maxDistance = 20f; //only follow targets maxDistance appart
 
     [Header("Health")]
@@ -84,6 +82,14 @@ public class Unit : MonoBehaviour {
     public float gallopingThreshold = 2f;
     public float rotationSpeed;
 
+    [Header("BodyParts")]
+    //[Range(0f, 1f)] public float headSize;
+    //[Range(0f, 1f)] public float legsSize = .2f;
+    //[Range(0f, 1f)] public float armsSize = .2f;
+    //[Range(0f, 1f)] public float bellySize = .1f;
+    //[Range(0f, 1f)] public float tailSize = .2f;
+    //[Range(0f, 1f)] public float earSize = .2f;
+
     [Header("UI")]
     public Transform thoughtPivot;
     public Sprite thirstSprite;
@@ -107,13 +113,7 @@ public class Unit : MonoBehaviour {
     public float eatRange = 1f;
     public string enemyTag;
     public int maxUnits = 50;
-    private Transform legFL;
-    private Transform legFR;
-    private Transform legBL;
-    private Transform legBR;
 
-    private Transform body;
-    private Transform head;
     public Transform destinationGizmo;
     public GameObject selectionGraphic;
     public GameObject targetGraphic;
@@ -124,20 +124,29 @@ public class Unit : MonoBehaviour {
 
     [System.NonSerialized] public Vector3 areaCenter;
 
+    //body parts
+    private Transform legL;
+    private Transform legR;
+    private Transform head;
+    private Transform belly;
+
+    private Transform armL;
+    private Transform armR;
+    private Transform earL;
+    private Transform earR;
+    private Transform tail;
+    private Transform UIPivot;
+
+
     public void Awake() {
         if (gameObject.tag == "Pet") healthbar.color = healthbarPetColor;
         else healthbar.color = healthbarHostileColor;
 
 
 
-        legFL = transform.GetChild(0).Find("LegFLPivot");
-        legFR = transform.GetChild(0).Find("LegFRPivot");
-        legBL = transform.GetChild(0).Find("LegBLPivot");
-        legBR = transform.GetChild(0).Find("LegBRPivot");
+        InitBodyParts();
 
-        body = transform.GetChild(0).Find("BodyPivot");
-        head = transform.GetChild(0).Find("HeadPivot");
-        
+
         health = maxHealth;
         isBeingOverride = false;
         amountFed = maxFed;
@@ -150,6 +159,7 @@ public class Unit : MonoBehaviour {
         animator = transform.GetChild(0).GetComponent<Animator>();
 
         fixedUpdateCounter = Random.Range(0, GameManager.gameManager.countsBetweenFixedUpdates);
+
     }
 
 
@@ -187,85 +197,106 @@ public class Unit : MonoBehaviour {
     /// <summary>
     /// Physical changes
     /// </summary>
+    ///
 
-
-    //Physically change legs length
-    public void UpdateLegsLenghtModel()
+    public void InitBodyParts()
     {
-        return;
-        float minLength = 0.6f;
-        float maxLength = 5f;
+        legL = transform.GetChild(0).Find("LegLPivot");
+        legR = transform.GetChild(0).Find("LegRPivot");
+        head = transform.GetChild(0).Find("HeadPivot");
+        belly = transform.GetChild(0).Find("BellyPivot");
+        armL = transform.GetChild(0).Find("ArmLPivot");
+        armR = transform.GetChild(0).Find("ArmRPivot");
+        earR = transform.GetChild(0).Find("EarRPivot");
+        earL = transform.GetChild(0).Find("EarLPivot");
+        tail = transform.GetChild(0).Find("TailPivot");
+        UIPivot = transform.GetChild(0).Find("UIPivot");
 
-        float minCollider = -.6f;
-        float maxCollider = .6f;
-
-        float minSpeed = 0.2f;
-        float maxSpeed = 1f;
-
-        //scale legs
-        legFR.transform.localScale = Vector3.Lerp(legFR.transform.localScale,
-            new Vector3(legFR.transform.localScale.x,
-            legsLength * (maxLength - minLength) + minLength,
-            legFR.transform.localScale.z), Time.deltaTime*2);
-        legFL.transform.localScale = Vector3.Lerp(legFL.transform.localScale,
-            new Vector3(legFL.transform.localScale.x,
-            legsLength * (maxLength - minLength) + minLength,
-            legFL.transform.localScale.z),Time.deltaTime*2);
-        legBR.transform.localScale = Vector3.Lerp(legBR.transform.localScale,
-            new Vector3(legBR.transform.localScale.x,
-            legsLength * (maxLength - minLength) + minLength,
-            legBR.transform.localScale.z), Time.deltaTime*2);
-        legBL.transform.localScale = Vector3.Lerp(legBL.transform.localScale,
-            new Vector3(legBL.transform.localScale.x,
-            legsLength * (maxLength - minLength) + minLength,
-            legBL.transform.localScale.z), Time.deltaTime*2);
-
-        //change position of sphere collider
-        GetComponent<SphereCollider>().center = Vector3.Lerp(GetComponent<SphereCollider>().center,
-            new Vector3(0, maxCollider + legsLength * (minCollider - maxCollider), 0), Time.deltaTime);
-
-
-        ////change animation speed. Remove as animation is fully changed to galloping
-        if (transform.GetChild(0).GetComponent<Animator>().GetBool("isGalloping"))
-        {
-            transform.GetChild(0).GetComponent<Animator>().speed = Mathf.Lerp(transform.GetChild(0).GetComponent<Animator>().speed,
-                1, Time.deltaTime);
-        }
-        else
-        {
-            transform.GetChild(0).GetComponent<Animator>().speed = Mathf.Lerp(transform.GetChild(0).GetComponent<Animator>().speed,
-                maxSpeed - (maxSpeed - minSpeed) * legsLength, Time.deltaTime);
-
-        }
-
-        //toggle between walk and gallop when over threshold
     }
 
-    //Physically change size of body
-    public void UpdateBodySizeModel()
+    public void UpdateHeadSize(float size)
     {
-        return;
-        float minSize = 0.8f;
-        float maxSize = 1.4f;
+        float newScale = GetInterpolated(size, 1, 2);
+        head.localScale = new Vector3(newScale, newScale, newScale);
 
-        body.transform.localScale = Vector3.Lerp(body.transform.localScale,
-            new Vector3(bodySize * (maxSize - minSize) + minSize,
-            bodySize * (maxSize - minSize) + minSize,
-            bodySize * (maxSize - minSize) + minSize), Time.deltaTime*2);
+        float newEarPosition = GetInterpolated(size, 0.6f, 1.6f);
+        earR.localPosition = new Vector3(newEarPosition,earR.localPosition.y, earR.localPosition.z);
+        earL.localPosition = new Vector3(-newEarPosition,earL.localPosition.y, earL.localPosition.z);
+
+        UpdateUIPivot();
+
     }
 
-    //Physically change size of head
-    public void UpdateHeadSizeModel()
+    public void UpdateBellySize(float size)
     {
-        return;
-        float minSize = 1f;
-        float maxSize = 3.0f;
+        float newScale = GetInterpolated(size, 1, 2);
+        belly.localScale = new Vector3(newScale, newScale, newScale);
 
-        head.transform.localScale = Vector3.Lerp(head.transform.localScale,
-            new Vector3(headSize * (maxSize - minSize) + minSize,
-            headSize * (maxSize - minSize) + minSize,
-            headSize * (maxSize - minSize) + minSize), Time.deltaTime * 2);
+        float newHeadPosition = GetInterpolated(size, -.25f, 1.25f);
+        head.localPosition = new Vector3( head.localPosition.x, newHeadPosition, earR.localPosition.z);
+
+        float newTailPosition = GetInterpolated(size, 0.9f, 1.85f);
+        tail.localPosition = new Vector3(tail.localPosition.x, tail.localPosition.y,-newTailPosition);
+
+        float newEarPosition = GetInterpolated(size, 0.32f, 1.73f);
+        earR.localPosition = new Vector3(earR.localPosition.x, newEarPosition, earR.localPosition.z);
+        earL.localPosition = new Vector3(earL.localPosition.x, newEarPosition, earL.localPosition.z);
+
+        //update tail
+        UpdateUIPivot();
+
     }
+
+    public void UpdateLegSize(float size)
+    {
+        float newLengthScale = GetInterpolated(size, 1, 4.5f);
+        float newWidthScale = GetInterpolated(size, 1, 1.5f);
+        legL.localScale = new Vector3(newWidthScale, newLengthScale, newWidthScale);
+        legR.localScale = new Vector3(newWidthScale, newLengthScale, newWidthScale);
+
+        float newColliderPosition = GetInterpolated(size, -0.35f, 0.4f);
+        GetComponent<CapsuleCollider>().center = new Vector3(0, -newColliderPosition, 0);
+
+    }
+
+    public void UpdateEarSize(float size)
+    {
+        float newScale = GetInterpolated(size, 1, 2.7f);
+        earL.localScale = new Vector3(newScale, newScale, newScale);
+        earR.localScale = new Vector3(newScale, newScale, newScale);
+
+    }
+
+    public void UpdateTailSize(float size)
+    {
+        float newScale = GetInterpolated(size, 1, 3.5f);
+        tail.localScale = new Vector3(newScale, newScale, newScale);
+
+    }
+
+    public void UpdateArmSize(float size)
+    {
+        float newScale = GetInterpolated(size, 1, 2.3f);
+        armL.localScale = new Vector3(newScale, newScale, newScale);
+        armR.localScale = new Vector3(newScale, newScale, newScale);
+
+    }
+
+    public void UpdateUIPivot()
+    {
+        float newY = head.localPosition.y+ (head.localScale.y - 1) * 2f;
+        UIPivot.localPosition = new Vector3(UIPivot.localPosition.x, newY, UIPivot.localPosition.z);
+
+
+    }
+
+    //return model local scale given a model min and max scale and a size from 0 to 1
+    public float GetInterpolated(float size, float minScale, float maxScale)
+    {
+        if (size < 0 || size > 1) { throw new System.Exception("Head size has to be between 0 and 1"); }
+        return minScale + (maxScale - minScale) * size;
+    }
+
     //check water to start swimming
     private void OnTriggerEnter(Collider other)
     {

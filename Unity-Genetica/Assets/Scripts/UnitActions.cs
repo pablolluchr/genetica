@@ -224,19 +224,16 @@ public static class UnitActions {
 
     #region selection // ################################################################################
 
-    public static void EnableAreaGraphics(Species species) {
-        GameManager.gameManager.areaGraphic.SetActive(true);
-        GameManager.gameManager.areaGraphic.GetComponent<AreaGraphic>()
-            .SetPosition(species.areaCenter, GameManager.gameManager.planet.transform.position);
+    public static void SelectAllUnitsOfSpecies(Species species) {
         Unit[] units = species.GetAllUnits();
         foreach (Unit unit in units) {
             UnitActions.EnableSelectionGraphic(unit);
         }
     }
 
-    public static void DisableAreaGraphics() {
-        GameManager.gameManager.areaGraphic.SetActive(false);
-    }
+    //public static void DisableAreaGraphics() {
+    //    GameManager.gameManager.areaGraphic.SetActive(false);
+    //}
 
     public static void ResetSelectionGraphicPosition(Unit unit) {
         //check first raycast collision

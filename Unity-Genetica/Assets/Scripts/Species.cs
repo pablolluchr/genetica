@@ -49,20 +49,17 @@ public class Species
     public bool updateUnit(Unit unit) { //returns true if succeeds, false otherwise
         if (unit.species != speciesName) { return false; } //cant modify another species
         unit.speed = speed;
-        unit.legsLength = legsLength;
+        //unit.legsSize = legsSize;
         unit.interactionRadius = UnitHelperFunctions.Interpolate(legsLength, new float[,]{{0.2f, 0.5f}, {0.6f, 0.6f}});
-        unit.bodySize = bodySize;
-        unit.headSize = headSize;
+        //unit.bodySize = bodySize;
+        //unit.headSize = headSize;
         unit.areaCenter = areaCenter;
         unit.areaRadius = areaRadius;
         unit.gameObject.tag = tag;
         unit.swimspeed = swimspeed;
         unit.walkspeed = walkspeed;
 
-        //update models
-        unit.UpdateLegsLenghtModel();
-        unit.UpdateBodySizeModel();
-        unit.UpdateHeadSizeModel();
+        //TODO:update models
 
         if (tag == "Pet")
         {
