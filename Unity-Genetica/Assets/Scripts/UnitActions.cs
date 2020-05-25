@@ -136,7 +136,7 @@ public static class UnitActions {
 
     public static void ReachBase(Unit unit) {
         unit.currentGenetiumAmount = 0;
-        GameManager.gameManager.GetSpecies(unit.species).updateUnit(unit);
+        GameManager.gameManager.GetSpecies(unit.species).UpdateUnit(unit);
         unit.needsChange = false;
     }
 
@@ -224,9 +224,11 @@ public static class UnitActions {
 
     #region selection // ################################################################################
 
-    public static void SelectAllUnitsOfSpecies(Species species) {
-        Unit[] units = species.GetAllUnits();
-        foreach (Unit unit in units) {
+    public static void SelectAllUnitsOfSpecies(Species species)
+    {
+        List<Unit> units = species.GetAllUnitsOfSpecies();
+        foreach (Unit unit in units)
+        {
             UnitActions.EnableSelectionGraphic(unit);
         }
     }
@@ -277,8 +279,12 @@ public static class UnitActions {
     public static void Move(Unit unit) {
         if (!unit.GetComponent<Target>().IsNear(unit, false)) {
             Vector3 projectedDestination = Vector3.ProjectOnPlane(unit.GetComponent<Target>().targetVector3, unit.transform.up);
-            Quaternion targetRotation = Quaternion.LookRotation(projectedDestination, Vector3.up);
-            unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, targetRotation, Time.fixedDeltaTime * unit.rotationSpeed);
+
+            if (projectedDestination != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(projectedDestination, Vector3.up);
+                unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, targetRotation, Time.fixedDeltaTime * unit.rotationSpeed);
+            }
 
             float movementMultiplier;
             if (unit.swimming) movementMultiplier = unit.swimspeed;

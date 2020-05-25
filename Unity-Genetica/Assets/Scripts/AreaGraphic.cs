@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class AreaGraphic : MonoBehaviour
 {
+    public Image icon;
     // Start is called before the first frame update
     //private float spawnTime;
     private float scaleMultiplier;
@@ -27,6 +28,7 @@ public class AreaGraphic : MonoBehaviour
     public void SetSpecies(Species species)
     {
         this.species = species;
+
         Vector3 planetPosition = GameManager.gameManager.planet.transform.position;
 
         Vector3 targetDir = (planetPosition - species.areaCenter).normalized; //center of the planet
@@ -35,13 +37,15 @@ public class AreaGraphic : MonoBehaviour
         //transition to the target direction (pointing to the center of the planet)
         transform.rotation = Quaternion.FromToRotation(bodyUP, targetDir) * transform.rotation;
         transform.position = species.areaCenter - targetDir * .2f;
+
+        DeselectArea();
     }
 
     public void SelectArea()
     {
         //UnitActions.DisableAllSelectionGraphics();
         transform.Find("Image").GetComponent<RectTransform>().localScale = new Vector3(2, 2, 2);
-        transform.Find("Image").GetComponent<Image>().color = (new Vector4(1, 1, 1, 1));
+        transform.Find("Image").GetComponent<Image>().color = species.color;
 
     }
 
@@ -49,8 +53,8 @@ public class AreaGraphic : MonoBehaviour
     {
         //UnitActions.DisableAllSelectionGraphics();
         transform.Find("Image").GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        transform.Find("Image").GetComponent<Image>().color = (new Color(species.color.r, species.color.g, species.color.b, 0.5f));
 
-        transform.Find("Image").GetComponent<Image>().color = (new Vector4(1, 1, 1, 0.5f)) ;
 
 
     }

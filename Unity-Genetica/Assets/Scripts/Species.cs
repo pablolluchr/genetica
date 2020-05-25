@@ -5,6 +5,7 @@ using UnityEngine;
 public class Species 
 {
     public string speciesName;
+    public Color color;
     public float speed;
     public float legsLength;
     public float bodySize;
@@ -16,6 +17,7 @@ public class Species
     public float walkspeed;
 
     public Species(string name,
+        Color color,
         float speed,
         float legsLength,
         float bodySize,
@@ -26,6 +28,7 @@ public class Species
         float swimVsWalk
     ) {
         this.speciesName = name;
+        this.color = color;
         this.speed = speed;
         this.legsLength = legsLength;
         this.bodySize = bodySize;
@@ -43,23 +46,31 @@ public class Species
         unit.transform.parent = GameManager.gameManager.units.transform;
         Unit unitComponent = unit.GetComponent<Unit>();
         unitComponent.species = speciesName;
-        updateUnit(unitComponent);
+        UpdateUnit(unitComponent);
+
+        if (unitComponent.CompareTag("Preview"))
+            GameManager.gameManager.previewUnitList.Add(unitComponent);
+        if (unitComponent.CompareTag("Pet"))
+            GameManager.gameManager.petList.Add(unitComponent);
+        else if (unitComponent.CompareTag("Hostile"))
+            GameManager.gameManager.enemyList.Add(unitComponent);
+        
+
     }
 
-    public bool updateUnit(Unit unit) { //returns true if succeeds, false otherwise
+    public bool UpdateUnit(Unit unit) { //returns true if succeeds, false otherwise
         if (unit.species != speciesName) { return false; } //cant modify another species
+        unit.UpdateFurColor(color);
         unit.speed = speed;
-        //unit.legsSize = legsSize;
         unit.interactionRadius = UnitHelperFunctions.Interpolate(legsLength, new float[,]{{0.2f, 0.5f}, {0.6f, 0.6f}});
-        //unit.bodySize = bodySize;
-        //unit.headSize = headSize;
         unit.areaCenter = areaCenter;
         unit.areaRadius = areaRadius;
         unit.gameObject.tag = tag;
         unit.swimspeed = swimspeed;
         unit.walkspeed = walkspeed;
 
-        //TODO:update models
+        //Update models
+        unit.UpdateHeadSize(headSize);
 
         if (tag == "Pet")
         {
@@ -86,11 +97,11 @@ public class Species
         foreach (GameObject unitObject in unitObjects) {
             Unit unit = unitObject.GetComponent<Unit>();
             if (unit.species != speciesName) continue;
-            updateUnit(unit);
+            UpdateUnit(unit);
         }
     }
 
-    public Unit[] GetAllUnits() {
+    public List<Unit> GetAllUnitsOfSpecies() {
         List<Unit> units = new List<Unit>();
         GameObject[] unitObjects = GameObject.FindGameObjectsWithTag("Pet");
         foreach (GameObject unitObject in unitObjects) {
@@ -104,6 +115,6 @@ public class Species
             if (unit.species != speciesName) continue;
             units.Add(unit);
         }
-        return units.ToArray();
+        return units;
     }
 }

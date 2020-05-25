@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class UnitHelperFunctions {
-    public static GameObject GetClosest(Unit unit, GameObject[] objects) {
+    public static GameObject GetClosest(Unit unit, List<GameObject> objects) {
         float closestDistance = Mathf.Infinity;
         GameObject closestObj = null;
         foreach (GameObject obj in objects) {
@@ -17,7 +17,7 @@ public static class UnitHelperFunctions {
     }
 
     // null if not in view
-    public static GameObject GetClosestInRange(Unit unit, GameObject[] objects, float range) {
+    public static GameObject GetClosestInRange(Unit unit, List<GameObject> objects, float range) {
         GameObject closestObj = GetClosest(unit, objects);
         if (closestObj == null) return null;
         float distance = (unit.transform.position - closestObj.transform.position).magnitude;
@@ -29,27 +29,26 @@ public static class UnitHelperFunctions {
     }
 
     // null if not in view
-    public static GameObject GetClosestInView(Unit unit, GameObject[] objects) {
+    public static GameObject GetClosestInView(Unit unit, List<GameObject> objects) {
         return GetClosestInRange(unit, objects, unit.viewDistance);
     }
 
-    public static GameObject[] FilterUnmatable(Unit unit, GameObject[] pets) {
-        List<GameObject> hornyPets = new List<GameObject>();
-        foreach (GameObject pet in pets) {
-            Unit petUnit = pet.GetComponent<Unit>();
+    public static List<Unit> FilterUnmatable(Unit unit, List<Unit> pets) {
+        List<Unit> hornyPets = new List<Unit>();
+        foreach (Unit pet in pets) {
             if (
-                petUnit && 
-                petUnit.horny && 
-                petUnit != unit && 
-                petUnit.species == unit.species
+                pet &&
+                pet.horny &&
+                pet != unit &&
+                pet.species == unit.species
             ) {
                 hornyPets.Add(pet);
             }
         }
-        return hornyPets.ToArray();
+        return hornyPets;
     }
 
-    public static GameObject[] FilterEmptyFoods(GameObject[] foods) {
+    public static List<GameObject> FilterEmptyFoods(List<GameObject> foods) {
         List<GameObject> nonEmptyFoods = new List<GameObject>();
         foreach (GameObject food in foods) {
             Food foodComponent = food.GetComponent<Food>();
@@ -57,10 +56,10 @@ public static class UnitHelperFunctions {
                 nonEmptyFoods.Add(food);
             }
         }
-        return nonEmptyFoods.ToArray();
+        return nonEmptyFoods;
     }
 
-    public static GameObject[] FilterEmptyGenetium(GameObject[] genetiums) {
+    public static List<GameObject> FilterEmptyGenetium(List<GameObject> genetiums) {
         List<GameObject> nonEmptyGenetiums = new List<GameObject>();
         foreach (GameObject genetium in genetiums) {
             Genetium genetiumComponent = genetium.GetComponent<Genetium>();
@@ -68,7 +67,7 @@ public static class UnitHelperFunctions {
                 nonEmptyGenetiums.Add(genetium);
             }
         }
-        return nonEmptyGenetiums.ToArray();
+        return nonEmptyGenetiums;
     }
 
     public static GameObject[] FilterDeadEnemies(GameObject[] enemies) {

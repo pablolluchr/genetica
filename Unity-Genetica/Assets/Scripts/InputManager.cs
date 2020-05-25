@@ -23,7 +23,6 @@ public class InputManager : MonoBehaviour {
         gm.isDragging = isDragging();
         gm.isShortClick = isShortClick();
         if (gm.isShortClick) {
-            print("short click");
             if (!gm.IsAreaSelected())
                 gm.selectedObject = objectHitWithRaycast();
             gm.selectedPoint = pointHitWithRaycast();

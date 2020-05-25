@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Collections.Generic;
 /***
 
 http://www.plantuml.com/ state diagram:
@@ -79,15 +79,26 @@ public class GameManager : MonoBehaviour
     public Species selectedSpecies;
     public Species previousSelectedSpecies;
     public int countsBetweenFixedUpdates = 15;
+    public Material unitFur;
+
+    //lists of units and objects
+    public List<Unit> petList;
+    public List<Unit> enemyList;
+    public List<Unit> previewUnitList;
+    public List<GameObject> waterList;
+    public List<GameObject> foodList;
+    public List<GameObject> genetiumList;
+
+
 
 
     //UI stuff
-    public GameObject infoPanel;
+    public GameObject unitInfoPanel;
     public bool forceUnitSelectionExit;
 
     private void Awake()
     {
-
+        Application.targetFrameRate = 60;
 
         if (gameManager != null && gameManager != this) {
             Destroy(this.gameObject);
@@ -103,10 +114,9 @@ public class GameManager : MonoBehaviour
         selectedSpecies = null;
         previousSelectedSpecies = null;
         forceUnitSelectionExit = false;
-
         //AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet", 0.5f);
-        AddSpecies("Fast", 1.5f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Pet", 0.7f);
-        AddSpecies("Tall", 0.5f,   0.2f, 0.2f, 0.2f,new Vector3(0, 4f, -4f),          2f,"Pet", 0.7f);
+        AddSpecies("Fast", new Color(1,0,0),1.5f,   0.2f, 0.2f, 0f,new Vector3(0, -4f, 4f),          2f,"Pet", 0.7f);
+        AddSpecies("Tall", new Color(0,0,1),0.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, 4f, -4f), 2f, "Pet", 0.7f);
         //AddSpecies("FastEnemy", 1.5f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Hostile", 0.7f);
 
         //GetSpecies("Tall").Spawn(unitPrefab);
@@ -124,11 +134,15 @@ public class GameManager : MonoBehaviour
         GetSpecies("Tall").Spawn(unitPrefab);
         //GetSpecies("Fast").Spawn(unitPrefab);
         //GetSpecies("Fast").Spawn(unitPrefab);
+        //attributePanel.GetComponent<AttributePanel>().OpenPanel("Fast");
+
+        GameObject areaGraphicInstance = MonoBehaviour.Instantiate(areaGraphic);
 
 
     }
 
     public void AddSpecies(string name,
+        Color color,
         float speed,
         float legsLength,
         float bodySize,
@@ -138,7 +152,7 @@ public class GameManager : MonoBehaviour
         string tag,
         float swimVsWalk
     ) {
-        Species newSpecies = new Species(name, speed, legsLength, bodySize, headSize, areaCenter, areaRadius, tag, swimVsWalk);
+        Species newSpecies = new Species(name,color, speed, legsLength, bodySize, headSize, areaCenter, areaRadius, tag, swimVsWalk);
         speciesList.Add(newSpecies);
         //instantiate species graphic
         GameObject areaGraphicInstance = MonoBehaviour.Instantiate(areaGraphic);
@@ -181,11 +195,11 @@ public class GameManager : MonoBehaviour
         //UnitActions.DisableAreaGraphics();
         UnitActions.DisableAllSelectionGraphics();
         UnitActions.EnableSelectionGraphic(selectedObject.GetComponent<Unit>());
-        infoPanel.GetComponent<InfoPanel>().Show(selectedObject.GetComponent<Unit>());
+        unitInfoPanel.GetComponent<InfoPanel>().Show(selectedObject.GetComponent<Unit>());
     }
     public void HideInfoPanel()
     {
-        infoPanel.GetComponent<InfoPanel>().Hide();
+        unitInfoPanel.GetComponent<InfoPanel>().Hide();
         forceUnitSelectionExit = false;
     }
 
@@ -197,7 +211,7 @@ public class GameManager : MonoBehaviour
 
 
     public void OverrideUnit() {
-        if (selectedUnit.tag == "Pet") {
+        if (selectedUnit.CompareTag("Pet")) {
             UnitActions.OverrideTarget(selectedUnit, selectedPoint);
             UnitActions.ShowTargetGraphic(selectedUnit);
             UnitActions.DisableAllSelectionGraphics();
@@ -270,7 +284,7 @@ public class GameManager : MonoBehaviour
         selectedSpecies.areaCenter = selectedPoint;
         selectedObject.GetComponent<AreaGraphic>().SetSpecies(selectedSpecies);
         selectedSpecies.UpdateAllUnits();
-        Unit[] units = selectedSpecies.GetAllUnits();
+        List<Unit> units = selectedSpecies.GetAllUnitsOfSpecies();
         foreach (Unit unit in units){
             UnitActions.OverrideTarget(unit, selectedSpecies.areaCenter);
         }

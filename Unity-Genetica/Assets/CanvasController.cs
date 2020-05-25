@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class CanvasController : MonoBehaviour
 {
-    public InputManager inputManager;
-    public void OnPointerEnter()
-    {
-        inputManager.blockedByUI = true;
-        print("entered UI");
-    }
+    //public InputManager inputManager;
+    //public void OnPointerEnter()
+    //{
+    //    inputManager.blockedByUI = true;
+    //}
 
-    public void OnPointerExit()
-    {
-        inputManager.blockedByUI = false;
-        print("exited UI");
+    //public void OnPointerExit()
+    //{
+    //    inputManager.blockedByUI = false;
 
 
-    }
+    //}
 }

@@ -5,44 +5,48 @@ using UnityEngine.UI;
 
 public class AttributePanel : MonoBehaviour
 {
-    public float speed;
-    public float legsLength;
-    public string speciesName;
+    public float headSize;
+    public Species species;
+    public Transform headPanel;
+    //public float legsLength;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        //TODO: remove button and replace by slide down
+        //headPanel = transform.Find("HeadPanel");
         transform.Find("Close").GetComponent<Button>().onClick.AddListener(ClosePanel);
         transform.Find("Apply").GetComponent<Button>().onClick.AddListener(ApplyChanges);
+        gameObject.SetActive(false);
     }
 
-    void OpenPanel(string speciesName)
+    public void OpenPanel(string speciesName)
     {
+        this.species = GameManager.gameManager.GetSpecies(speciesName);
         gameObject.SetActive(true); //replace by sliding up animation
+        SetupAttributeBars();
+
+    }
+
+    void SetupAttributeBars()
+    {
+        headSize = species.headSize;
+        headPanel.Find("Bar").GetComponent<Slider>().value = (int) (headSize * 5);
     }
 
     void ClosePanel()
     {
-
-        //TODO: swipe down (kinda like the notificaiton bar). X button in the meanwhile
-
-        //open other menus and close current
-        GameManager.gameManager.bottomControls.SetActive(true);
-        GameManager.gameManager.speciesSelectionPanel.SetActive(true);
+        //TODO: swipe down animation
         gameObject.SetActive(false); //replace by sliding up animation
     }
 
     void ApplyChanges()
     {
         //update species with the new values
-        Species species = GameManager.gameManager.GetSpecies(speciesName);
-        species.speed = speed;
-        species.legsLength = legsLength;
+        species.headSize = headSize;
 
-        //TODO: recall all units to base
-        GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
-        GameObject[] filteredSpecied = UnitHelperFunctions.FilterSpecies(pets, speciesName);
-        foreach (GameObject pet in filteredSpecied) pet.GetComponent<Unit>().needsChange = true;
+
+        //call species home for update
+        List<Unit> pets = species.GetAllUnitsOfSpecies();
+        foreach (Unit pet in pets) pet.needsChange = true;
 
         ClosePanel();
     }

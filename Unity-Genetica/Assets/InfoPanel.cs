@@ -20,10 +20,17 @@ public class InfoPanel : MonoBehaviour
         water = transform.Find("Water").GetComponent<Slider>();
         genetium = transform.Find("Genetium").GetComponent<TMPro.TextMeshProUGUI>();
         genetiumMax = transform.Find("GenetiumMax").GetComponent<TMPro.TextMeshProUGUI>();
-        anim = GetComponent<Animator>();
+        anim = transform.parent.GetComponent<Animator>();
         gameObject.SetActive(false);
         targetUnit = null;
+        transform.Find("Species").GetComponent<Button>().onClick.AddListener(OpenSpeciesPanel);
         
+    }
+
+    public void OpenSpeciesPanel()
+    {
+        Hide();
+        GameManager.gameManager.attributePanel.GetComponent<AttributePanel>().OpenPanel(targetUnit.species);
     }
 
     private void FixedUpdate()
@@ -45,8 +52,7 @@ public class InfoPanel : MonoBehaviour
         targetUnit = unit;
         gameObject.SetActive(true);
         transform.Find("Camera").gameObject.SetActive(true);
-        transform.Find("Unit").gameObject.SetActive(true);
-
+        //transform.Find("Unit").gameObject.SetActive(true);
         anim.SetBool("shown", true);
     }
 

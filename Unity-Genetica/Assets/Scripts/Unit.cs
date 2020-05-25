@@ -125,26 +125,34 @@ public class Unit : MonoBehaviour {
     [System.NonSerialized] public Vector3 areaCenter;
 
     //body parts
-    private Transform legL;
-    private Transform legR;
-    private Transform head;
-    private Transform belly;
+    public Transform legL;
+    public Transform legR;
+    public Transform head;
+    public Transform belly;
+    public Transform armL;
+    public Transform armR;
+    public Transform earL;
+    public Transform earR;
+    public Transform tail;
+    public Transform UIPivot;
 
-    private Transform armL;
-    private Transform armR;
-    private Transform earL;
-    private Transform earR;
-    private Transform tail;
-    private Transform UIPivot;
+    //body parts for material
+    public Renderer headRenderer;
+    public Renderer earLRenderer;
+    public Renderer earRRenderer;
+    public Renderer bellyRenderer;
+    public Renderer tailRenderer;
 
 
     public void Awake() {
+
+        if (gameObject.CompareTag("Preview") ){ return; }
         if (gameObject.tag == "Pet") healthbar.color = healthbarPetColor;
         else healthbar.color = healthbarHostileColor;
 
+        
 
-
-        InitBodyParts();
+        //InitBodyParts();
 
 
         health = maxHealth;
@@ -166,10 +174,11 @@ public class Unit : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        
         //if (transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Renderer>().isVisible)
         //    transform.GetChild(0).GetComponent<Animator>().enabled = true;
         //else transform.GetChild(0).GetComponent<Animator>().enabled = false;
-        
+
         if (!dead)
         {
             UnitActions.Move(this);
@@ -199,18 +208,29 @@ public class Unit : MonoBehaviour {
     /// </summary>
     ///
 
-    public void InitBodyParts()
+    //public void InitBodyParts()
+    //{
+    //    legL = transform.GetChild(0).Find("LegLPivot");
+    //    legR = transform.GetChild(0).Find("LegRPivot");
+    //    head = transform.GetChild(0).Find("HeadPivot");
+    //    belly = transform.GetChild(0).Find("BellyPivot");
+    //    armL = transform.GetChild(0).Find("ArmLPivot");
+    //    armR = transform.GetChild(0).Find("ArmRPivot");
+    //    earR = transform.GetChild(0).Find("EarRPivot");
+    //    earL = transform.GetChild(0).Find("EarLPivot");
+    //    tail = transform.GetChild(0).Find("TailPivot");
+    //    UIPivot = transform.GetChild(0).Find("UIPivot");
+
+    //}
+
+    public void UpdateFurColor(Color color)
     {
-        legL = transform.GetChild(0).Find("LegLPivot");
-        legR = transform.GetChild(0).Find("LegRPivot");
-        head = transform.GetChild(0).Find("HeadPivot");
-        belly = transform.GetChild(0).Find("BellyPivot");
-        armL = transform.GetChild(0).Find("ArmLPivot");
-        armR = transform.GetChild(0).Find("ArmRPivot");
-        earR = transform.GetChild(0).Find("EarRPivot");
-        earL = transform.GetChild(0).Find("EarLPivot");
-        tail = transform.GetChild(0).Find("TailPivot");
-        UIPivot = transform.GetChild(0).Find("UIPivot");
+
+        headRenderer.material.color = color;
+        tailRenderer.material.color = color;
+        earRRenderer.material.color = color;
+        earLRenderer.material.color = color;
+        bellyRenderer.material.color = color;
 
     }
 
