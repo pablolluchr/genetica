@@ -40,12 +40,12 @@ public class Species
         this.walkspeed = swimVsWalk / 0.5f;
     }
 
-    public void Spawn(GameObject unitPrefab) {
+    public GameObject Spawn(GameObject unitPrefab) {
         Vector3 spawnPosition = areaCenter + Random.onUnitSphere;
         GameObject unit = MonoBehaviour.Instantiate(unitPrefab, spawnPosition,unitPrefab.transform.rotation);
         unit.transform.parent = GameManager.gameManager.units.transform;
         Unit unitComponent = unit.GetComponent<Unit>();
-        unitComponent.species = speciesName;
+        unitComponent.speciesName = speciesName;
         UpdateUnit(unitComponent);
 
         if (unitComponent.CompareTag("Preview"))
@@ -54,13 +54,19 @@ public class Species
             GameManager.gameManager.petList.Add(unitComponent);
         else if (unitComponent.CompareTag("Hostile"))
             GameManager.gameManager.enemyList.Add(unitComponent);
-        
 
+        return unit;
     }
 
-    public bool UpdateUnit(Unit unit) { //returns true if succeeds, false otherwise
-        if (unit.species != speciesName) { return false; } //cant modify another species
+    public void UpdateUnit(Unit unit) { //returns true if succeeds, false otherwise
+        //if (unit.speciesName != speciesName) { return false; } //cant modify another species
+        
+        //Update model
+        unit.UpdateHeadSize(headSize);
         unit.UpdateFurColor(color);
+
+        if (unit.CompareTag("Preview")) return;
+
         unit.speed = speed;
         unit.interactionRadius = UnitHelperFunctions.Interpolate(legsLength, new float[,]{{0.2f, 0.5f}, {0.6f, 0.6f}});
         unit.areaCenter = areaCenter;
@@ -69,8 +75,7 @@ public class Species
         unit.swimspeed = swimspeed;
         unit.walkspeed = walkspeed;
 
-        //Update models
-        unit.UpdateHeadSize(headSize);
+        
 
         if (tag == "Pet")
         {
@@ -88,7 +93,7 @@ public class Species
             throw new System.Exception("Wrong tag for unit");
         }
         UnitActions.ResetSelectionGraphicPosition(unit);
-        return true;
+        return;
 
     }
 
@@ -96,7 +101,7 @@ public class Species
         GameObject[] unitObjects = GameObject.FindGameObjectsWithTag("Pet");
         foreach (GameObject unitObject in unitObjects) {
             Unit unit = unitObject.GetComponent<Unit>();
-            if (unit.species != speciesName) continue;
+            if (unit.speciesName != speciesName) continue;
             UpdateUnit(unit);
         }
     }
@@ -106,13 +111,13 @@ public class Species
         GameObject[] unitObjects = GameObject.FindGameObjectsWithTag("Pet");
         foreach (GameObject unitObject in unitObjects) {
             Unit unit = unitObject.GetComponent<Unit>();
-            if (unit.species != speciesName) continue;
+            if (unit.speciesName != speciesName) continue;
             units.Add(unit);
         }
         unitObjects = GameObject.FindGameObjectsWithTag("Hostile");
         foreach (GameObject unitObject in unitObjects) {
             Unit unit = unitObject.GetComponent<Unit>();
-            if (unit.species != speciesName) continue;
+            if (unit.speciesName != speciesName) continue;
             units.Add(unit);
         }
         return units;

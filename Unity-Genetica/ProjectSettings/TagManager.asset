@@ -12,6 +12,7 @@ TagManager:
   - Base
   - Water
   - AreaGraphic
+  - Preview
   layers:
   - Default
   - TransparentFX

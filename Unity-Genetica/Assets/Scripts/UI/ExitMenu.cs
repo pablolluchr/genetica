@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ExitMenu : MonoBehaviour
 {
-    public InfoPanel infoPanel;
+    //TODO: make the exit button inside the bottom panel instead
+    public UnitInfo unitInfoPanel;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +16,7 @@ public class ExitMenu : MonoBehaviour
     {
 
         GameManager.gameManager.forceUnitSelectionExit = true;
-        infoPanel.Hide();
+        unitInfoPanel.Hide();
     }
 
     

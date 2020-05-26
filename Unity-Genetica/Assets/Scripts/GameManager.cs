@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     public GMState gameState;
     public GameObject attributePanel;
     public GameObject bottomControls;
+    public Transform objectPreview;
     public GameObject speciesSelectionPanel;
 
     public List<Species> speciesList = new List<Species>();
@@ -125,16 +126,15 @@ public class GameManager : MonoBehaviour
         //GetSpecies("Tall").Spawn(unitPrefab);
         //GetSpecies("Tall").Spawn(unitPrefab);
 
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Fast").Spawn(unitPrefab);
-        GetSpecies("Tall").Spawn(unitPrefab);
-        GetSpecies("Tall").Spawn(unitPrefab);
-        GetSpecies("Tall").Spawn(unitPrefab);
+        GetSpeciesFromName("Fast").Spawn(unitPrefab);
+        GetSpeciesFromName("Fast").Spawn(unitPrefab);
+        GetSpeciesFromName("Fast").Spawn(unitPrefab);
+        GetSpeciesFromName("Fast").Spawn(unitPrefab);
+        GetSpeciesFromName("Tall").Spawn(unitPrefab);
+        GetSpeciesFromName("Tall").Spawn(unitPrefab);
+        GetSpeciesFromName("Tall").Spawn(unitPrefab);
         //GetSpecies("Fast").Spawn(unitPrefab);
         //GetSpecies("Fast").Spawn(unitPrefab);
-        //attributePanel.GetComponent<AttributePanel>().OpenPanel("Fast");
 
         GameObject areaGraphicInstance = MonoBehaviour.Instantiate(areaGraphic);
 
@@ -160,7 +160,19 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public Species GetSpecies(string name) {
+    
+
+    public void ChangeLayersRecursively(Transform parent, string newName)
+    {
+        parent.gameObject.layer = LayerMask.NameToLayer(newName);
+        foreach (Transform child in parent)
+        {
+            child.gameObject.layer = LayerMask.NameToLayer(newName);
+            ChangeLayersRecursively(child, newName);
+        }
+    }
+
+    public Species GetSpeciesFromName(string name) {
         foreach (Species species in speciesList) {
             if (species.speciesName == name) {
                 return species;
@@ -195,11 +207,11 @@ public class GameManager : MonoBehaviour
         //UnitActions.DisableAreaGraphics();
         UnitActions.DisableAllSelectionGraphics();
         UnitActions.EnableSelectionGraphic(selectedObject.GetComponent<Unit>());
-        unitInfoPanel.GetComponent<InfoPanel>().Show(selectedObject.GetComponent<Unit>());
+        unitInfoPanel.GetComponent<UnitInfo>().Show(selectedObject.GetComponent<Unit>());
     }
     public void HideInfoPanel()
     {
-        unitInfoPanel.GetComponent<InfoPanel>().Hide();
+        unitInfoPanel.GetComponent<UnitInfo>().Hide();
         forceUnitSelectionExit = false;
     }
 

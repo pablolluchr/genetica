@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InfoPanel : MonoBehaviour
+public class UnitInfo : MonoBehaviour
 {
     private Animator anim;
     public Unit targetUnit;
+    public Unit previewUnit;
     private Slider health;
     private Slider food;
     private Slider water;
@@ -22,6 +23,7 @@ public class InfoPanel : MonoBehaviour
         genetiumMax = transform.Find("GenetiumMax").GetComponent<TMPro.TextMeshProUGUI>();
         anim = transform.parent.GetComponent<Animator>();
         gameObject.SetActive(false);
+        previewUnit.gameObject.SetActive(false);
         targetUnit = null;
         transform.Find("Species").GetComponent<Button>().onClick.AddListener(OpenSpeciesPanel);
         
@@ -30,7 +32,7 @@ public class InfoPanel : MonoBehaviour
     public void OpenSpeciesPanel()
     {
         Hide();
-        GameManager.gameManager.attributePanel.GetComponent<AttributePanel>().OpenPanel(targetUnit.species);
+        GameManager.gameManager.attributePanel.GetComponent<AttributePanel>().OpenPanel(targetUnit.speciesName);
     }
 
     private void FixedUpdate()
@@ -44,13 +46,12 @@ public class InfoPanel : MonoBehaviour
             genetiumMax.text= Mathf.Round(targetUnit.carryingCapacity).ToString();
         }
     }
-
-
-
     public void Show(Unit unit)
     {
         targetUnit = unit;
+        GameManager.gameManager.GetSpeciesFromName(unit.speciesName).UpdateUnit(previewUnit);
         gameObject.SetActive(true);
+        previewUnit.gameObject.SetActive(true);
         transform.Find("Camera").gameObject.SetActive(true);
         //transform.Find("Unit").gameObject.SetActive(true);
         anim.SetBool("shown", true);
@@ -59,6 +60,8 @@ public class InfoPanel : MonoBehaviour
     public void Hide()
     {
         anim.SetBool("shown", false);
+        previewUnit.gameObject.SetActive(false);
+
         StartCoroutine(DisablePanelDelayed());
 
     }

@@ -20,7 +20,7 @@ public class AttributePanel : MonoBehaviour
 
     public void OpenPanel(string speciesName)
     {
-        this.species = GameManager.gameManager.GetSpecies(speciesName);
+        this.species = GameManager.gameManager.GetSpeciesFromName(speciesName);
         gameObject.SetActive(true); //replace by sliding up animation
         SetupAttributeBars();
 

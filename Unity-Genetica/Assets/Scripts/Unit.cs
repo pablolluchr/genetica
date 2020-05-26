@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 
 //Handles the target-based movement of units
-[RequireComponent(typeof(Rigidbody))]
+
 public class Unit : MonoBehaviour {
 
     public UnitState unitState;
 
     [Header("General Attributes")]
-    public string species;
+    public string speciesName;
     public float viewDistance = 5f;
     public float interactionRadius;
     public float areaRadius = 3f;
@@ -144,7 +144,8 @@ public class Unit : MonoBehaviour {
     public Renderer tailRenderer;
 
 
-    public void Awake() {
+    //TODO make sure I want it in start and not awake
+    public void Start() {
 
         if (gameObject.CompareTag("Preview") ){ return; }
         if (gameObject.tag == "Pet") healthbar.color = healthbarPetColor;
@@ -174,7 +175,8 @@ public class Unit : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        
+        if (gameObject.CompareTag("Preview") ){ return; }
+
         //if (transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Renderer>().isVisible)
         //    transform.GetChild(0).GetComponent<Animator>().enabled = true;
         //else transform.GetChild(0).GetComponent<Animator>().enabled = false;
@@ -304,6 +306,7 @@ public class Unit : MonoBehaviour {
 
     public void UpdateUIPivot()
     {
+        if (UIPivot == null) return;
         float newY = head.localPosition.y+ (head.localScale.y - 1) * 2f;
         UIPivot.localPosition = new Vector3(UIPivot.localPosition.x, newY, UIPivot.localPosition.z);
 

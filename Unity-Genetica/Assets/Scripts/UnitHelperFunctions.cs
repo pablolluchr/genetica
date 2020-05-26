@@ -40,7 +40,7 @@ public static class UnitHelperFunctions {
                 pet &&
                 pet.horny &&
                 pet != unit &&
-                pet.species == unit.species
+                pet.speciesName == unit.speciesName
             ) {
                 hornyPets.Add(pet);
             }
@@ -85,7 +85,7 @@ public static class UnitHelperFunctions {
         List<GameObject> species = new List<GameObject>();
         foreach (GameObject pet in pets) {
             Unit petComponent = pet.GetComponent<Unit>();
-            if (petComponent.species == speciesName) {
+            if (petComponent.speciesName == speciesName) {
                 species.Add(pet);
             }
         }

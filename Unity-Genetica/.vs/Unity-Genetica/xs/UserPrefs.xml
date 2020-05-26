@@ -1,20 +1,13 @@
 ﻿<Properties StartupConfiguration="{4C7EB0CC-8906-19E4-8AD1-8C53653A637D}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UnitQueries.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/ExitMenu.cs">
     <Files>
-      <File FileName="Assets/Scripts/CameraController.cs" Line="22" Column="39" IsPinned="True" />
-      <File FileName="Assets/Scripts/Unit.cs" Line="14" Column="19" IsPinned="True" />
-      <File FileName="Assets/Scripts/Species.cs" Line="104" Column="43" />
-      <File FileName="Assets/Scripts/UI/AttributePanel.cs" Line="47" Column="39" />
-      <File FileName="Assets/IncreaseAttributeButton.cs" />
-      <File FileName="Assets/InfoPanel.cs" />
-      <File FileName="Assets/Scripts/AreaGraphic.cs" />
-      <File FileName="Assets/Scripts/InputManager.cs" />
-      <File FileName="Assets/CanvasController.cs" />
-      <File FileName="Assets/UnitPreview.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/UnitActions.cs" Line="229" Column="56" />
-      <File FileName="Assets/Scripts/UnitQueries.cs" Line="31" Column="1" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="89" Column="27" />
-      <File FileName="Assets/Scripts/UnitHelperFunctions.cs" Line="52" Column="35" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="137" Column="48" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="309" Column="37" />
+      <File FileName="Assets/Scripts/UnitHelperFunctions.cs" Line="88" Column="41" />
+      <File FileName="Assets/Scripts/UnitQueries.cs" />
+      <File FileName="Assets/Scripts/UnitActions.cs" Line="280" Column="1" />
+      <File FileName="Assets/Scripts/UI/ExitMenu.cs" Line="11" Column="6" />
+      <File FileName="Assets/BottomPanel.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,8 +15,9 @@
           <Node name="Unity-Genetica" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="UI" expanded="True" />
-                <Node name="UnitQueries.cs" selected="True" />
+                <Node name="UI" expanded="True">
+                  <Node name="ExitMenu.cs" selected="True" />
+                </Node>
               </Node>
               <Node name="TextMesh Pro" expanded="True">
                 <Node name="Resources" expanded="True">
@@ -38,12 +32,11 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="f4acb539-9817-45ac-9fef-21e7ca6e6a74" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="4fbdd5b8-1471-4abf-8670-af621b79b4b9" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/pablolluch/Documents/UnityProjects/Genetica/Unity-Genetica/Assets/Scripts/UnitQueries.cs" relfile="Assets/Scripts/UnitQueries.cs" line="64" column="1" />
       <Breakpoint file="/Users/pablolluch/Documents/UnityProjects/Genetica/Unity-Genetica/Assets/Scripts/GameManagerStateMachine.cs" relfile="Assets/Scripts/GameManagerStateMachine.cs" line="55" column="1" />
-      <Breakpoint file="/Users/pablolluch/Documents/UnityProjects/Genetica/Unity-Genetica/Assets/Scripts/UI/AttributePanel.cs" relfile="Assets/Scripts/UI/AttributePanel.cs" line="32" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

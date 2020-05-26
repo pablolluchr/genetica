@@ -136,7 +136,7 @@ public static class UnitActions {
 
     public static void ReachBase(Unit unit) {
         unit.currentGenetiumAmount = 0;
-        GameManager.gameManager.GetSpecies(unit.species).UpdateUnit(unit);
+        GameManager.gameManager.GetSpeciesFromName(unit.speciesName).UpdateUnit(unit);
         unit.needsChange = false;
     }
 

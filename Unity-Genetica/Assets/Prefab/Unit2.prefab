@@ -892,7 +892,7 @@ MonoBehaviour:
   eatRange: 1
   enemyTag: 
   maxUnits: 50
-  destinationGizmo: {fileID: 0}
+  destinationGizmo: {fileID: 3913418332282070003}
   selectionGraphic: {fileID: 5287969854441382509}
   targetGraphic: {fileID: 8185286201820072343, guid: d9c1953182b2448e2828d46abf744428,
     type: 3}
