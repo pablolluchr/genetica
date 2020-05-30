@@ -79,8 +79,9 @@ public class GameManager : MonoBehaviour
     public bool wasButtonDown;
     public Species selectedSpecies;
     public Species previousSelectedSpecies;
-    public int countsBetweenFixedUpdates = 15;
+    public int countsBetweenUpdates = 15;
     public Material unitFur;
+    public float planetRadius;
 
     //lists of units and objects
     public List<Unit> petList;
@@ -115,28 +116,13 @@ public class GameManager : MonoBehaviour
         selectedSpecies = null;
         previousSelectedSpecies = null;
         forceUnitSelectionExit = false;
-        //AddSpecies("Tall", 1.5f, 0.6f, 0.2f, 0.2f,new Vector3(-0.09f, 5.48f, -2.99f), 2f,"Pet", 0.5f);
-        AddSpecies("Fast", new Color(1,0,0),1.5f,   0.2f, 0.2f, 0f,new Vector3(0, -4f, 4f),          2f,"Pet", 0.7f);
-        AddSpecies("Tall", new Color(0,0,1),0.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, 4f, -4f), 2f, "Pet", 0.7f);
+        AddSpecies("Fast", new Color(1,0,0),1.5f,   0.2f, 0.2f, 0f,new Vector3(0, -4f, 4f),          5f,"Pet", 0.7f);
+        AddSpecies("Tall", new Color(0, 0, 1), 0.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, 4f, -4f), 3f, "Pet", 0.7f);
         //AddSpecies("FastEnemy", 1.5f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Hostile", 0.7f);
 
-        //GetSpecies("Tall").Spawn(unitPrefab);
-        //GetSpecies("Tall").Spawn(unitPrefab);
-        //GetSpecies("Tall").Spawn(unitPrefab);
-        //GetSpecies("Tall").Spawn(unitPrefab);
-        //GetSpecies("Tall").Spawn(unitPrefab);
+        for (int i = 0; i < 5; i++) GetSpeciesFromName("Fast").Spawn(unitPrefab);
+        for (int i = 0; i < 5; i++) GetSpeciesFromName("Tall").Spawn(unitPrefab);
 
-        GetSpeciesFromName("Fast").Spawn(unitPrefab);
-        GetSpeciesFromName("Fast").Spawn(unitPrefab);
-        GetSpeciesFromName("Fast").Spawn(unitPrefab);
-        GetSpeciesFromName("Fast").Spawn(unitPrefab);
-        GetSpeciesFromName("Tall").Spawn(unitPrefab);
-        GetSpeciesFromName("Tall").Spawn(unitPrefab);
-        GetSpeciesFromName("Tall").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-        //GetSpecies("Fast").Spawn(unitPrefab);
-
-        GameObject areaGraphicInstance = MonoBehaviour.Instantiate(areaGraphic);
 
 
     }
@@ -323,8 +309,9 @@ public class GameManager : MonoBehaviour
 
         return selectedObject &&  (
             selectedObject.GetComponent<Food>() != null ||
-            selectedObject.gameObject.tag == "Base" ||
-            selectedObject.gameObject.tag == "Genetium"
+            
+            selectedObject.gameObject.CompareTag("Base")||
+            selectedObject.gameObject.CompareTag("Genetium")
         );
     }
 

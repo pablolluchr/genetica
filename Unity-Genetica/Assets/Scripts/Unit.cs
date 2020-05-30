@@ -106,7 +106,7 @@ public class Unit : MonoBehaviour {
 
     //not shown
 
-    public Rigidbody rb;
+    //public Rigidbody rb;
     public bool isBeingOverride;
     public GravityAttractor planet;
     public float wanderTimeStamp;
@@ -120,7 +120,7 @@ public class Unit : MonoBehaviour {
     public Vector4 selectionColor;
     private Animator animator;
 
-    private int fixedUpdateCounter;
+    public int updateCounter;
 
     [System.NonSerialized] public Vector3 areaCenter;
 
@@ -142,13 +142,14 @@ public class Unit : MonoBehaviour {
     public Renderer earRRenderer;
     public Renderer bellyRenderer;
     public Renderer tailRenderer;
+    public SpriteRenderer thoughtRenderer;
 
 
     //TODO make sure I want it in start and not awake
     public void Start() {
 
         if (gameObject.CompareTag("Preview") ){ return; }
-        if (gameObject.tag == "Pet") healthbar.color = healthbarPetColor;
+        if (gameObject.CompareTag("Pet")) healthbar.color = healthbarPetColor;
         else healthbar.color = healthbarHostileColor;
 
         
@@ -162,37 +163,36 @@ public class Unit : MonoBehaviour {
         wanderTimeStamp = -Mathf.Infinity;
         destinationGizmo = transform.Find("DestinationGizmo");
 
-        GetComponent<Rigidbody>().useGravity = false; //deactivate built-in downwards gravity
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        rb = GetComponent<Rigidbody>();
+
+        //GetComponent<Rigidbody>().useGravity = false; //deactivate built-in downwards gravity
+        //GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        //rb = GetComponent<Rigidbody>();
         animator = transform.GetChild(0).GetComponent<Animator>();
 
-        fixedUpdateCounter = Random.Range(0, GameManager.gameManager.countsBetweenFixedUpdates);
+        updateCounter = Random.Range(0, GameManager.gameManager.countsBetweenUpdates);
 
     }
 
-
-
-    private void FixedUpdate()
+    private void Update()
     {
-        if (gameObject.CompareTag("Preview") ){ return; }
+        if (gameObject.CompareTag("Preview")) { return; }
+
+        UnitActions.SetHealthBarPivot(this);
+        UnitActions.Move(this); //this should change velocity and angular velocity but
+
 
         //if (transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Renderer>().isVisible)
         //    transform.GetChild(0).GetComponent<Animator>().enabled = true;
         //else transform.GetChild(0).GetComponent<Animator>().enabled = false;
 
-        if (!dead)
-        {
-            UnitActions.Move(this);
-            UnitActions.GravityEffect(this);
-            UnitActions.SetThought(this);
-            UnitActions.SetHealthBar(this);
-        }
 
-        fixedUpdateCounter = (fixedUpdateCounter + 1) % GameManager.gameManager.countsBetweenFixedUpdates;
-        if (fixedUpdateCounter == 0) {
+        updateCounter = (updateCounter + 1) % GameManager.gameManager.countsBetweenUpdates;
+        if (updateCounter == 0)
+        {
 
             UpdateMovingAnimation();
+            UnitActions.SetThought(this);
+
             UnitActions.WanderIfDeadTarget(this);
             UnitActions.HungerEffect(this);
             UnitActions.ThirstEffect(this);
@@ -202,6 +202,7 @@ public class Unit : MonoBehaviour {
             UnitActions.HealthRegenEffect(this);
             unitState = UnitStateMachine.NextState(this);
         }
+
     }
 
 
@@ -323,13 +324,13 @@ public class Unit : MonoBehaviour {
     //check water to start swimming
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Water") swimming = true;
+        if (other.gameObject.CompareTag("Water")) swimming = true;
     }
 
     //check for water to stop swimming
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Water") swimming = false;
+        if (other.gameObject.CompareTag("Water")) swimming = false;
     }
 
 

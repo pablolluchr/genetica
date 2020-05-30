@@ -19,9 +19,9 @@ public class Genetium : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        currentAmount = Mathf.Min(capacity, currentAmount + regenRate * Time.fixedDeltaTime);
+        currentAmount = Mathf.Min(capacity, currentAmount + regenRate * Time.deltaTime);
     }
 
 }

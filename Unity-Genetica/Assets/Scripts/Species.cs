@@ -41,12 +41,13 @@ public class Species
     }
 
     public GameObject Spawn(GameObject unitPrefab) {
-        Vector3 spawnPosition = areaCenter + Random.onUnitSphere;
+        Vector3 spawnPosition = areaCenter + Random.onUnitSphere*2;
         GameObject unit = MonoBehaviour.Instantiate(unitPrefab, spawnPosition,unitPrefab.transform.rotation);
         unit.transform.parent = GameManager.gameManager.units.transform;
         Unit unitComponent = unit.GetComponent<Unit>();
         unitComponent.speciesName = speciesName;
         UpdateUnit(unitComponent);
+        UnitActions.DisableSelectionGraphic(unitComponent);
 
         if (unitComponent.CompareTag("Preview"))
             GameManager.gameManager.previewUnitList.Add(unitComponent);
@@ -98,27 +99,34 @@ public class Species
     }
 
     public void UpdateAllUnits() {
-        GameObject[] unitObjects = GameObject.FindGameObjectsWithTag("Pet");
-        foreach (GameObject unitObject in unitObjects) {
-            Unit unit = unitObject.GetComponent<Unit>();
-            if (unit.speciesName != speciesName) continue;
-            UpdateUnit(unit);
+
+        List<Unit> pets = GameManager.gameManager.petList;
+        foreach (Unit pet in pets) {
+            if (pet.speciesName != speciesName) continue;
+            UpdateUnit(pet);
         }
     }
 
     public List<Unit> GetAllUnitsOfSpecies() {
         List<Unit> units = new List<Unit>();
-        GameObject[] unitObjects = GameObject.FindGameObjectsWithTag("Pet");
-        foreach (GameObject unitObject in unitObjects) {
-            Unit unit = unitObject.GetComponent<Unit>();
-            if (unit.speciesName != speciesName) continue;
-            units.Add(unit);
+
+        if (tag == "Pet")
+        {
+            List<Unit> pets = GameManager.gameManager.petList;
+            foreach (Unit pet in pets) {
+                if (pet.speciesName != speciesName) continue;
+                units.Add(pet);
+            }
+
         }
-        unitObjects = GameObject.FindGameObjectsWithTag("Hostile");
-        foreach (GameObject unitObject in unitObjects) {
-            Unit unit = unitObject.GetComponent<Unit>();
-            if (unit.speciesName != speciesName) continue;
-            units.Add(unit);
+        else
+        {
+            List<Unit> enemies = GameManager.gameManager.enemyList;
+            foreach (Unit enemy in enemies)
+            {
+                if (enemy.speciesName != speciesName) continue;
+                units.Add(enemy);
+            }
         }
         return units;
     }

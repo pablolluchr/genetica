@@ -35,25 +35,26 @@ public class UnitInfo : MonoBehaviour
         GameManager.gameManager.attributePanel.GetComponent<AttributePanel>().OpenPanel(targetUnit.speciesName);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (targetUnit != null)
+        if (targetUnit && targetUnit.updateCounter == 0)
         {
-            health.value = targetUnit.health / targetUnit.maxHealth;
-            food.value = targetUnit.amountFed / targetUnit.maxFed;
-            water.value = targetUnit.amountQuenched / targetUnit.maxQuenched;
-            genetium.text = Mathf.Round(targetUnit.currentGenetiumAmount).ToString();
-            genetiumMax.text= Mathf.Round(targetUnit.carryingCapacity).ToString();
+                health.value = targetUnit.health / targetUnit.maxHealth;
+                food.value = targetUnit.amountFed / targetUnit.maxFed;
+                water.value = targetUnit.amountQuenched / targetUnit.maxQuenched;
+                genetium.text = Mathf.Round(targetUnit.currentGenetiumAmount).ToString();
+                genetiumMax.text= Mathf.Round(targetUnit.carryingCapacity).ToString();
         }
     }
     public void Show(Unit unit)
     {
         targetUnit = unit;
         GameManager.gameManager.GetSpeciesFromName(unit.speciesName).UpdateUnit(previewUnit);
+
         gameObject.SetActive(true);
         previewUnit.gameObject.SetActive(true);
-        transform.Find("Camera").gameObject.SetActive(true);
-        //transform.Find("Unit").gameObject.SetActive(true);
+        //transform.Find("Camera").gameObject.SetActive(true);
+        //transform.Find("UnitPreview").gameObject.SetActive(true);
         anim.SetBool("shown", true);
     }
 

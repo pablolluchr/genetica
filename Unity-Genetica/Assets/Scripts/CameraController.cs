@@ -79,7 +79,7 @@ public class CameraController : MonoBehaviour
     //    targetPosition = position;
     //}
 
-    void LateUpdate()
+    void Update()
     {
         if (cameraState==CameraState.Panning)
         {
@@ -93,16 +93,11 @@ public class CameraController : MonoBehaviour
         
         //TODO: stop moving if target didnt change position (performance improvement for static object)
 
-        if (cameraState == CameraState.Following && (FollowTargetPosition() - transform.position).magnitude > 3f)
+        if (cameraState == CameraState.Following)
             FollowTarget(Time.deltaTime);
 
 
 
-    }
-    private void FixedUpdate()
-    {
-        if (cameraState == CameraState.Following && (FollowTargetPosition() - transform.position).magnitude <= 3f)
-            FollowTarget(Time.fixedDeltaTime);
     }
 
 
@@ -170,8 +165,8 @@ public class CameraController : MonoBehaviour
 
     public void Pan()
     {
-        
-        //Check if the device running this is a desktop
+        //TODO: make sure desktop-relevant code is only running on desktop.
+        //TODO:Check if the device running this is a desktop
         float xSpeed = Input.GetAxis("Mouse X")/desktopSpeed;
         float ySpeed = Input.GetAxis("Mouse Y")/ desktopSpeed;
 

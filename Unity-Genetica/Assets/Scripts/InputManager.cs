@@ -17,12 +17,12 @@ public class InputManager : MonoBehaviour {
 
     }
     void Update() {
-        if (IsPointerOverUIObject()) return;
 
         UpdateTouchSpeed();
         gm.isDragging = isDragging();
         gm.isShortClick = isShortClick();
         if (gm.isShortClick) {
+            if (IsPointerOverUIObject()) return;
             if (!gm.IsAreaSelected())
                 gm.selectedObject = objectHitWithRaycast();
             gm.selectedPoint = pointHitWithRaycast();
@@ -32,11 +32,13 @@ public class InputManager : MonoBehaviour {
 
     private bool IsPointerOverUIObject()
     {
+        //TODO: figure out this for phone
         PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
         eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
         return results.Count > 0;
+        //return false;
     }
 
     private void UpdateTouchSpeed()

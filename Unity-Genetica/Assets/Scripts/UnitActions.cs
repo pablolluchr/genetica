@@ -10,11 +10,11 @@ public static class UnitActions {
     public static void HungerEffect(Unit unit) {
         if (unit.amountFed <= 0) {
             UnitActions.TakeDamage(unit, unit.hungerDamage *
-                Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates);
+                Time.deltaTime * GameManager.gameManager.countsBetweenUpdates);
             unit.amountFed = 0;
         } else {
             unit.amountFed -= unit.hungerPerSecond *
-                Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates;
+                Time.deltaTime * GameManager.gameManager.countsBetweenUpdates;
         }
     }
 
@@ -38,7 +38,7 @@ public static class UnitActions {
         float random = Random.Range(0f, 1f);
         float hungerRatio = (unit.amountFed / unit.maxFed);
         float chanceOfHungerPerSec = Mathf.Pow(1 - hungerRatio, unit.hungerChanceExponent) *
-            Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates;
+            Time.deltaTime * GameManager.gameManager.countsBetweenUpdates;
         if (random < chanceOfHungerPerSec) {
             unit.hungry = true;
         }
@@ -51,11 +51,11 @@ public static class UnitActions {
     public static void ThirstEffect(Unit unit) {
         if (unit.amountQuenched <= 0) {
             UnitActions.TakeDamage(unit, unit.thirstDamage *
-                Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates);
+                Time.deltaTime * GameManager.gameManager.countsBetweenUpdates);
             unit.amountQuenched = 0;
         } else {
             unit.amountQuenched -= unit.thirstPerSecond *
-                Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates;
+                Time.deltaTime * GameManager.gameManager.countsBetweenUpdates;
         }
     }
 
@@ -70,14 +70,14 @@ public static class UnitActions {
 
     public static void Drink(Unit unit) {
         unit.amountQuenched = Mathf.Min(unit.maxQuenched, unit.amountQuenched + unit.quenchRate *
-            Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates);
+            Time.deltaTime * GameManager.gameManager.countsBetweenUpdates);
     }
 
     public static void TurnThirstyChance(Unit unit) {
         float random = Random.Range(0f, 1f);
         float thirstRatio = (unit.amountQuenched / unit.maxQuenched);
         float chanceOfThirstPerSec = Mathf.Pow(1 - thirstRatio, unit.thirstChanceExponent) *
-            Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates;
+            Time.deltaTime * GameManager.gameManager.countsBetweenUpdates;
         if (random < chanceOfThirstPerSec) {
             unit.thirsty = true;
         }
@@ -101,10 +101,10 @@ public static class UnitActions {
         closestMate.horny = false;
         unit.horny = false;
 
-        GameObject[] allies = GameObject.FindGameObjectsWithTag(unit.gameObject.tag);
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(unit.enemyTag);
-        if (allies.Length + enemies.Length < unit.maxUnits) {
-            MonoBehaviour.Instantiate(unit.gameObject).transform.parent = GameManager.gameManager.units.transform;
+        List<Unit> allies = GameManager.gameManager.petList;
+        List<Unit> enemies = GameManager.gameManager.enemyList;
+        if ( allies.Count + enemies.Count < unit.maxUnits) {
+            GameManager.gameManager.GetSpeciesFromName(unit.speciesName).Spawn(GameManager.gameManager.unitPrefab);
         }
     }
 
@@ -114,7 +114,7 @@ public static class UnitActions {
             * (unit.amountQuenched / unit.maxQuenched) * (unit.amountFed / unit.maxFed);
         chanceMultiplier = Mathf.Pow(chanceMultiplier, unit.hornyCurveExponent);
         if (random < unit.hornyChancePerSecond * chanceMultiplier *
-            Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates) {
+            Time.deltaTime * GameManager.gameManager.countsBetweenUpdates) {
             unit.horny = true;
         }
     }
@@ -130,8 +130,9 @@ public static class UnitActions {
     }
 
     public static void TargetBase(Unit unit) {
+        //TODO: create variables for base and target and set them in inspector
         GameObject home = GameObject.FindGameObjectWithTag("Base");
-        unit.GetComponent<Target>().Change(home, 3f);
+        unit.GetComponent<Target>().Change(home, 1f);
     }
 
     public static void ReachBase(Unit unit) {
@@ -145,7 +146,7 @@ public static class UnitActions {
         Genetium genetium = unit.GetComponent<Target>().targetGameObject.GetComponent<Genetium>();
         if (genetium == null) return;
         float amountHarvested = Mathf.Min(genetium.transferRate *
-            Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates, genetium.currentAmount);
+            Time.deltaTime * GameManager.gameManager.countsBetweenUpdates, genetium.currentAmount);
         genetium.currentAmount -= amountHarvested;
         unit.currentGenetiumAmount += amountHarvested;
     }
@@ -199,13 +200,13 @@ public static class UnitActions {
         unit.transform.GetChild(0).GetComponent<Animator>().enabled = false;
         unit.dead = true;
         unit.deathTimeStamp =
-            Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates;
+            Time.deltaTime * GameManager.gameManager.countsBetweenUpdates;
     }
 
     public static void HealthRegenEffect(Unit unit) {
         if (unit.health < unit.maxHealth) {
             unit.health += unit.healthRegen *
-                Time.fixedDeltaTime * GameManager.gameManager.countsBetweenFixedUpdates;
+                Time.deltaTime * GameManager.gameManager.countsBetweenUpdates;
         }
     }
 
@@ -216,7 +217,8 @@ public static class UnitActions {
         if (unit.health <= 0) UnitActions.Die(unit);
     }
 
-    public static void SetHealthBar(Unit unit) {
+    public static void SetHealthBarPivot(Unit unit) {
+        //TODO: make sure thought and healthbar are rotated simultaneously in one function
         unit.healthbarPivot.transform.rotation = Camera.main.transform.rotation;
     }
 
@@ -247,22 +249,21 @@ public static class UnitActions {
     }
 
     public static void EnableSelectionGraphic(Unit unit) {
-        unit.selectionGraphic.SetActive(true);
+        unit.selectionGraphic.GetComponent<Canvas>().enabled = true;
         ResetSelectionGraphicPosition(unit);
     }
 
     public static void DisableSelectionGraphic(Unit unit) {
-        unit.selectionGraphic.SetActive(false);
+        unit.selectionGraphic.GetComponent<Canvas>().enabled = false;
     }
 
     public static void DisableAllSelectionGraphics() {
-        GameObject[] pets = GameObject.FindGameObjectsWithTag("Pet");
-        GameObject[] hostiles = GameObject.FindGameObjectsWithTag("Hostile");
-        foreach (GameObject pet in pets) {
-            DisableSelectionGraphic(pet.GetComponent<Unit>());
+        
+        foreach (Unit pet in GameManager.gameManager.petList) {
+            DisableSelectionGraphic(pet);
         }
-        foreach (GameObject hostile in hostiles) {
-            DisableSelectionGraphic(hostile.GetComponent<Unit>());
+        foreach (Unit hostile in GameManager.gameManager.enemyList) {
+            DisableSelectionGraphic(hostile);
         }
     }
 
@@ -277,23 +278,32 @@ public static class UnitActions {
     }
 
     public static void Move(Unit unit) {
-        if (!unit.GetComponent<Target>().IsNear(unit, false)) {
-            Vector3 projectedDestination = Vector3.ProjectOnPlane(unit.GetComponent<Target>().targetVector3, unit.transform.up);
+        if (unit.GetComponent<Target>().IsNear(unit, false)) return;
+        //project on plane perrpendicular to unit passing throuugh planet center
+        Vector3 projectedDestination = Vector3.ProjectOnPlane(unit.GetComponent<Target>().targetVector3, unit.transform.position);
+        if (projectedDestination == Vector3.zero) return; //TODO: handle case where target is in the exact opposite side of the planet
 
-            if (projectedDestination != Vector3.zero)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(projectedDestination, Vector3.up);
-                unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, targetRotation, Time.fixedDeltaTime * unit.rotationSpeed);
-            }
+        //move in the target direction
+        Vector3 deltaDestination = unit.transform.position + (projectedDestination.normalized * Time.deltaTime);//move on surface
+        deltaDestination = deltaDestination.normalized * GameManager.gameManager.planetRadius; //snap to planet surface
+        unit.transform.position = deltaDestination;
 
-            float movementMultiplier;
-            if (unit.swimming) movementMultiplier = unit.swimspeed;
-            else movementMultiplier = unit.walkspeed;
+       
 
-            //move forward in the local axis
-            unit.rb.MovePosition(unit.rb.position + unit.transform.forward * Time.fixedDeltaTime * unit.speed * movementMultiplier);
+        Quaternion targetRotation = Quaternion.LookRotation(projectedDestination, Vector3.up);
+        Quaternion deltaTargetRotation = Quaternion.Lerp(unit.transform.rotation, targetRotation, Time.deltaTime * unit.rotationSpeed);
+        unit.transform.rotation = deltaTargetRotation;
 
-        }
+        //gravity effect
+        unit.transform.rotation = Quaternion.FromToRotation(unit.transform.up, deltaDestination) * unit.transform.rotation;
+
+        //gravity effect
+
+        ////This is weirddd
+        //unit.transform.rotation = deltaTargetRotation * Quaternion.FromToRotation(unit.transform.up, unit.transform.position)
+        //    * unit.transform.rotation;
+
+
     }
 
     public static void OverrideTarget(Unit unit, Vector3 target) {
@@ -340,27 +350,27 @@ public static class UnitActions {
 
     // ###################################################################################################
 
-    public static void GravityEffect(Unit unit) {
-        GameManager.gameManager.planet.GetComponent<GravityAttractor>().Attract(unit.transform);
-    }
+    //public static void GravityEffect(Unit unit) {
+    //    GameManager.gameManager.planet.GetComponent<GravityAttractor>().Attract(unit.transform);
+    //}
 
 
     public static void SetThought(Unit unit) {
-        unit.thoughtPivot.transform.rotation = Camera.main.transform.rotation;
+        //unit.thoughtPivot.transform.rotation = Camera.main.transform.rotation;
         if (unit.unitState == UnitState.TargetEnemy || unit.unitState == UnitState.Attack) {
-            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.attackSprite;
+            unit.thoughtRenderer.sprite = unit.attackSprite;
         } else if (unit.unitState == UnitState.TargetGenetium || unit.unitState == UnitState.Harvest) {
-            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.genetiumSprite;
+            unit.thoughtRenderer.sprite = unit.genetiumSprite;
         } else if (unit.unitState == UnitState.TargetBase) {
-            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.baseSprite;
+            unit.thoughtRenderer.sprite = unit.baseSprite;
         } else if (unit.hungry) {
-            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.hungrySprite;
+            unit.thoughtRenderer.sprite = unit.hungrySprite;
         } else if (unit.thirsty) {
-            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.thirstSprite;
+            unit.thoughtRenderer.sprite = unit.thirstSprite;
         } else if (unit.horny) {
-            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = unit.hornySprite;
+            unit.thoughtRenderer.sprite = unit.hornySprite;
         } else {
-            unit.thoughtPivot.GetComponentInChildren<SpriteRenderer>().sprite = null;
+            unit.thoughtRenderer.sprite = null;
         }
     }
 }
