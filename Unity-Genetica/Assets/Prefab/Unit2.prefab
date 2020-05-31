@@ -789,6 +789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetGameObject: {fileID: 0}
   targetVector3: {x: 0, y: 0, z: 0}
+  obstacleToAvoid: {x: 0, y: 0, z: 0}
   radius: 0
   dummyRadius: 0
 --- !u!114 &3157180281133854161
@@ -853,7 +854,7 @@ MonoBehaviour:
   eatAnimationSpeed: 1
   animationTilt: 10
   gallopingThreshold: 2
-  rotationSpeed: 10
+  rotationSpeed: 5
   legL: {fileID: 9137252906533215606}
   legR: {fileID: 7725216122331446250}
   head: {fileID: 6168288774583503455}

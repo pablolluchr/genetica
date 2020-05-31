@@ -277,16 +277,34 @@ public class Unit : MonoBehaviour {
         return minScale + (maxScale - minScale) * size;
     }
 
-    //check water to start swimming
     private void OnTriggerEnter(Collider other)
     {
+        //check water to start swimming
         if (other.gameObject.CompareTag("Water")) swimming = true;
+        else if (other.gameObject.CompareTag("Food")) ;
+        else if (other.gameObject.CompareTag("Genetium")) ;
+        else GetComponent<Target>().SetObstacle(other.gameObject.transform.position);
+
     }
 
     //check for water to stop swimming
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Water")) swimming = false;
+        else if (other.gameObject.CompareTag("Food")) ;
+        else if (other.gameObject.CompareTag("Genetium")) ;
+        else GetComponent<Target>().ResetObstacle();
+
+
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("hut");
+        //foreach (ContactPoint contact in collision.contacts)
+        //{
+        //    Debug.DrawRay(contact.point, contact.normal, Color.white);
+        //}
     }
 
 

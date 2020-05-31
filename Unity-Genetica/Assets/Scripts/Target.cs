@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Target : MonoBehaviour {
     public GameObject targetGameObject;
-    public Vector3 targetVector3; //inits to vector3.zero
+    public Vector3 targetVector3; 
+    public Vector3 obstacleToAvoid;
     public float radius; 
     public float dummyRadius = 0;
 
+    private void Start()
+    {
+        ResetObstacle();
+        targetVector3 = Vector3.zero;
+    }
     public void Update()
     {
         if (targetGameObject) targetVector3 = targetGameObject.transform.position;
@@ -27,9 +32,18 @@ public class Target : MonoBehaviour {
         targetVector3 = target;
         targetGameObject = null;
         radius = new_radius;
-
-
     }
+
+    public void ResetObstacle()
+    {
+        obstacleToAvoid = Vector3.zero;
+    }
+
+    public void SetObstacle(Vector3 obstacleToAvoid)
+    {
+        this.obstacleToAvoid = obstacleToAvoid;
+    }
+
     public void Change(Vector3 target)
     {
         targetVector3 = target;

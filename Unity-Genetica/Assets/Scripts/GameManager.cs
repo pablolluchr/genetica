@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections.Generic;
+
 /***
 
 http://www.plantuml.com/ state diagram:
@@ -121,8 +121,8 @@ public class GameManager : MonoBehaviour
         //AddSpecies("Enemy", "blue", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, 4f, -4f), 3f, "Hostile", 0.7f);
         //AddSpecies("FastEnemy", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, -4f, 4f), 2f, "Hostile", 0.7f);
 
-        for (int i = 0; i < 5; i++) GetSpeciesFromName("Fast").Spawn(unitPrefab);
-        for (int i = 0; i < 5; i++) GetSpeciesFromName("Tall").Spawn(unitPrefab);
+        for (int i = 0; i < 10; i++) GetSpeciesFromName("Fast").Spawn(unitPrefab);
+        for (int i = 0; i < 10; i++) GetSpeciesFromName("Tall").Spawn(unitPrefab);
         //for (int i = 0; i < 5; i++) GetSpeciesFromName("Enemy").Spawn(unitPrefab);
 
 

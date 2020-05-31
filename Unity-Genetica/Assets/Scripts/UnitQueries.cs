@@ -195,7 +195,7 @@ public static class UnitQueries {
         ////destination already reached
         if (UnitQueries.IsNearTarget(unit, false)) { return true; }
         //if its wandering and couldn't reach the destination in 10 sec reset 
-        if (Time.time - unit.wanderTimeStamp > 10f && unit.unitState == UnitState.Wander) { return true; }
+        if (Time.time - unit.wanderTimeStamp > 3f && unit.unitState == UnitState.Wander) { return true; }
 
         //otherwise
         return false;

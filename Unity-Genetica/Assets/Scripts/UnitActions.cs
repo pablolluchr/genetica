@@ -21,6 +21,7 @@ public static class UnitActions {
     public static void TargetFood(Unit unit) {
         GameObject closestFood = UnitQueries.ClosestFoodInView(unit);
         if (closestFood == null) return;
+
         unit.GetComponent<Target>().Change(closestFood, closestFood.GetComponent<Food>().radius);
     }
 
@@ -133,7 +134,7 @@ public static class UnitActions {
     public static void TargetBase(Unit unit) {
         //TODO: create variables for base and target and set them in inspector
         GameObject home = GameObject.FindGameObjectWithTag("Base");
-        unit.GetComponent<Target>().Change(home, 1f);
+        unit.GetComponent<Target>().Change(home, 2f);
     }
 
     public static void ReachBase(Unit unit) {
@@ -283,10 +284,31 @@ public static class UnitActions {
 
     public static void Move(Unit unit) {
         SetHealthBarPivot(unit);
+        Target target = unit.GetComponent<Target>();
+        if (target.IsNear(unit, false)) return;
 
-        if (unit.GetComponent<Target>().IsNear(unit, false)) return;
+        Vector3 unitPosition = unit.transform.position;
+        Vector3 unitUp = unit.transform.up;
+        Vector3 targetPosition;
+        targetPosition = target.targetVector3;
+
+        if (target.obstacleToAvoid != Vector3.zero)
+        {
+
+            Vector3 projectedTargetDestination = Vector3.ProjectOnPlane(target.targetVector3, unitPosition);
+            Vector3 unitToObstacle = target.obstacleToAvoid - unitPosition;
+            if (Vector3.Angle(projectedTargetDestination, unitToObstacle) < 120)
+            {
+                //TODO: use direction based on proximity
+                Vector3 tangentDirection = Vector3.Cross(unitToObstacle, unitUp);
+
+                targetPosition = unitPosition + tangentDirection;
+            }
+            
+        }
+
         //project on plane perrpendicular to unit passing throuugh planet center
-        Vector3 projectedDestination = Vector3.ProjectOnPlane(unit.GetComponent<Target>().targetVector3, unit.transform.position);
+        Vector3 projectedDestination = Vector3.ProjectOnPlane(targetPosition, unit.transform.position);
         if (projectedDestination == Vector3.zero) return; //TODO: handle case where target is in the exact opposite side of the planet
 
         //move in the target direction
@@ -299,7 +321,7 @@ public static class UnitActions {
 
 
 
-        Quaternion targetRotation = Quaternion.LookRotation(projectedDestination, Vector3.up);
+        Quaternion targetRotation = Quaternion.LookRotation(projectedDestination, unitUp);
         Quaternion deltaTargetRotation = Quaternion.Lerp(unit.transform.rotation, targetRotation, Time.deltaTime * unit.rotationSpeed);
         unit.transform.rotation = deltaTargetRotation;
 

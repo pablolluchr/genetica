@@ -13,6 +13,7 @@ TagManager:
   - Water
   - AreaGraphic
   - Preview
+  - Obstacle
   layers:
   - Default
   - TransparentFX
