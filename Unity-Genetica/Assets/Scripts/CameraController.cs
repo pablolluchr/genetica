@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public GameObject planet;
     [System.NonSerialized] public Transform target;
     [SerializeField] private float desktopSpeed = 5f;
     [SerializeField] private float freeRotationDamper = 0.1f;
@@ -18,8 +17,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float cameraMoveSpeed =10f;
     public float panningStartTime;
     public CameraState cameraState;
-    private Vector3 targetPosition;
-    private float moveToLocationSpeed;
     public float sceneWidth=10f;
 
     private Queue<float> oldXSpeed;
@@ -32,28 +29,13 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        //float unitsPerPixel = sceneWidth / Screen.width;
-        //defaultSize = defaultSize * unitsPerPixel;
-        //    / Screen.width* screenScaler;
-        //zoomedSize = zoomedSize / Screen.width* screenScaler;
-        //movingToPositionSize = movingToPositionSize / Screen.width* screenScaler;
         target = null;
         GetComponent<Camera>().orthographicSize = defaultSize;
         panningStartTime = -Mathf.Infinity;
         cameraState = CameraState.Panning;
-
-        //vector from where I am to what I'm rotating around
-        Vector3 initialVector = transform.position - planet.transform.position;
-
-        //current angles of camera (make sure it's looking at what you want
-        //to rotate around)
-        float rotYAxis = transform.eulerAngles.y;
-        float rotXAxis = transform.eulerAngles.x;
         oldXSpeed= new Queue<float>(3);
         oldYSpeed= new Queue<float>(3);
-
-        //distance between me and what I'm rotating around
-        distanceToPlanetCenter = Vector3.Magnitude(initialVector);
+        distanceToPlanetCenter = Vector3.Magnitude(transform.position);
     }
 
 
@@ -61,8 +43,6 @@ public class CameraController : MonoBehaviour
     {
         cameraState = CameraState.Panning;
         panningStartTime = Time.time;
-
-
     }
 
     public void StartFollowing(Transform _target,string zoomType) {
@@ -72,24 +52,12 @@ public class CameraController : MonoBehaviour
         target = _target;
     }
 
-    //public void StartMoveToLocation(Vector3 position)
-    //{
-
-    //    cameraState = CameraState.MoveToLocation;
-    //    targetPosition = position;
-    //}
-
     void Update()
     {
         if (cameraState==CameraState.Panning)
         {
             Pan();
         }
-        //else if(cameraState == CameraState.MoveToLocation)
-        //{
-
-        //    MoveToLocation();
-        //}
         
         //TODO: stop moving if target didnt change position (performance improvement for static object)
 
@@ -101,49 +69,11 @@ public class CameraController : MonoBehaviour
     }
 
 
-    public void ResetMovingToSpeed()
-    {
-        moveToLocationSpeed = 30;
-    }
 
     private Vector3 FollowTargetPosition()
     {
-        return planet.transform.position + (target.position - planet.transform.position).normalized * cameraOffset;
+        return Vector3.Normalize(target.position) * cameraOffset;
     }
-
-    //public void MoveToLocation() {
-
-    //    //initial speed to avoid crossing through poles
-    //    moveToLocationSpeed = Mathf.Max(moveToLocationSpeed - Time.deltaTime*50, 0);
-
-    //    //if target is very far start spinning to avoid crossing through ppoles
-    //    if ((new Vector2(targetPosition.x, targetPosition.z).normalized +
-    //        new Vector2(transform.position.x, transform.position.z).normalized).magnitude < 0.8f){
-    //        transform.position = Vector3.Lerp(transform.position, transform.position + transform.right, Time.deltaTime * moveToLocationSpeed);
-    //    }
-        
-    //    //rotation around planet with target focused on center
-    //    Vector3 cameraPosition = (planet.transform.position + (targetPosition - planet.transform.position).normalized * cameraOffset);
-
-    //    //linear interpolation between positions
-    //    Vector3 newLinearPosition = Vector3.Lerp(transform.position, cameraPosition, Time.deltaTime * cameraMoveSpeed);
-    //    newLinearPosition = newLinearPosition.normalized * distanceToPlanetCenter;
-
-    //    //transform.position = new Vector3(transform.position.x, newLinearPosition.y, 0);
-    //    //avoid crossing through the planet
-
-    //    transform.position = newLinearPosition;
-
-    //    //rotate to look at center of planet
-    //    Quaternion targetRotation = Quaternion.LookRotation(planet.transform.position - transform.position);
-    //    targetRotation = Quaternion.Euler(new Vector3(targetRotation.eulerAngles.x, targetRotation.eulerAngles.y, .0f));
-
-    //    transform.rotation = targetRotation;
-
-
-    //    //zoom out
-    //    GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, movingToPositionSize, Time.deltaTime * 3f);
-    //}
 
     //clamp axis to avoid being close to poles
     public float ClampRotationAxis(float axis)
@@ -233,7 +163,7 @@ public class CameraController : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(rotXAxis, rotYAxis, 0f);
 
-        transform.position = planet.transform.position - (transform.forward).normalized * distanceToPlanetCenter;
+        transform.position = - (transform.forward).normalized * distanceToPlanetCenter;
         if( zoomType=="out")
             GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, zoomedOutSize, Time.deltaTime * 3f);
         else
@@ -255,7 +185,7 @@ public class CameraController : MonoBehaviour
         transform.position=Vector3.Lerp(transform.position, cameraPosition, timeMultiplier * cameraMoveSpeed);
 
         //rotate to look at position
-        Quaternion targetRotation = Quaternion.LookRotation(planet.transform.position - transform.position);
+        Quaternion targetRotation = Quaternion.LookRotation( - transform.position);
         targetRotation = Quaternion.Euler(new Vector3(targetRotation.eulerAngles.x, targetRotation.eulerAngles.y, .0f));
 
         transform.rotation = targetRotation;
@@ -276,6 +206,5 @@ public class CameraController : MonoBehaviour
 public enum CameraState
 {
     Panning,
-    Following,
-    //MoveToLocation
+    Following
 }

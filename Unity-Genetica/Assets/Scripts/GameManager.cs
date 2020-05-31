@@ -65,9 +65,6 @@ public class GameManager : MonoBehaviour
     public GameObject speciesSelectionPanel;
 
     public List<Species> speciesList = new List<Species>();
-
-    // to update a species first change the attributes in the species class using GetSpecies("Tall").speed = 100 etc.
-    // then set this attribute (recall species) to the species name (i.e. "Tall") to recall all pets
     public string recallSpecies = null;
 
     public float lastMouseX;
@@ -82,6 +79,7 @@ public class GameManager : MonoBehaviour
     public int countsBetweenUpdates = 15;
     public Material unitFur;
     public float planetRadius;
+    public int maxUnits;
 
     //lists of units and objects
     public List<Unit> petList;
@@ -90,6 +88,8 @@ public class GameManager : MonoBehaviour
     public List<GameObject> waterList;
     public List<GameObject> foodList;
     public List<GameObject> genetiumList;
+
+    public List<Material> furMaterials;
 
 
 
@@ -116,19 +116,21 @@ public class GameManager : MonoBehaviour
         selectedSpecies = null;
         previousSelectedSpecies = null;
         forceUnitSelectionExit = false;
-        AddSpecies("Fast", new Color(1,0,0),1.5f,   0.2f, 0.2f, 0f,new Vector3(0, -4f, 4f),          5f,"Pet", 0.7f);
-        AddSpecies("Tall", new Color(0, 0, 1), 0.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, 4f, -4f), 3f, "Pet", 0.7f);
-        //AddSpecies("FastEnemy", 1.5f,   0.2f, 0.2f, 0.2f,new Vector3(0, -4f, 4f),          2f,"Hostile", 0.7f);
+        AddSpecies("Fast", "red",2f,   0.2f, 0.2f, 0f,new Vector3(0, -4f, 4f),          5f,"Pet", 0.7f);
+        AddSpecies("Tall", "blue", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, 4f, -4f), 3f, "Pet", 0.7f);
+        //AddSpecies("Enemy", "blue", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, 4f, -4f), 3f, "Hostile", 0.7f);
+        //AddSpecies("FastEnemy", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, -4f, 4f), 2f, "Hostile", 0.7f);
 
         for (int i = 0; i < 5; i++) GetSpeciesFromName("Fast").Spawn(unitPrefab);
         for (int i = 0; i < 5; i++) GetSpeciesFromName("Tall").Spawn(unitPrefab);
+        //for (int i = 0; i < 5; i++) GetSpeciesFromName("Enemy").Spawn(unitPrefab);
 
 
 
     }
 
     public void AddSpecies(string name,
-        Color color,
+        string color,
         float speed,
         float legsLength,
         float bodySize,
@@ -177,6 +179,21 @@ public class GameManager : MonoBehaviour
     public bool NewUnitSelected()
     {
         return selectedUnit != selectedObject.GetComponent<Unit>();
+    }
+
+    public Material GetFurMaterial(string color)
+    {
+        switch (color)
+        {
+            case "blue":
+                return furMaterials[0];
+            case "red":
+                return furMaterials[1];
+            default:
+                throw new System.Exception("Color not available");
+        }
+
+       
     }
     public void SetTargetsToNull() {
         selectedObject = null;

@@ -12,6 +12,7 @@ public class AreaGraphic : MonoBehaviour
     //private float alphaMultiplier;
     private Vector3 originalScale;
     public Species species;
+    public Color speciesColor;
 
     private void Awake()
     {
@@ -28,7 +29,7 @@ public class AreaGraphic : MonoBehaviour
     public void SetSpecies(Species species)
     {
         this.species = species;
-
+        speciesColor = GetColorFromString();
         Vector3 planetPosition = GameManager.gameManager.planet.transform.position;
 
         Vector3 targetDir = (planetPosition - species.areaCenter).normalized; //center of the planet
@@ -44,18 +45,35 @@ public class AreaGraphic : MonoBehaviour
     public void SelectArea()
     {
         //UnitActions.DisableAllSelectionGraphics();
-        transform.Find("Image").GetComponent<RectTransform>().localScale = new Vector3(2, 2, 2);
-        transform.Find("Image").GetComponent<Image>().color = species.color;
+        icon.GetComponent<RectTransform>().localScale = new Vector3(2, 2, 2);
+
+        icon.color = speciesColor;
 
     }
 
     public void DeselectArea()
     {
         //UnitActions.DisableAllSelectionGraphics();
-        transform.Find("Image").GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1.5f);
-        transform.Find("Image").GetComponent<Image>().color = (new Color(species.color.r, species.color.g, species.color.b, 0.5f));
+        icon.GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        icon.color = (new Color(speciesColor.r, speciesColor.g, speciesColor.b, 0.5f));
 
 
 
+    }
+
+    public Color GetColorFromString()
+    {
+        Color imageColor;
+        switch (species.color)
+        {
+
+            case "red":
+                imageColor = new Color(1, 0, 0); break;
+            case "blue":
+                imageColor = new Color(0, 0, 1); break;
+            default:
+                imageColor = new Color(0, 0, 0); break;
+        }
+        return imageColor;
     }
 }

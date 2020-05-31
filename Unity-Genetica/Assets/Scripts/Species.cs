@@ -5,7 +5,7 @@ using UnityEngine;
 public class Species 
 {
     public string speciesName;
-    public Color color;
+    public string color;
     public float speed;
     public float legsLength;
     public float bodySize;
@@ -17,7 +17,7 @@ public class Species
     public float walkspeed;
 
     public Species(string name,
-        Color color,
+        string color,
         float speed,
         float legsLength,
         float bodySize,
@@ -74,20 +74,14 @@ public class Species
         unit.areaRadius = areaRadius;
         unit.gameObject.tag = tag;
         unit.swimspeed = swimspeed;
-        unit.walkspeed = walkspeed;
-
-        
 
         if (tag == "Pet")
         {
             unit.enemyTag = "Hostile";
-            unit.selectionColor = new Color(0, 1, 0, 0.4f);
         }
         else if (tag == "Hostile")
         {
             unit.enemyTag = "Pet";
-            unit.selectionColor = new Color(0, 0, 0, 0f);
-
         }
         else
         {

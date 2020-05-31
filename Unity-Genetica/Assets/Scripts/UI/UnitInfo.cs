@@ -7,7 +7,8 @@ public class UnitInfo : MonoBehaviour
 {
     private Animator anim;
     public Unit targetUnit;
-    public Unit previewUnit;
+    public GameObject previewUnit;
+    public GameObject previewCamera;
     private Slider health;
     private Slider food;
     private Slider water;
@@ -16,16 +17,16 @@ public class UnitInfo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //TODO: do this myself in inspector
         health = transform.Find("Health").GetComponent<Slider>();
         food = transform.Find("Food").GetComponent<Slider>();
         water = transform.Find("Water").GetComponent<Slider>();
         genetium = transform.Find("Genetium").GetComponent<TMPro.TextMeshProUGUI>();
         genetiumMax = transform.Find("GenetiumMax").GetComponent<TMPro.TextMeshProUGUI>();
         anim = transform.parent.GetComponent<Animator>();
-        gameObject.SetActive(false);
+        transform.Find("Species").GetComponent<Button>().onClick.AddListener(OpenSpeciesPanel);
         previewUnit.gameObject.SetActive(false);
         targetUnit = null;
-        transform.Find("Species").GetComponent<Button>().onClick.AddListener(OpenSpeciesPanel);
         
     }
 
@@ -49,12 +50,10 @@ public class UnitInfo : MonoBehaviour
     public void Show(Unit unit)
     {
         targetUnit = unit;
-        GameManager.gameManager.GetSpeciesFromName(unit.speciesName).UpdateUnit(previewUnit);
+        GameManager.gameManager.GetSpeciesFromName(unit.speciesName).UpdateUnit(previewUnit.GetComponent<Unit>());
+        previewUnit.SetActive(true);
+        previewCamera.SetActive(true);
 
-        gameObject.SetActive(true);
-        previewUnit.gameObject.SetActive(true);
-        //transform.Find("Camera").gameObject.SetActive(true);
-        //transform.Find("UnitPreview").gameObject.SetActive(true);
         anim.SetBool("shown", true);
     }
 
@@ -70,7 +69,7 @@ public class UnitInfo : MonoBehaviour
     IEnumerator DisablePanelDelayed()
     {
         yield return new WaitForSeconds(0.3f);
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
 
     }
 

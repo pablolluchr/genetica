@@ -103,7 +103,8 @@ public static class UnitActions {
 
         List<Unit> allies = GameManager.gameManager.petList;
         List<Unit> enemies = GameManager.gameManager.enemyList;
-        if ( allies.Count + enemies.Count < unit.maxUnits) {
+        if ( allies.Count + enemies.Count < GameManager.gameManager.maxUnits) {
+            //todo: spawn in position of parents: force into orbit
             GameManager.gameManager.GetSpeciesFromName(unit.speciesName).Spawn(GameManager.gameManager.unitPrefab);
         }
     }
@@ -177,7 +178,9 @@ public static class UnitActions {
         if (unit.GetComponent<Target>().targetGameObject == null) return;
         Unit enemy = unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>();
         UnitActions.TakeDamage(enemy, unit.attackDamage);
-        enemy.GetComponent<Rigidbody>().AddForce(unit.transform.forward * unit.attackForce, ForceMode.Impulse);
+
+        //todo: handle this properly. rethink how attacking will work.
+        //todo:attack animation (simulate force)
     }
 
     public static void Flee(Unit unit) {
@@ -191,13 +194,14 @@ public static class UnitActions {
     #region health // ################################################################################
 
     public static void Dead(Unit unit) {
+        //todo: handle this with a corroutine in die.
         if (Time.time - unit.deathTimeStamp > unit.deathPeriod) {
             Object.Destroy(unit.gameObject);
         }
     }
 
     public static void Die(Unit unit) {
-        unit.transform.GetChild(0).GetComponent<Animator>().enabled = false;
+        unit.animator.enabled = false;
         unit.dead = true;
         unit.deathTimeStamp =
             Time.deltaTime * GameManager.gameManager.countsBetweenUpdates;
@@ -278,30 +282,31 @@ public static class UnitActions {
     }
 
     public static void Move(Unit unit) {
+        SetHealthBarPivot(unit);
+
         if (unit.GetComponent<Target>().IsNear(unit, false)) return;
         //project on plane perrpendicular to unit passing throuugh planet center
         Vector3 projectedDestination = Vector3.ProjectOnPlane(unit.GetComponent<Target>().targetVector3, unit.transform.position);
         if (projectedDestination == Vector3.zero) return; //TODO: handle case where target is in the exact opposite side of the planet
 
         //move in the target direction
-        Vector3 deltaDestination = unit.transform.position + (projectedDestination.normalized * Time.deltaTime);//move on surface
-        deltaDestination = deltaDestination.normalized * GameManager.gameManager.planetRadius; //snap to planet surface
-        unit.transform.position = deltaDestination;
+        float speed = unit.speed;
+        if (unit.swimming) speed = unit.swimspeed;
+        Vector3 deltaDestination = unit.transform.position + (Vector3.Normalize(projectedDestination) * Time.deltaTime * speed);//move on surface
 
-       
+        //snap to planet surface
+        unit.transform.position = Vector3.Normalize(deltaDestination) * GameManager.gameManager.planetRadius;
+
+
 
         Quaternion targetRotation = Quaternion.LookRotation(projectedDestination, Vector3.up);
         Quaternion deltaTargetRotation = Quaternion.Lerp(unit.transform.rotation, targetRotation, Time.deltaTime * unit.rotationSpeed);
         unit.transform.rotation = deltaTargetRotation;
 
         //gravity effect
-        unit.transform.rotation = Quaternion.FromToRotation(unit.transform.up, deltaDestination) * unit.transform.rotation;
+        unit.transform.rotation = Quaternion.FromToRotation(unit.transform.up, deltaDestination) * deltaTargetRotation;
 
-        //gravity effect
 
-        ////This is weirddd
-        //unit.transform.rotation = deltaTargetRotation * Quaternion.FromToRotation(unit.transform.up, unit.transform.position)
-        //    * unit.transform.rotation;
 
 
     }

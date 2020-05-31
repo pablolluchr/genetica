@@ -18,10 +18,10 @@ public class Unit : MonoBehaviour {
     public bool swimming;
     public bool needsChange;
     public float swimspeed;
-    public float walkspeed;
+    public float speed;
     public int updateCycleCounter;
   
-    [Range(.01f, 3.0f)] public float speed = 1f;
+    //[Range(.01f, 3.0f)] public float speed = 1f;
     
     //public float maxDistance = 20f; //only follow targets maxDistance appart
 
@@ -82,13 +82,30 @@ public class Unit : MonoBehaviour {
     public float gallopingThreshold = 2f;
     public float rotationSpeed;
 
-    [Header("BodyParts")]
-    //[Range(0f, 1f)] public float headSize;
-    //[Range(0f, 1f)] public float legsSize = .2f;
-    //[Range(0f, 1f)] public float armsSize = .2f;
-    //[Range(0f, 1f)] public float bellySize = .1f;
-    //[Range(0f, 1f)] public float tailSize = .2f;
-    //[Range(0f, 1f)] public float earSize = .2f;
+    [Header("References")]
+    public Transform legL;
+    public Transform legR;
+    public Transform head;
+    public Transform belly;
+    public Transform armL;
+    public Transform armR;
+    public Transform earL;
+    public Transform earR;
+    public Transform tail;
+    public Transform UIPivot;
+    public Transform destinationGizmo;
+    public GameObject selectionGraphic;
+    public GameObject targetGraphic;
+    public Animator animator;
+
+
+    [Header("Renderers")]
+    public Renderer headRenderer;
+    public Renderer earLRenderer;
+    public Renderer earRRenderer;
+    public Renderer bellyRenderer;
+    public Renderer tailRenderer;
+    public SpriteRenderer thoughtRenderer;
 
     [Header("UI")]
     public Transform thoughtPivot;
@@ -104,57 +121,23 @@ public class Unit : MonoBehaviour {
     public Color healthbarHostileColor;
 
 
-    //not shown
-
-    //public Rigidbody rb;
+    //TODO: make private
+    [Header("State info")]
     public bool isBeingOverride;
-    public GravityAttractor planet;
     public float wanderTimeStamp;
     public float eatRange = 1f;
     public string enemyTag;
-    public int maxUnits = 50;
-
-    public Transform destinationGizmo;
-    public GameObject selectionGraphic;
-    public GameObject targetGraphic;
-    public Vector4 selectionColor;
-    private Animator animator;
-
     public int updateCounter;
+    public Vector3 areaCenter;
 
-    [System.NonSerialized] public Vector3 areaCenter;
-
-    //body parts
-    public Transform legL;
-    public Transform legR;
-    public Transform head;
-    public Transform belly;
-    public Transform armL;
-    public Transform armR;
-    public Transform earL;
-    public Transform earR;
-    public Transform tail;
-    public Transform UIPivot;
-
-    //body parts for material
-    public Renderer headRenderer;
-    public Renderer earLRenderer;
-    public Renderer earRRenderer;
-    public Renderer bellyRenderer;
-    public Renderer tailRenderer;
-    public SpriteRenderer thoughtRenderer;
+    
 
 
-    //TODO make sure I want it in start and not awake
     public void Start() {
 
         if (gameObject.CompareTag("Preview") ){ return; }
         if (gameObject.CompareTag("Pet")) healthbar.color = healthbarPetColor;
         else healthbar.color = healthbarHostileColor;
-
-        
-
-        //InitBodyParts();
 
 
         health = maxHealth;
@@ -163,28 +146,17 @@ public class Unit : MonoBehaviour {
         wanderTimeStamp = -Mathf.Infinity;
         destinationGizmo = transform.Find("DestinationGizmo");
 
-
-        //GetComponent<Rigidbody>().useGravity = false; //deactivate built-in downwards gravity
-        //GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        //rb = GetComponent<Rigidbody>();
-        animator = transform.GetChild(0).GetComponent<Animator>();
-
         updateCounter = Random.Range(0, GameManager.gameManager.countsBetweenUpdates);
 
     }
 
     private void Update()
     {
+
+        if (dead) return;
         if (gameObject.CompareTag("Preview")) { return; }
 
-        UnitActions.SetHealthBarPivot(this);
-        UnitActions.Move(this); //this should change velocity and angular velocity but
-
-
-        //if (transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Renderer>().isVisible)
-        //    transform.GetChild(0).GetComponent<Animator>().enabled = true;
-        //else transform.GetChild(0).GetComponent<Animator>().enabled = false;
-
+        UnitActions.Move(this); 
 
         updateCounter = (updateCounter + 1) % GameManager.gameManager.countsBetweenUpdates;
         if (updateCounter == 0)
@@ -206,34 +178,17 @@ public class Unit : MonoBehaviour {
     }
 
 
-    /// <summary>
-    /// Physical changes
-    /// </summary>
-    ///
+    // visual update functions
 
-    //public void InitBodyParts()
-    //{
-    //    legL = transform.GetChild(0).Find("LegLPivot");
-    //    legR = transform.GetChild(0).Find("LegRPivot");
-    //    head = transform.GetChild(0).Find("HeadPivot");
-    //    belly = transform.GetChild(0).Find("BellyPivot");
-    //    armL = transform.GetChild(0).Find("ArmLPivot");
-    //    armR = transform.GetChild(0).Find("ArmRPivot");
-    //    earR = transform.GetChild(0).Find("EarRPivot");
-    //    earL = transform.GetChild(0).Find("EarLPivot");
-    //    tail = transform.GetChild(0).Find("TailPivot");
-    //    UIPivot = transform.GetChild(0).Find("UIPivot");
-
-    //}
-
-    public void UpdateFurColor(Color color)
+    public void UpdateFurColor(string color)
     {
+        Material material = GameManager.gameManager.GetFurMaterial(color);
 
-        headRenderer.material.color = color;
-        tailRenderer.material.color = color;
-        earRRenderer.material.color = color;
-        earLRenderer.material.color = color;
-        bellyRenderer.material.color = color;
+        headRenderer.material = material;
+        tailRenderer.material = material;
+        earRRenderer.material = material;
+        earLRenderer.material = material;
+        bellyRenderer.material = material;
 
     }
 
@@ -265,7 +220,7 @@ public class Unit : MonoBehaviour {
         earR.localPosition = new Vector3(earR.localPosition.x, newEarPosition, earR.localPosition.z);
         earL.localPosition = new Vector3(earL.localPosition.x, newEarPosition, earL.localPosition.z);
 
-        //update tail
+        //TODO: update tail
         UpdateUIPivot();
 
     }
@@ -307,9 +262,10 @@ public class Unit : MonoBehaviour {
 
     public void UpdateUIPivot()
     {
+        //TODO
         if (UIPivot == null) return;
-        float newY = head.localPosition.y+ (head.localScale.y - 1) * 2f;
-        UIPivot.localPosition = new Vector3(UIPivot.localPosition.x, newY, UIPivot.localPosition.z);
+        //float newY = head.localPosition.y+ (head.localScale.y - 1) * 4f;
+        //UIPivot.localPosition = new Vector3(UIPivot.localPosition.x, newY, UIPivot.localPosition.z);
 
 
     }
@@ -353,8 +309,8 @@ public class Unit : MonoBehaviour {
         }
         //start walkiing
         else if (!animator.GetBool("isWalking")){
-                transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", true);
-                transform.GetChild(0).GetComponent<Animator>().SetBool("isSwimming", false);
+                animator.SetBool("isWalking", true);
+                animator.SetBool("isSwimming", false);
 
         }
        
