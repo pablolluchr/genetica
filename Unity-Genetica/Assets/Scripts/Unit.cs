@@ -14,7 +14,7 @@ public class Unit : MonoBehaviour {
     public string speciesName;
     public float viewDistance = 5f;
     public float interactionRadius;
-    public float areaRadius = 3f;
+    public float areaRadius;
     public bool swimming;
     public bool needsChange;
     public float swimspeed;
@@ -83,6 +83,7 @@ public class Unit : MonoBehaviour {
     public float rotationSpeed;
 
     [Header("References")]
+    public Transform unitModel;
     public Transform legL;
     public Transform legR;
     public Transform head;
@@ -97,6 +98,7 @@ public class Unit : MonoBehaviour {
     public GameObject selectionGraphic;
     public GameObject targetGraphic;
     public Animator animator;
+    public Transform waterDetector;
 
 
     [Header("Renderers")]
@@ -156,13 +158,15 @@ public class Unit : MonoBehaviour {
         if (dead) return;
         if (gameObject.CompareTag("Preview")) { return; }
 
-        UnitActions.Move(this); 
+        UnitActions.Move(this);
+        UpdateMovingAnimation();
+        UnitActions.UpdateIsSwimming(this);
 
         updateCounter = (updateCounter + 1) % GameManager.gameManager.countsBetweenUpdates;
         if (updateCounter == 0)
         {
 
-            UpdateMovingAnimation();
+            
             UnitActions.SetThought(this);
 
             UnitActions.WanderIfDeadTarget(this);
@@ -232,8 +236,9 @@ public class Unit : MonoBehaviour {
         legL.localScale = new Vector3(newWidthScale, newLengthScale, newWidthScale);
         legR.localScale = new Vector3(newWidthScale, newLengthScale, newWidthScale);
 
-        float newColliderPosition = GetInterpolated(size, -0.35f, 0.4f);
-        GetComponent<CapsuleCollider>().center = new Vector3(0, -newColliderPosition, 0);
+        float newModelPosition = GetInterpolated(size, 0.43f, 1.25f);
+        unitModel.localPosition = new Vector3(unitModel.localPosition.x, newModelPosition, unitModel.localPosition.z);
+
 
     }
 
@@ -279,20 +284,22 @@ public class Unit : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        //check water to start swimming
-        if (other.gameObject.CompareTag("Water")) swimming = true;
-        else if (other.gameObject.CompareTag("Food")) ;
-        else if (other.gameObject.CompareTag("Genetium")) ;
+        if (other.gameObject.CompareTag("Water")) { }
+        else if (other.gameObject.CompareTag("Food")) { }
+        else if (other.gameObject.CompareTag("Genetium")) { }
         else GetComponent<Target>().SetObstacle(other.gameObject.transform.position);
 
     }
 
+
+
     //check for water to stop swimming
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Water")) swimming = false;
-        else if (other.gameObject.CompareTag("Food")) ;
-        else if (other.gameObject.CompareTag("Genetium")) ;
+        //TODO: Do this using distance instead
+        if (other.gameObject.CompareTag("Water")) { }
+        else if (other.gameObject.CompareTag("Food")) { }
+        else if (other.gameObject.CompareTag("Genetium")) { }
         else GetComponent<Target>().ResetObstacle();
 
 

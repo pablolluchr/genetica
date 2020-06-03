@@ -6,15 +6,28 @@ using UnityEngine.UI;
 public class AttributePanel : MonoBehaviour
 {
     public float headSize;
+    public float legSize;
+    public float bellySize;
+    public float tailSize;
+    public float earSize;
+    public float armSize;
     public Species species;
     public Transform headPanel;
+    public Transform legPanel;
+    public Transform bellyPanel;
+    public Transform tailPanel;
+    public Transform earPanel;
+    public Transform armPanel;
+
+    public Button close;
+    public Button apply;
     //public float legsLength;
     // Start is called before the first frame update
     void Awake()
     {
         //headPanel = transform.Find("HeadPanel");
-        transform.Find("Close").GetComponent<Button>().onClick.AddListener(ClosePanel);
-        transform.Find("Apply").GetComponent<Button>().onClick.AddListener(ApplyChanges);
+        close.onClick.AddListener(ClosePanel);
+        apply.onClick.AddListener(ApplyChanges);
         gameObject.SetActive(false);
     }
 
@@ -29,7 +42,17 @@ public class AttributePanel : MonoBehaviour
     void SetupAttributeBars()
     {
         headSize = species.headSize;
+        legSize = species.legSize;
+        bellySize = species.bellySize;
+        tailSize = species.tailSize;
+        earSize = species.earSize;
+        armSize = species.armSize;
         headPanel.Find("Bar").GetComponent<Slider>().value = (int) (headSize * 5);
+        legPanel.Find("Bar").GetComponent<Slider>().value = (int) (legSize * 5);
+        bellyPanel.Find("Bar").GetComponent<Slider>().value = (int) (bellySize * 5);
+        tailPanel.Find("Bar").GetComponent<Slider>().value = (int) (tailSize * 5);
+        earPanel.Find("Bar").GetComponent<Slider>().value = (int) (earSize * 5);
+        armPanel.Find("Bar").GetComponent<Slider>().value = (int) (armSize * 5);
     }
 
     void ClosePanel()
@@ -42,6 +65,11 @@ public class AttributePanel : MonoBehaviour
     {
         //update species with the new values
         species.headSize = headSize;
+        species.legSize = legSize;
+        species.bellySize = bellySize;
+        species.tailSize = tailSize;
+        species.earSize = earSize;
+        species.armSize = armSize;
 
 
         //call species home for update
@@ -50,10 +78,4 @@ public class AttributePanel : MonoBehaviour
 
         ClosePanel();
     }
-}
-
-public enum Attribute
-{
-    Speed,
-    LegsLength,
 }

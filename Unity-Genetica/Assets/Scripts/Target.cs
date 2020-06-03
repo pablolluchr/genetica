@@ -27,6 +27,22 @@ public class Target : MonoBehaviour {
         radius = new_radius;
     }
 
+    public void ChangeWithRandomPositionAround(GameObject target,float interactionRadius)
+    {
+        Vector3 targetPosition = target.transform.position;
+        targetGameObject = target;
+
+        //random position in a circle normal to the surface centered in the targets position
+        Vector2 randomInCircle = Random.insideUnitCircle.normalized * interactionRadius;
+        Vector3 basisX = new Vector3(1, 0, 0);
+        Vector3 basisY = new Vector3(0, 1, 0);
+        Vector3 basisZ = new Vector3(0, 0, 1);
+        Quaternion basisRotation = Quaternion.FromToRotation(basisZ, targetPosition);
+        Vector3 rotatedX =  basisRotation * basisX;
+        Vector3 rotatedY = basisRotation * basisY;
+        targetVector3 = targetPosition + rotatedX * randomInCircle.x + rotatedY * randomInCircle.y;
+    }
+
     public void Change(Vector3 target, float new_radius)
     {
         targetVector3 = target;

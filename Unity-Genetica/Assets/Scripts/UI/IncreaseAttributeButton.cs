@@ -21,11 +21,17 @@ public class IncreaseAttributeButton : MonoBehaviour
 
         if (attributeType == "head")
             attributePanel.headSize = bar.value/5f;
+        if (attributeType == "legs")
+            attributePanel.legSize = bar.value / 5f;
+        if (attributeType == "belly")
+            attributePanel.bellySize = bar.value / 5f;
+        if (attributeType == "tail")
+            attributePanel.tailSize = bar.value / 5f;
+        if (attributeType == "ears")
+            attributePanel.earSize = bar.value / 5f;
+        if (attributeType == "arms")
+            attributePanel.armSize = bar.value / 5f;
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -6,42 +6,53 @@ public class Species
 {
     public string speciesName;
     public string color;
-    public float speed;
-    public float legsLength;
-    public float bodySize;
     public float headSize;
+    public float legSize;
+    public float bellySize;
+    public float tailSize;
+    public float earSize;
+    public float armSize;
     public Vector3 areaCenter;
-    public float areaRadius;
+    public int areaSize; //todo maybe make an attribute for this
     public string tag;
+
+    //todo: this ones are inferred from body attribuets
+    public float speed;
     public float swimspeed;
     public float walkspeed;
 
     public Species(string name,
-        string color,
-        float speed,
-        float legsLength,
-        float bodySize,
-        float headSize,
-        Vector3 areaCenter,
-        float areaRadius,
         string tag,
-        float swimVsWalk
+        string color,
+        float speed, //todo remove
+        Vector3 areaCenter,
+        int areaSize,
+        float headSize,
+        float legSize,
+        float bellySize,
+        float tailSize,
+        float earSize,
+        float armSize
     ) {
         this.speciesName = name;
         this.color = color;
         this.speed = speed;
-        this.legsLength = legsLength;
-        this.bodySize = bodySize;
+        this.legSize = legSize;
+        this.bellySize = bellySize;
         this.headSize = headSize;
+        this.tailSize = tailSize;
+        this.earSize = earSize;
+        this.armSize = armSize;
+
         this.areaCenter = areaCenter;
         this.tag = tag;
-        this.areaRadius = areaRadius;
-        this.swimspeed = (1 - swimVsWalk) / 0.5f;
-        this.walkspeed = swimVsWalk / 0.5f;
+        this.areaSize = areaSize;
+        this.swimspeed = speed/2f; //todo calculate!
+        this.walkspeed = speed;
     }
 
     public GameObject Spawn(GameObject unitPrefab) {
-        Vector3 spawnPosition = areaCenter + Random.onUnitSphere*2;
+        Vector3 spawnPosition = areaCenter + Random.onUnitSphere*2f;
         GameObject unit = MonoBehaviour.Instantiate(unitPrefab, spawnPosition,unitPrefab.transform.rotation);
         unit.transform.parent = GameManager.gameManager.units.transform;
         Unit unitComponent = unit.GetComponent<Unit>();
@@ -64,14 +75,21 @@ public class Species
         
         //Update model
         unit.UpdateHeadSize(headSize);
+        unit.UpdateLegSize(legSize);
+        unit.UpdateBellySize(bellySize);
+        unit.UpdateEarSize(earSize);
+        unit.UpdateTailSize(tailSize);
+        unit.UpdateArmSize(armSize);
         unit.UpdateFurColor(color);
 
         if (unit.CompareTag("Preview")) return;
 
         unit.speed = speed;
-        unit.interactionRadius = UnitHelperFunctions.Interpolate(legsLength, new float[,]{{0.2f, 0.5f}, {0.6f, 0.6f}});
+        unit.interactionRadius = UnitHelperFunctions.Interpolate(legSize, new float[,]{{0.2f, 0.5f}, {0.6f, 0.6f}});
         unit.areaCenter = areaCenter;
-        unit.areaRadius = areaRadius;
+
+
+        unit.areaRadius = AreaRadiusFromSize();
         unit.gameObject.tag = tag;
         unit.swimspeed = swimspeed;
 
@@ -98,6 +116,21 @@ public class Species
         foreach (Unit pet in pets) {
             if (pet.speciesName != speciesName) continue;
             UpdateUnit(pet);
+        }
+    }
+
+    public float AreaRadiusFromSize()
+    {
+        switch (areaSize)
+        {
+            case 0: return 0f;
+            case 1: return 3f;
+            case 2: return 6f;
+            case 3: return 8.5f;
+            case 4: return 10f;
+            case 5: return 13f;
+            default:
+                throw new System.Exception("Size not defined");
         }
     }
 

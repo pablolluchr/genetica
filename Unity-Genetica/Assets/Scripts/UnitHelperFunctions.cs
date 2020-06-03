@@ -21,11 +21,21 @@ public static class UnitHelperFunctions {
         GameObject closestObj = GetClosest(unit, objects);
         if (closestObj == null) return null;
         float distance = (unit.transform.position - closestObj.transform.position).magnitude;
-        if (distance < range) {
-            return closestObj;
-        } else {
-            return null;
-        }
+
+        if (distance < range) return closestObj;
+        else return null;
+    }
+
+    public static List<GameObject> ObjectsInAreaRange(List<GameObject> objects,
+        Vector3 areaCenter,float areaRadius)
+    {
+        return objects.FindAll(e => (e.transform.position - areaCenter).magnitude < areaRadius);
+    }
+
+    public static GameObject GetClosetInAreaRange(Unit unit, List<GameObject> objects)
+    {
+        List<GameObject> objectsInAreaRange = ObjectsInAreaRange(objects, unit.areaCenter, unit.areaRadius);
+        return GetClosest(unit, objectsInAreaRange);
     }
 
     // null if not in view

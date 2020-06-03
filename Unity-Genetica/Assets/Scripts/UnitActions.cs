@@ -19,7 +19,7 @@ public static class UnitActions {
     }
 
     public static void TargetFood(Unit unit) {
-        GameObject closestFood = UnitQueries.ClosestFoodInView(unit);
+        GameObject closestFood = UnitQueries.ClosestFoodInArea(unit);
         if (closestFood == null) return;
 
         unit.GetComponent<Target>().Change(closestFood, closestFood.GetComponent<Food>().radius);
@@ -65,7 +65,7 @@ public static class UnitActions {
     }
 
     public static void TargetWater(Unit unit) {
-        Vector3 closestWaterPoint = UnitQueries.ClosestWaterSource(unit);
+        Vector3 closestWaterPoint = UnitQueries.ClosestWaterInArea(unit);
         unit.GetComponent<Target>().Change(closestWaterPoint);
     }
 
@@ -90,13 +90,13 @@ public static class UnitActions {
     #region mating // ################################################################################
   
     public static void TargetMate(Unit unit) {
-        GameObject closestMate = UnitQueries.ClosestMateInView(unit);
+        GameObject closestMate = UnitQueries.ClosestMateInArea(unit);
         if (closestMate == null) return;
         unit.GetComponent<Target>().Change(closestMate, closestMate.GetComponent<Unit>().matingDistance);
     }
 
     public static void Mate(Unit unit) {
-        GameObject closestMateObj = UnitQueries.ClosestMateInView(unit);
+        GameObject closestMateObj = UnitQueries.ClosestMateInArea(unit);
         if (closestMateObj == null) return;
         Unit closestMate = closestMateObj.GetComponent<Unit>();
         closestMate.horny = false;
@@ -126,9 +126,11 @@ public static class UnitActions {
     #region genetium // ################################################################################
 
     public static void TargetGenetium(Unit unit) {
-        GameObject closestGenetium = UnitQueries.ClosestGenetiumInView(unit);
+        //TODO: target genetium should only be called once
+        GameObject closestGenetium = UnitQueries.ClosestGenetiumInArea(unit);
         if (closestGenetium == null) return;
-        unit.GetComponent<Target>().Change(closestGenetium, closestGenetium.GetComponent<Genetium>().radius);
+        unit.GetComponent<Target>().Change(closestGenetium,
+            closestGenetium.GetComponent<Genetium>().radius);
     }
 
     public static void TargetBase(Unit unit) {
@@ -240,10 +242,6 @@ public static class UnitActions {
         }
     }
 
-    //public static void DisableAreaGraphics() {
-    //    GameManager.gameManager.areaGraphic.SetActive(false);
-    //}
-
     public static void ResetSelectionGraphicPosition(Unit unit) {
         //check first raycast collision
         RaycastHit hitInfo = new RaycastHit();
@@ -287,6 +285,8 @@ public static class UnitActions {
         Target target = unit.GetComponent<Target>();
         if (target.IsNear(unit, false)) return;
 
+        //if its near the target, then look to the center of the target gameobject
+
         Vector3 unitPosition = unit.transform.position;
         Vector3 unitUp = unit.transform.up;
         Vector3 targetPosition;
@@ -297,9 +297,9 @@ public static class UnitActions {
 
             Vector3 projectedTargetDestination = Vector3.ProjectOnPlane(target.targetVector3, unitPosition);
             Vector3 unitToObstacle = target.obstacleToAvoid - unitPosition;
-            if (Vector3.Angle(projectedTargetDestination, unitToObstacle) < 120)
+            if (Vector3.Angle(projectedTargetDestination, unitToObstacle) < 90)
             {
-                //TODO: use direction based on proximity
+                //TODO: use direction based on proximity (by alternating the order of the arguments)
                 Vector3 tangentDirection = Vector3.Cross(unitToObstacle, unitUp);
 
                 targetPosition = unitPosition + tangentDirection;
@@ -328,8 +328,21 @@ public static class UnitActions {
         //gravity effect
         unit.transform.rotation = Quaternion.FromToRotation(unit.transform.up, deltaDestination) * deltaTargetRotation;
 
+    }
 
-
+    public static void UpdateIsSwimming(Unit unit)
+    {
+        float minDistance = 1f;
+        List<Vector3> vertices = UnitQueries.GetWaterVertices();
+        foreach (var vertex in vertices)
+        {
+            if (Vector3.SqrMagnitude(unit.waterDetector.position - vertex) < minDistance)
+            {
+                unit.swimming = true;
+                return;
+            }
+        }
+        unit.swimming = false; //if no vertex is within distance
 
     }
 
@@ -347,6 +360,7 @@ public static class UnitActions {
 
     //Find a random point in planet's surface 
     public static void SetWanderingDestination(Unit unit) {
+        //TODO: set position using the radius of a planet. rather than a raycast
         //random position somewhere in a sphere around the unit target
         Vector3 position = (Random.onUnitSphere * unit.areaRadius + unit.areaCenter);
 

@@ -6,6 +6,10 @@ using UnityEngine.UI;
 public class AreaGraphic : MonoBehaviour
 {
     public Image icon;
+    public Renderer[] areaShaders;
+
+    public Texture red;
+    public Texture blue;
     // Start is called before the first frame update
     //private float spawnTime;
     private float scaleMultiplier;
@@ -22,6 +26,8 @@ public class AreaGraphic : MonoBehaviour
         //alphaMultiplier = 1;
         originalScale = transform.localScale;
         transform.localScale = originalScale * scaleMultiplier;
+        SetAreaShader(0);
+
 
         //TODO: the species icon should be the highlight color of the pet.
     }
@@ -30,13 +36,11 @@ public class AreaGraphic : MonoBehaviour
     {
         this.species = species;
         speciesColor = GetColorFromString();
-        Vector3 planetPosition = GameManager.gameManager.planet.transform.position;
 
-        Vector3 targetDir = (planetPosition - species.areaCenter).normalized; //center of the planet
-        Vector3 bodyUP = transform.up;
+        Vector3 targetDir = (- species.areaCenter).normalized; //center of the planet
 
         //transition to the target direction (pointing to the center of the planet)
-        transform.rotation = Quaternion.FromToRotation(bodyUP, targetDir) * transform.rotation;
+        transform.rotation = Quaternion.FromToRotation(transform.up, targetDir) * transform.rotation;
         transform.position = species.areaCenter - targetDir * .2f;
 
         DeselectArea();
@@ -45,20 +49,56 @@ public class AreaGraphic : MonoBehaviour
     public void SelectArea()
     {
         //UnitActions.DisableAllSelectionGraphics();
-        icon.GetComponent<RectTransform>().localScale = new Vector3(2, 2, 2);
-
+        //icon.GetComponent<RectTransform>().localScale = new Vector3(2, 2, 2);
         icon.color = speciesColor;
+        SetAreaShader(species.areaSize);
 
+    }
+
+    public void SetAreaShader(int level)
+    {
+        for (int i = 0; i < areaShaders.Length; i++)
+        {
+            if (i < level)
+            {
+                areaShaders[i].enabled = true;
+                areaShaders[i].material.mainTexture = TextureFromString(species.color);
+
+            }
+            else
+                areaShaders[i].enabled = false;
+        }
+    }
+
+    public Texture TextureFromString(string color)
+    {
+        switch (color)
+        {
+            case "red":
+                return red;
+            case "blue":
+                return blue;
+            default:
+                return null;
+        }
     }
 
     public void DeselectArea()
     {
         //UnitActions.DisableAllSelectionGraphics();
-        icon.GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1.5f);
-        icon.color = (new Color(speciesColor.r, speciesColor.g, speciesColor.b, 0.5f));
+        //icon.GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        icon.color = new Color(speciesColor.r, speciesColor.g, speciesColor.b, 0.5f);
+        SetAreaShader(0);
 
 
 
+
+    }
+    void OnDrawGizmos()
+    {
+        if (species == null) return;
+        Gizmos.color = new Color(0, 1, 1, 0.4f);
+        Gizmos.DrawSphere(transform.position, species.AreaRadiusFromSize());
     }
 
     public Color GetColorFromString()

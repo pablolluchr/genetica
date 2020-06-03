@@ -26,14 +26,14 @@ public static class UnitQueries {
     }
 
     public static bool SeesFood(Unit unit) {
-        return ClosestFoodInView(unit) != null;
+        return ClosestFoodInArea(unit) != null;
     }
 
     // null if no food in viewing range
-    public static GameObject ClosestFoodInView(Unit unit) {
+    public static GameObject ClosestFoodInArea(Unit unit) {
         List<GameObject> foods = GameManager.gameManager.foodList; //TODO: add sources to list
         List<GameObject> nonEmptyFoods = UnitHelperFunctions.FilterEmptyFoods(foods); 
-        return UnitHelperFunctions.GetClosestInView(unit, nonEmptyFoods);
+        return UnitHelperFunctions.GetClosetInAreaRange(unit, nonEmptyFoods);
     }
 
     #endregion
@@ -54,29 +54,53 @@ public static class UnitQueries {
 
     public static bool SeesWater(Unit unit) {
 
-        Vector3 closestWaterSource = UnitQueries.ClosestWaterSource(unit);
-        return (closestWaterSource - unit.transform.position).magnitude <= unit.viewDistance;
+
+        Vector3 closestWaterSource = UnitQueries.ClosestWaterInArea(unit);
+        return closestWaterSource != Vector3.zero;
     }
 
-    public static Vector3 ClosestWaterSource(Unit unit) {
-        List<GameObject> waterSources = GameManager.gameManager.waterList;
+    public static Vector3 ClosestWaterInArea(Unit unit) {
+        //TODO: in general, YOU CAN CALCULATE SQUARE DISTANCE sooo much more efficient. So when the actual
+        //distance doesnt need to be computed but rather values to compare then go for the square dist!
 
-        Vector3 closestSource = Vector3.zero;
+        //In order for the swimming animation to work there could be a swimming transform in the unit wherever
+        //i want to compare it against
+        List<Vector3> vertices = GetWaterVertices();
+
+        Vector3 closestVertex = Vector3.zero;
         float closestDistance = Mathf.Infinity;
-        foreach (var waterSource in waterSources) {
-            Vector3 waterSourcePosition = NearestVertexTo(waterSource, unit.transform.position);
-
-            //Vector3 waterSourcePosition = waterSource.GetComponent<Collider>().ClosestPoint(unit.transform.position);
-            if ((waterSourcePosition - unit.transform.position).magnitude < closestDistance) {
-                closestDistance = (waterSourcePosition - unit.transform.position).magnitude;
-                closestSource = waterSourcePosition;
+        Vector3 unitPosition = unit.transform.position;
+        foreach (var vertex in vertices) {
+            //only considere vertices within area range
+            if (Vector3.SqrMagnitude(vertex - unit.areaCenter)<unit.areaRadius* unit.areaRadius)
+            {
+                float distance = Vector3.SqrMagnitude(vertex - unitPosition);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestVertex = vertex;
+                }
             }
         }
-        if (closestSource == Vector3.zero) throw new System.Exception("No water found");
-        unit.transform.Find("ClosestWaterGizmo").transform.position = closestSource;
-
-        return closestSource;
+        unit.transform.Find("ClosestWaterGizmo").transform.position = closestVertex;
+        return closestVertex;
     }
+
+    public static List<Vector3> GetWaterVertices()
+    {
+
+        MeshFilter water = GameManager.gameManager.water;
+        List<Vector3> vertices = new List<Vector3>(water.mesh.vertices);
+        List<Vector3> globalVertices = new List<Vector3>();
+        foreach (var v in vertices)
+        {
+            globalVertices.Add(water.transform.TransformPoint(v));
+        }
+        return globalVertices;
+    }
+
+
+    
 
     public static Vector3 NearestVertexTo(GameObject source, Vector3 point)
     {
@@ -112,16 +136,16 @@ public static class UnitQueries {
     }
 
     public static bool SeesMate(Unit unit) {
-        return ClosestMateInView(unit) != null;
+        return ClosestMateInArea(unit) != null;
     }
 
     // returns null if does not see a mate
-    public static GameObject ClosestMateInView(Unit unit) {
+    public static GameObject ClosestMateInArea(Unit unit) {
         List<Unit> pets = GameManager.gameManager.petList;
         List<Unit> hornyPets = UnitHelperFunctions.FilterUnmatable(unit, pets);
         List<GameObject> hornyPetsGameObject = new List<GameObject>();
         foreach (var enemy in hornyPets) hornyPetsGameObject.Add(enemy.gameObject);
-        return UnitHelperFunctions.GetClosestInView(unit, hornyPetsGameObject);
+        return UnitHelperFunctions.GetClosetInAreaRange(unit, hornyPetsGameObject);
     }
 
     #endregion
@@ -130,13 +154,13 @@ public static class UnitQueries {
 
     public static bool SeesGenetium(Unit unit) {
         if (unit.gameObject.tag == "Hostile") { return false; }
-        return ClosestGenetiumInView(unit) != null;
+        return ClosestGenetiumInArea(unit) != null;
     }
 
-    public static GameObject ClosestGenetiumInView(Unit unit) {
+    public static GameObject ClosestGenetiumInArea(Unit unit) {
         List<GameObject> genetiums = GameManager.gameManager.genetiumList;
         List<GameObject> nonEmptyGenetiums = UnitHelperFunctions.FilterEmptyGenetium(genetiums);
-        return UnitHelperFunctions.GetClosestInView(unit, nonEmptyGenetiums);
+        return UnitHelperFunctions.GetClosetInAreaRange(unit, nonEmptyGenetiums);
     }
 
     public static bool IsCarryingGenetium(Unit unit) {
@@ -171,7 +195,7 @@ public static class UnitQueries {
 
         //List<Unit> aliveEnemies = UnitHelperFunctions.FilterDeadEnemies(enemies);
         //TODO: units should be taken out of the gameobject array juust when they die
-        return UnitHelperFunctions.GetClosestInRange(unit, enemiesGameObject, unit.enemyDetectionRange);
+        return UnitHelperFunctions.GetClosetInAreaRange(unit, enemiesGameObject);
     }
 
    

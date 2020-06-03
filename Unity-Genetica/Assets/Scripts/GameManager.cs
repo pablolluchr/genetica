@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
     public List<Unit> petList;
     public List<Unit> enemyList;
     public List<Unit> previewUnitList;
-    public List<GameObject> waterList;
+    public MeshFilter water;
     public List<GameObject> foodList;
     public List<GameObject> genetiumList;
 
@@ -116,13 +116,13 @@ public class GameManager : MonoBehaviour
         selectedSpecies = null;
         previousSelectedSpecies = null;
         forceUnitSelectionExit = false;
-        AddSpecies("Fast", "red",2f,   0.2f, 0.2f, 0f,new Vector3(0, -4f, 4f),          5f,"Pet", 0.7f);
-        AddSpecies("Tall", "blue", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, 4f, -4f), 3f, "Pet", 0.7f);
+        AddSpecies("Reds", "Pet", "red", 1, new Vector3(0, -3.8f, 3.8f), 1, 0, 0, 0, 0, 0, 0);
+        AddSpecies("Blues", "Pet", "blue", 2, new Vector3(0, 3.8f, -3.8f), 3, 0, 0, 0, 0, 0, 0);
         //AddSpecies("Enemy", "blue", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, 4f, -4f), 3f, "Hostile", 0.7f);
         //AddSpecies("FastEnemy", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, -4f, 4f), 2f, "Hostile", 0.7f);
 
-        for (int i = 0; i < 10; i++) GetSpeciesFromName("Fast").Spawn(unitPrefab);
-        for (int i = 0; i < 10; i++) GetSpeciesFromName("Tall").Spawn(unitPrefab);
+        for (int i = 0; i < 5; i++) GetSpeciesFromName("Reds").Spawn(unitPrefab);
+        for (int i = 0; i < 5; i++) GetSpeciesFromName("Blues").Spawn(unitPrefab);
         //for (int i = 0; i < 5; i++) GetSpeciesFromName("Enemy").Spawn(unitPrefab);
 
 
@@ -130,17 +130,20 @@ public class GameManager : MonoBehaviour
     }
 
     public void AddSpecies(string name,
+        string tag,
         string color,
         float speed,
-        float legsLength,
-        float bodySize,
-        float headSize,
         Vector3 areaCenter,
-        float areaRadius,
-        string tag,
-        float swimVsWalk
+        int areaSize,
+        float headSize,
+        float legSize,
+        float bellySize,
+        float tailSize,
+        float earSize,
+        float armSize
     ) {
-        Species newSpecies = new Species(name,color, speed, legsLength, bodySize, headSize, areaCenter, areaRadius, tag, swimVsWalk);
+        Species newSpecies = new Species(name,tag, color, speed, areaCenter, areaSize,
+            headSize,legSize,bellySize,tailSize,earSize,armSize);
         speciesList.Add(newSpecies);
         //instantiate species graphic
         GameObject areaGraphicInstance = MonoBehaviour.Instantiate(areaGraphic);
