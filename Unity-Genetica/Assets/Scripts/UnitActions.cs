@@ -299,8 +299,13 @@ public static class UnitActions {
             Vector3 unitToObstacle = target.obstacleToAvoid - unitPosition;
             if (Vector3.Angle(projectedTargetDestination, unitToObstacle) < 90)
             {
-                //TODO: use direction based on proximity (by alternating the order of the arguments)
-                Vector3 tangentDirection = Vector3.Cross(unitToObstacle, unitUp);
+                //get tangent direction to sphere to walk around it
+                Vector3 tangentDirection = Vector3.Cross(unitUp,unitToObstacle);
+
+                //use the best of the two possible tangents (most direct to destination)
+                if (Vector3.Dot(tangentDirection, projectedTargetDestination) <
+                    Vector3.Dot(-tangentDirection, projectedTargetDestination))
+                    tangentDirection = -tangentDirection;
 
                 targetPosition = unitPosition + tangentDirection;
             }
@@ -309,7 +314,7 @@ public static class UnitActions {
 
         //project on plane perrpendicular to unit passing throuugh planet center
         Vector3 projectedDestination = Vector3.ProjectOnPlane(targetPosition, unit.transform.position);
-        if (projectedDestination == Vector3.zero) return; //TODO: handle case where target is in the exact opposite side of the planet
+        if (projectedDestination == Vector3.zero) return; //TODO: handle case where target is in the exact opposite side of the planet? basically impossible tho
 
         //move in the target direction
         float speed = unit.speed;
