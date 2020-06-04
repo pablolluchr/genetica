@@ -169,8 +169,8 @@ public static class UnitActions {
         Vector3 position = enemy.transform.position;
         RaycastHit hitInfo = new RaycastHit();
 
-        bool hit = Physics.Raycast(position - 20f * (position - GameManager.gameManager.planet.transform.position),
-            (position - GameManager.gameManager.planet.transform.position), out hitInfo,
+        bool hit = Physics.Raycast(position - 20f * position,
+            position, out hitInfo,
             Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
         if (hit) unit.GetComponent<Target>().Change(hitInfo.point);
     }
@@ -245,7 +245,7 @@ public static class UnitActions {
     public static void ResetSelectionGraphicPosition(Unit unit) {
         //check first raycast collision
         RaycastHit hitInfo = new RaycastHit();
-        Vector3 directionToCenter = (GameManager.gameManager.planet.transform.position - unit.transform.position).normalized;
+        Vector3 directionToCenter = - unit.transform.position.normalized;
         bool hit = Physics.Raycast(unit.transform.position - directionToCenter * 5,
             directionToCenter, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
         if (hit) unit.selectionGraphic.transform.position = hitInfo.point;
@@ -355,7 +355,7 @@ public static class UnitActions {
     public static void ShowTargetGraphic(Unit unit)
     {
         MonoBehaviour.Instantiate(unit.targetGraphic).GetComponent<TargetGraphic>()
-            .SetPosition(unit.GetComponent<Target>().targetVector3, GameManager.gameManager.planet.transform.position);
+            .SetPosition(unit.GetComponent<Target>().targetVector3, Vector3.zero);
     }
 
     //Find a random point in planet's surface 
@@ -367,8 +367,7 @@ public static class UnitActions {
         //project on planet. raycast has to be projected from the sky
         RaycastHit hitInfo = new RaycastHit();
 
-        bool hit = Physics.Raycast(position + 20f * (position - GameManager.gameManager.planet.transform.position),
-            (GameManager.gameManager.planet.transform.position - position), out hitInfo,
+        bool hit = Physics.Raycast(position + 20f * position,- position, out hitInfo,
             Mathf.Infinity, 1 << LayerMask.NameToLayer("Planet"));
         if (hit) {
             unit.GetComponent<Target>().Change(hitInfo.point);

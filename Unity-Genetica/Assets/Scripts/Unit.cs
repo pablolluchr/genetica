@@ -282,37 +282,29 @@ public class Unit : MonoBehaviour {
         return minScale + (maxScale - minScale) * size;
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Water")) { }
-        else if (other.gameObject.CompareTag("Food")) { }
-        else if (other.gameObject.CompareTag("Genetium")) { }
-        else GetComponent<Target>().SetObstacle(other.gameObject.transform.position);
+        if (other.gameObject.CompareTag("Obstacle")) GetComponent<Target>().SetObstacle(other.gameObject.transform.position);
 
     }
-
-
-
     //check for water to stop swimming
     private void OnTriggerExit(Collider other)
     {
-        //TODO: Do this using distance instead
-        if (other.gameObject.CompareTag("Water")) { }
-        else if (other.gameObject.CompareTag("Food")) { }
-        else if (other.gameObject.CompareTag("Genetium")) { }
-        else GetComponent<Target>().ResetObstacle();
+
+        if (other.gameObject.CompareTag("Obstacle")) GetComponent<Target>().ResetObstacle();
 
 
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("hut");
-        //foreach (ContactPoint contact in collision.contacts)
-        //{
-        //    Debug.DrawRay(contact.point, contact.normal, Color.white);
-        //}
-    }
+    //void OnCollisionEnter(Collision collision)
+    //{
+    //    Debug.Log("hut");
+    //    //foreach (ContactPoint contact in collision.contacts)
+    //    //{
+    //    //    Debug.DrawRay(contact.point, contact.normal, Color.white);
+    //    //}
+    //}
 
 
     public void UpdateMovingAnimation()

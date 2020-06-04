@@ -53,7 +53,6 @@ public class GameManager : MonoBehaviour
     public GameObject units;
     public GameObject unitPrefab;
     public GameObject areaGraphic;
-    public GameObject planet;
     public GameObject sun;
 
     public Unit selectedUnit;
@@ -116,8 +115,8 @@ public class GameManager : MonoBehaviour
         selectedSpecies = null;
         previousSelectedSpecies = null;
         forceUnitSelectionExit = false;
-        AddSpecies("Reds", "Pet", "red", 1, new Vector3(0, -3.8f, 3.8f), 1, 0, 0, 0, 0, 0, 0);
-        AddSpecies("Blues", "Pet", "blue", 2, new Vector3(0, 3.8f, -3.8f), 3, 0, 0, 0, 0, 0, 0);
+        AddSpecies("Reds", "Pet", "red", 1, new Vector3(-3.7f, 0, 3.7f), 1, 0, 0, 0, 0, 0, 0);
+        AddSpecies("Blues", "Pet", "blue", 2, new Vector3(0, 3.7f, -3.7f), 3, 0, 0, 0, 0, 0, 0);
         //AddSpecies("Enemy", "blue", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, 4f, -4f), 3f, "Hostile", 0.7f);
         //AddSpecies("FastEnemy", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, -4f, 4f), 2f, "Hostile", 0.7f);
 
