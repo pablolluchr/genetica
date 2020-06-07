@@ -3,47 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpeciesSelectionPanel : MonoBehaviour
+public class SpeciesSelectionPanel : MovingUIPanel
 {
-    //public string unitType;
-    //public GameObject speciesButton;
+    public GameObject speciesButton;
     //public GameObject bottomControls;
-    
+    //todo: use hide and show from MovingUIPanel
+    private void Start()
+    {
+        Show();
+    }
 
+    new public void Show()
+    {
 
-    //public void ShowSpecies()
-    //{
+        //reset previous species
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
 
-    //    //reset previous species
-    //    foreach (Transform child in transform)
-    //    {
-    //        Destroy(child.gameObject);
-    //    }
+        //Add button for each species
+        float offset = 80f;
+        foreach (var species in GameManager.gameManager.speciesList)
+        {
+                GameObject button = Instantiate(speciesButton);
+                button.transform.SetParent(this.gameObject.transform);
+                button.GetComponent<SpeciesButton>().species = species;
+                RectTransform rt = button.GetComponent<RectTransform>();
+                rt.anchoredPosition = new Vector2(offset, 0);
+                offset += 125;
 
-    //    float offset = 80f;
-    //    foreach (var species in GameManager.gameManager.speciesList)
-    //    {
-    //        if (species.tag == unitType)
-    //        {
+        }
+        base.Show();
+    }
 
-    //            GameObject button = Instantiate(speciesButton);
-    //            button.transform.SetParent(this.gameObject.transform);
-    //            button.GetComponent<SpeciesButton>().speciesName = species.speciesName;
-    //            button.GetComponent<SpeciesButton>().unitType = unitType;
-    //            button.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = species.speciesName;
-    //            RectTransform rt = button.GetComponent<RectTransform>();
-    //            rt.anchoredPosition = new Vector2(offset, 0);
-    //            offset += 125;
-    //        }
-
-
-    //    }
-    //    gameObject.SetActive(false);
-    //}
-
-    //public void ClosePanel()
-    //{
-    //    bottomControls.SetActive(true);
-    //    gameObject.SetActive(false);
-    //}
 }

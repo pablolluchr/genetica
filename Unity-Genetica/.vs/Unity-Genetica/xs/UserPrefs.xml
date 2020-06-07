@@ -1,23 +1,20 @@
 ﻿<Properties StartupConfiguration="{4C7EB0CC-8906-19E4-8AD1-8C53653A637D}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UnitActions.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UnitInfoPanel.cs">
     <Files>
-      <File FileName="Assets/Scripts/Species.cs" Line="55" Column="68" IsPinned="True" />
-      <File FileName="Assets/Scripts/GameManager.cs" IsPinned="True" />
-      <File FileName="Assets/Scripts/UnitActions.cs" Line="370" Column="1" />
-      <File FileName="Assets/Scripts/UI/AttributePanel.cs" />
-      <File FileName="Assets/Scripts/UI/IncreaseAttributeButton.cs" />
-      <File FileName="Assets/Scripts/Unit.cs" />
-      <File FileName="Assets/Scripts/UI/AreaGraphic.cs" />
-      <File FileName="Assets/Scripts/UnitHelperFunctions.cs" />
-      <File FileName="Assets/Scripts/WaterPoint.cs" />
-      <File FileName="Assets/Scripts/GameManagerStateMachine.cs" />
-      <File FileName="Assets/Scripts/UnitStateMachine.cs" />
-      <File FileName="Assets/Scripts/UnitQueries.cs" />
-      <File FileName="Assets/Scripts/Target.cs" Line="30" Column="17" />
-      <File FileName="Assets/Scripts/UI/UnitInfo.cs" />
-      <File FileName="Assets/Scripts/InputManager.cs" />
-      <File FileName="Assets/Scripts/LightBehaviour.cs" />
-      <File FileName="Assets/Scripts/TargetGraphic.cs" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="287" Column="6" />
+      <File FileName="Assets/Scripts/UI/UnitInfoPanel.cs" Line="29" Column="9" />
+      <File FileName="Assets/Scripts/GameManagerStateMachine.cs" Line="55" Column="18" />
+      <File FileName="Assets/Scripts/InputManager.cs" Line="68" Column="24" />
+      <File FileName="Assets/Scripts/UI/ExitMenu.cs" Line="8" Column="59" />
+      <File FileName="Assets/Scripts/UI/SpeciesSelectionPanel.cs" Line="39" Column="1" />
+      <File FileName="Assets/Scripts/UI/MovingUIPanel.cs" Line="28" Column="1" />
+      <File FileName="Assets/Scripts/CameraController.cs" Line="48" Column="17" />
+      <File FileName="Assets/Scripts/UnitActions.cs" Line="32" Column="1" />
+      <File FileName="Assets/Scripts/UI/SpeciesInfoPanel.cs" Line="23" Column="1" />
+      <File FileName="Assets/Scripts/UI/SpeciesButton.cs" Line="26" Column="33" />
+      <File FileName="Assets/Scripts/Target.cs" Line="18" Column="1" />
+      <File FileName="Assets/Scripts/UI/AttributePanel.cs" Line="25" Column="114" />
+      <File FileName="Assets/Scripts/UI/BottomButton.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -25,7 +22,9 @@
           <Node name="Unity-Genetica" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="UnitActions.cs" selected="True" />
+                <Node name="UI" expanded="True">
+                  <Node name="UnitInfoPanel.cs" selected="True" />
+                </Node>
               </Node>
             </Node>
           </Node>
@@ -35,12 +34,9 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="69d4e450-d971-40c9-8cca-96c5568cb8ac" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="aa64d5be-5486-4856-8a7d-51e2aea3e453" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/pablolluch/Documents/UnityProjects/Genetica/Unity-Genetica/Assets/Scripts/GameManagerStateMachine.cs" relfile="Assets/Scripts/GameManagerStateMachine.cs" line="55" column="1" />
-      <Breakpoint file="/Users/pablolluch/Documents/UnityProjects/Genetica/Unity-Genetica/Assets/Scripts/UnitActions.cs" relfile="Assets/Scripts/UnitActions.cs" line="130" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

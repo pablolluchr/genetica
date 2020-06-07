@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour
     public GameObject attributePanel;
     public GameObject bottomControls;
     public Transform objectPreview;
-    public GameObject speciesSelectionPanel;
 
     public List<Species> speciesList = new List<Species>();
     public string recallSpecies = null;
@@ -79,6 +78,7 @@ public class GameManager : MonoBehaviour
     public Material unitFur;
     public float planetRadius;
     public int maxUnits;
+    public bool newSpeciesSelected;
 
     //lists of units and objects
     public List<Unit> petList;
@@ -87,14 +87,13 @@ public class GameManager : MonoBehaviour
     public MeshFilter water;
     public List<GameObject> foodList;
     public List<GameObject> genetiumList;
-
     public List<Material> furMaterials;
 
-
-
-
     //UI stuff
-    public GameObject unitInfoPanel;
+    public UnitInfoPanel unitInfoPanel;
+    public SpeciesInfoPanel speciesInfoPanel;
+    public SpeciesSelectionPanel speciesSelectionPanel;
+
     public bool forceUnitSelectionExit;
 
     private void Awake()
@@ -115,8 +114,8 @@ public class GameManager : MonoBehaviour
         selectedSpecies = null;
         previousSelectedSpecies = null;
         forceUnitSelectionExit = false;
-        AddSpecies("Reds", "Pet", "red", 1, new Vector3(-3.7f, 0, 3.7f), 1, 0, 0, 0, 0, 0, 0);
-        AddSpecies("Blues", "Pet", "blue", 2, new Vector3(0, 3.7f, -3.7f), 3, 0, 0, 0, 0, 0, 0);
+        AddSpecies("Reds", "Pet", "red", 1, 0, 0, 0, 0, 0, 0);
+        AddSpecies("Blues", "Pet", "blue", 2, 0, 0, 0, 0, 0, 0);
         //AddSpecies("Enemy", "blue", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, 4f, -4f), 3f, "Hostile", 0.7f);
         //AddSpecies("FastEnemy", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, -4f, 4f), 2f, "Hostile", 0.7f);
 
@@ -132,8 +131,6 @@ public class GameManager : MonoBehaviour
         string tag,
         string color,
         float speed,
-        Vector3 areaCenter,
-        int areaSize,
         float headSize,
         float legSize,
         float bellySize,
@@ -141,12 +138,12 @@ public class GameManager : MonoBehaviour
         float earSize,
         float armSize
     ) {
-        Species newSpecies = new Species(name,tag, color, speed, areaCenter, areaSize,
+        Species newSpecies = new Species(name,tag, color, speed,
             headSize,legSize,bellySize,tailSize,earSize,armSize);
         speciesList.Add(newSpecies);
         //instantiate species graphic
-        GameObject areaGraphicInstance = MonoBehaviour.Instantiate(areaGraphic);
-        PositionAreaGraphic(areaGraphicInstance, newSpecies);
+        //GameObject areaGraphicInstance = MonoBehaviour.Instantiate(areaGraphic);
+        //PositionAreaGraphic(areaGraphicInstance, newSpecies);
 
     }
 
@@ -180,7 +177,15 @@ public class GameManager : MonoBehaviour
 
     public bool NewUnitSelected()
     {
-        return selectedUnit != selectedObject.GetComponent<Unit>();
+        return selectedObject && selectedObject.GetComponent<Unit>()!=null &&
+            selectedUnit != selectedObject.GetComponent<Unit>();
+    }
+
+    public void SetHabitatTargets()
+    {
+        if (selectedObject.CompareTag("Genetium")) selectedSpecies.genetiumSource = selectedObject;
+        if (selectedObject.CompareTag("Food")) selectedSpecies.foodSource = selectedObject;
+        selectedSpecies.UpdateAllUnits();
     }
 
     public Material GetFurMaterial(string color)
@@ -202,30 +207,28 @@ public class GameManager : MonoBehaviour
         selectedPoint = Vector3.zero;
     }
 
-    public void TargetUnit() {
+    public void ShowSpeciesSelectionPanel()
+    {
+        speciesSelectionPanel.Show();
+    }
+
+    public void SelectUnit() {
+        forceUnitSelectionExit = false;
         cameraController.StartFollowing(selectedObject.transform,"in");
         selectedUnit = selectedObject.GetComponent<Unit>();
-    }
 
-    public void SetTargetUnitGraphics()
-    {
-        //UnitActions.DisableAreaGraphics();
         UnitActions.DisableAllSelectionGraphics();
-        UnitActions.EnableSelectionGraphic(selectedObject.GetComponent<Unit>());
-        unitInfoPanel.GetComponent<UnitInfo>().Show(selectedObject.GetComponent<Unit>());
-    }
-    public void HideInfoPanel()
-    {
-        unitInfoPanel.GetComponent<UnitInfo>().Hide();
-        forceUnitSelectionExit = false;
+        UnitActions.EnableSelectionGraphic(selectedUnit);
+        speciesSelectionPanel.Hide();
+        speciesInfoPanel.Hide();
+        unitInfoPanel.Show(selectedUnit);
     }
 
-    public void PositionAreaGraphic(GameObject areaGraphic,Species species)
+    public void DeselectUnit()
     {
-        areaGraphic.SetActive(true);
-        areaGraphic.GetComponent<AreaGraphic>().SetSpecies(species);
+        unitInfoPanel.Hide();
+        UnitActions.DisableAllSelectionGraphics();
     }
-
 
     public void OverrideUnit() {
         if (selectedUnit.CompareTag("Pet")) {
@@ -236,56 +239,32 @@ public class GameManager : MonoBehaviour
         FreePan();
     }
 
-    public void ForceSelectionExit()
-    {
-        FreePan();
-        HideInfoPanel();
-        UnitActions.DisableAllSelectionGraphics();
-
-        SetTargetsToNull();
-    }
-
     public void TargetObject() {
         cameraController.StartFollowing(selectedObject.transform,"in");
     }
 
     public void FreePan() {
         cameraController.StartPanning();
-        if (!IsAreaSelected())
-            SetTargetsToNull();
+        SetTargetsToNull();
     }
 
-    public void SelectSpecies() {
-
-        AreaGraphic areaGraphic = selectedObject.GetComponent<AreaGraphic>();
-        //selectedObject.transform.Find("Image").GetComponent<Animator>().SetBool("isSelected", true);
-
-        selectedSpecies = areaGraphic.species;
-        areaGraphic.SelectArea();
-        cameraController.StartFollowing(areaGraphic.gameObject.transform, "out");
+    public void UpdateSelectedSpecies(Species species)
+    {
+        newSpeciesSelected = true;
+        selectedSpecies = species;
+    }
+    public void SelectSpecies()
+    {
+        speciesInfoPanel.Show(selectedSpecies);
         UnitActions.SelectAllUnitsOfSpecies(selectedSpecies);
 
-        //SetTargetsToNull();
-        //previousSelectedSpecies = selectedSpecies;
-
-    }
-
-    public bool NewSpeciesSelected()
-    {
-        AreaGraphic areaGraphic = selectedObject.GetComponent<AreaGraphic>();
-        return selectedSpecies != areaGraphic.species;
+        //todo: find average point of species units and go there instead?
+        cameraController.StartFollowing(selectedSpecies.foodSource.transform, "out");
+        newSpeciesSelected = false;
     }
 
     public void DeselectSpecies() {
-
-        //selectedObject.transform.Find("Image").GetComponent<Animator>().SetBool("isSelected", false);
-
         selectedSpecies = null;
-        previousSelectedSpecies = null;
-        AreaGraphic areaGraphic = selectedObject.GetComponent<AreaGraphic>();
-
-        areaGraphic.DeselectArea();
-
         UnitActions.DisableAllSelectionGraphics();
         SetTargetsToNull();
         FreePan();
@@ -293,21 +272,6 @@ public class GameManager : MonoBehaviour
         cameraController.zoomType = "in";
     }
 
-    public void SetHabitat() {
-        if (selectedSpecies.tag == "Hostile"){
-            DeselectSpecies();
-            return;
-        }
-        selectedSpecies.areaCenter = selectedPoint;
-        selectedObject.GetComponent<AreaGraphic>().SetSpecies(selectedSpecies);
-        selectedSpecies.UpdateAllUnits();
-        List<Unit> units = selectedSpecies.GetAllUnitsOfSpecies();
-        foreach (Unit unit in units){
-            UnitActions.OverrideTarget(unit, selectedSpecies.areaCenter);
-        }
-        SelectSpecies();
-        //SetTargetsToNull();
-    }
 
     #endregion
 
@@ -317,11 +281,9 @@ public class GameManager : MonoBehaviour
         return selectedObject && selectedObject.GetComponent<Unit>() != null;
     }
 
-    public bool IsAreaSelected()
+    public bool IsSpeciesSelected()
     {
-        if (selectedObject != null) return selectedObject.gameObject.tag == "AreaGraphic";
-        else return false;
-
+        return selectedSpecies != null;
     }
 
     public bool IsObjectSelected() {

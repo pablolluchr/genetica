@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UnitInfo : MonoBehaviour
+public class UnitInfoPanel : MovingUIPanel
 {
-    private Animator anim;
     public Unit targetUnit;
     public GameObject previewUnit;
     public GameObject previewCamera;
@@ -14,7 +13,7 @@ public class UnitInfo : MonoBehaviour
     private Slider water;
     private TMPro.TextMeshProUGUI genetium;
     private TMPro.TextMeshProUGUI genetiumMax;
-    // Start is called before the first frame update
+
     void Start()
     {
         //TODO: do this myself in inspector
@@ -23,15 +22,16 @@ public class UnitInfo : MonoBehaviour
         water = transform.Find("Water").GetComponent<Slider>();
         genetium = transform.Find("Genetium").GetComponent<TMPro.TextMeshProUGUI>();
         genetiumMax = transform.Find("GenetiumMax").GetComponent<TMPro.TextMeshProUGUI>();
-        anim = transform.parent.GetComponent<Animator>();
         transform.Find("Species").GetComponent<Button>().onClick.AddListener(OpenSpeciesPanel);
         previewUnit.gameObject.SetActive(false);
         targetUnit = null;
+        Hide();
         
     }
 
     public void OpenSpeciesPanel()
     {
+        //todo: do this through a game manager state.
         Hide();
         GameManager.gameManager.attributePanel.GetComponent<AttributePanel>().OpenPanel(targetUnit.speciesName);
     }
@@ -49,27 +49,28 @@ public class UnitInfo : MonoBehaviour
     }
     public void Show(Unit unit)
     {
+
         targetUnit = unit;
         GameManager.gameManager.GetSpeciesFromName(unit.speciesName).UpdateUnit(previewUnit.GetComponent<Unit>());
         previewUnit.SetActive(true);
         previewCamera.SetActive(true);
 
-        anim.SetBool("shown", true);
+        Show();
+
     }
 
-    public void Hide()
+    new public void Hide()
     {
-        anim.SetBool("shown", false);
-        previewUnit.gameObject.SetActive(false);
+        GameManager.gameManager.forceUnitSelectionExit = true;
 
-        StartCoroutine(DisablePanelDelayed());
-
+        base.Hide();
+        StartCoroutine(DisablePreviewUnitDelayed());
     }
 
-    IEnumerator DisablePanelDelayed()
+    IEnumerator DisablePreviewUnitDelayed()
     {
         yield return new WaitForSeconds(0.3f);
-        //gameObject.SetActive(false);
+        previewUnit.gameObject.SetActive(false);
 
     }
 

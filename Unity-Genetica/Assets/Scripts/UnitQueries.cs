@@ -55,32 +55,29 @@ public static class UnitQueries {
     public static bool SeesWater(Unit unit) {
 
 
-        Vector3 closestWaterSource = UnitQueries.ClosestWaterInArea(unit);
+        Vector3 closestWaterSource = UnitQueries.ClosestWater(unit);
         return closestWaterSource != Vector3.zero;
     }
 
-    public static Vector3 ClosestWaterInArea(Unit unit) {
-        //TODO: in general, YOU CAN CALCULATE SQUARE DISTANCE sooo much more efficient. So when the actual
-        //distance doesnt need to be computed but rather values to compare then go for the square dist!
+    public static Vector3 ClosestWater(Unit unit) {
 
-        //In order for the swimming animation to work there could be a swimming transform in the unit wherever
-        //i want to compare it against
+        //where water proximity is calculated against
+        Vector3 center = unit.transform.position;
+        //TODO: consider if water should be taken from the closest point to the food source
+        //if (unit.foodSource != null) center = unit.foodSource.transform.position;
+
         List<Vector3> vertices = GetWaterVertices();
 
         Vector3 closestVertex = Vector3.zero;
         float closestDistance = Mathf.Infinity;
-        Vector3 unitPosition = unit.transform.position;
+        //Vector3 unitPosition = unit.transform.position;
         foreach (var vertex in vertices) {
-            //only considere vertices within area range
-            if (Vector3.SqrMagnitude(vertex - unit.areaCenter)<unit.areaRadius* unit.areaRadius)
-            {
-                float distance = Vector3.SqrMagnitude(vertex - unitPosition);
+                float distance = Vector3.SqrMagnitude(vertex - center);
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
                     closestVertex = vertex;
                 }
-            }
         }
         unit.transform.Find("ClosestWaterGizmo").transform.position = closestVertex;
         return closestVertex;

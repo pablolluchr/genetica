@@ -23,11 +23,16 @@ public enum UnitState {
 public static class UnitStateMachine {
 
     public static UnitState NextState(Unit unit) { //returns next state
+        //todo: if enemies approach them they start attacking? or only if the user puts them in attack mode
+        //if they don't start attacking do they run away?
 
+        //todo: only show mating thought when having a baby (make the fucking process longer)
         if (unit.dead) { UnitActions.Dead(unit); }
 
         switch (unit.unitState) {
             case UnitState.Wander: {
+
+                    //rethink this
                     if (UnitQueries.IsThreatened(unit)){
                         if (UnitQueries.ShouldBeAggressive(unit)){
                             return UnitState.TargetEnemy;
@@ -35,27 +40,30 @@ public static class UnitStateMachine {
                             return UnitState.Flee;
                         }
                     }
-                    if (UnitQueries.IsHungry(unit) && UnitQueries.SeesFood(unit)) { return UnitState.TargetFood; }
-                    if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
-                    if (UnitQueries.NeedsChange(unit)) { return UnitState.TargetBase; }
+                    if (UnitQueries.NeedsChange(unit)) { return UnitState.TargetBase; } //TODO this should probably override cause it seems like a bug otherwise
+
+                    //todo; enemies should also grow in population if given unlimited food
+                    //The species starts with a base food source allocated so they always have a target food source
+                    if (UnitQueries.IsHungry(unit) && unit.foodSource!=null) { UnitActions.TargetFood(unit); return UnitState.TargetFood; }
+                    if (UnitQueries.IsThirsty(unit)) { UnitActions.TargetWater(unit); return UnitState.TargetWater; }
                     if (UnitQueries.IsHorny(unit) && UnitQueries.SeesMate(unit)) { return UnitState.TargetMate; }
-                    if (UnitQueries.SeesGenetium(unit) && !UnitQueries.IsStorageFull(unit)) { return UnitState.TargetGenetium; }
+                    if (unit.genetiumSource!=null && !UnitQueries.IsStorageFull(unit)) {
+                        UnitActions.TargetGenetium(unit);return UnitState.TargetGenetium; }
                     if (UnitQueries.IsCarryingGenetium(unit)) { return UnitState.TargetBase; }
                     UnitActions.Wander(unit);
                 break;
             }
             case UnitState.TargetWater: {
-                UnitActions.TargetWater(unit);
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
-                if (!UnitQueries.SeesWater(unit)) { return UnitState.Wander; }
+                //if (!UnitQueries.SeesWater(unit)) { return UnitState.Wander; }
                 if (UnitQueries.IsNearTarget(unit, false)) { return UnitState.Drink; }
                 
                 break;
             }
             case UnitState.TargetFood: {
-                UnitActions.TargetFood(unit);
+                    //todo handle change of food source as its targetting
                 if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
-                if (!UnitQueries.SeesFood(unit)) { return UnitState.Wander; }
+                //if (!UnitQueries.SeesFood(unit)) { return UnitState.Wander; }
                 if (UnitQueries.IsNearTarget(unit, false)) { return UnitState.Eat; }
                 break;
             }
@@ -67,12 +75,14 @@ public static class UnitStateMachine {
                 break;
             }
             case UnitState.TargetGenetium: {
-                UnitActions.TargetGenetium(unit);
-                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
-                if (UnitQueries.IsHungry(unit) && UnitQueries.SeesFood(unit)) { return UnitState.TargetFood; }
-                if (UnitQueries.IsThirsty(unit) && UnitQueries.SeesWater(unit)) { return UnitState.TargetWater; }
-                if (!UnitQueries.SeesGenetium(unit)) { return UnitState.Wander; }
+                    //todo handle change of genetium source as its targetting
+
+                    //if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                    if (UnitQueries.IsHungry(unit) && unit.foodSource != null) { return UnitState.TargetFood; }
+                if (UnitQueries.IsThirsty(unit)) { return UnitState.TargetWater; } //todo what if the water is protected by enemies?
+                //if (!UnitQueries.SeesGenetium(unit)) { return UnitState.Wander; }
                 if (UnitQueries.IsNearTarget(unit, false)) { return UnitState.Harvest; }
+
                 break;
             }
             case UnitState.TargetBase: {
@@ -99,7 +109,8 @@ public static class UnitStateMachine {
                 break;
             }
             case UnitState.Eat: {
-                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                //todo handle change of food source as its eating
+                //if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                 if (UnitQueries.IsFed(unit)) { UnitActions.TurnFed(unit); return UnitState.Wander; }
                 UnitActions.Eat(unit);
                 break;
@@ -111,7 +122,9 @@ public static class UnitStateMachine {
                 break;
             }
             case UnitState.Harvest: {
-                if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                    //todo handle change of food source as its harvesting
+
+                    if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                     if (!UnitQueries.IsNearTarget(unit,true)) { return UnitState.Wander; }
                     if (UnitQueries.IsStorageFull(unit)) { return UnitState.Wander; }
                     if (!UnitQueries.SeesGenetium(unit)) { return UnitState.Wander; }

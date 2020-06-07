@@ -23,8 +23,7 @@ public class InputManager : MonoBehaviour {
         gm.isShortClick = isShortClick();
         if (gm.isShortClick) {
             if (IsPointerOverUIObject()) return;
-            if (!gm.IsAreaSelected())
-                gm.selectedObject = objectHitWithRaycast();
+            gm.selectedObject = objectHitWithRaycast();
             gm.selectedPoint = pointHitWithRaycast();
         }
         saveFrameInfo();

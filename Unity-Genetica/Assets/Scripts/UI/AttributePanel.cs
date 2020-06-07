@@ -21,7 +21,8 @@ public class AttributePanel : MonoBehaviour
 
     public Button close;
     public Button apply;
-    //public float legsLength;
+    //todo: extend this as movingUIpanel
+    //todo: create attributeSelection gamestate and handle the closing and opening of the other panels from there
     // Start is called before the first frame update
     void Awake()
     {

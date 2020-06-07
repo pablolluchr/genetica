@@ -19,14 +19,15 @@ public static class UnitActions {
     }
 
     public static void TargetFood(Unit unit) {
-        GameObject closestFood = UnitQueries.ClosestFoodInArea(unit);
-        if (closestFood == null) return;
+        GameObject food = unit.foodSource;
 
-        unit.GetComponent<Target>().Change(closestFood, closestFood.GetComponent<Food>().radius);
+        unit.GetComponent<Target>().Change(food,
+            food.GetComponent<Food>().radius);
     }
 
     public static void Eat(Unit unit) {
         //eat from the source at most however much space they have on their stomach
+
         if (unit.GetComponent<Target>() == null) return;
         unit.amountFed += unit.GetComponent<Target>().targetGameObject.GetComponent<Food>().Eat(unit.maxFed - unit.amountFed);
     }
@@ -65,7 +66,7 @@ public static class UnitActions {
     }
 
     public static void TargetWater(Unit unit) {
-        Vector3 closestWaterPoint = UnitQueries.ClosestWaterInArea(unit);
+        Vector3 closestWaterPoint = UnitQueries.ClosestWater(unit);
         unit.GetComponent<Target>().Change(closestWaterPoint);
     }
 
@@ -126,11 +127,11 @@ public static class UnitActions {
     #region genetium // ################################################################################
 
     public static void TargetGenetium(Unit unit) {
-        //TODO: target genetium should only be called once
-        GameObject closestGenetium = UnitQueries.ClosestGenetiumInArea(unit);
-        if (closestGenetium == null) return;
-        unit.GetComponent<Target>().Change(closestGenetium,
-            closestGenetium.GetComponent<Genetium>().radius);
+        GameObject genetium = unit.genetiumSource;
+
+        //TODO change
+        unit.GetComponent<Target>().Change(genetium,
+            genetium.GetComponent<Genetium>().radius);
     }
 
     public static void TargetBase(Unit unit) {

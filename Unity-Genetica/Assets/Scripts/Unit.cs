@@ -44,6 +44,7 @@ public class Unit : MonoBehaviour {
     public float hungerDamage;
     public bool hungry;
     public float criticalHunger;
+    public GameObject foodSource;
 
     [Header("Drinking Attributes")]
     public float amountQuenched; //how much of the stomach is filled
@@ -71,9 +72,10 @@ public class Unit : MonoBehaviour {
     public float aggression;
     public int attackForce;
     
-    [Header("Harvesting Attributes")]
+    [Header("Genetium Attributes")]
     public float carryingCapacity;
     public float currentGenetiumAmount;
+    public GameObject genetiumSource;
 
     [Header("Animation")]
     public float walkAnimationSpeed = 10f;

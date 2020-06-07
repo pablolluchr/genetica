@@ -12,8 +12,9 @@ public class Species
     public float tailSize;
     public float earSize;
     public float armSize;
-    public Vector3 areaCenter;
-    public int areaSize; //todo maybe make an attribute for this
+
+    public GameObject foodSource;
+    public GameObject genetiumSource;
     public string tag;
 
     //todo: this ones are inferred from body attribuets
@@ -25,8 +26,6 @@ public class Species
         string tag,
         string color,
         float speed, //todo remove
-        Vector3 areaCenter,
-        int areaSize,
         float headSize,
         float legSize,
         float bellySize,
@@ -43,16 +42,14 @@ public class Species
         this.tailSize = tailSize;
         this.earSize = earSize;
         this.armSize = armSize;
-
-        this.areaCenter = areaCenter;
         this.tag = tag;
-        this.areaSize = areaSize;
         this.swimspeed = speed/2f; //todo calculate!
         this.walkspeed = speed;
+        this.foodSource = GameManager.gameManager.foodList[0];
     }
 
     public GameObject Spawn(GameObject unitPrefab) {
-        Vector3 spawnPosition = areaCenter + Random.onUnitSphere*2f;
+        Vector3 spawnPosition = foodSource.transform.position + Random.onUnitSphere*2f;
         GameObject unit = MonoBehaviour.Instantiate(unitPrefab, spawnPosition,unitPrefab.transform.rotation);
         unit.transform.parent = GameManager.gameManager.units.transform;
         Unit unitComponent = unit.GetComponent<Unit>();
@@ -84,12 +81,15 @@ public class Species
 
         if (unit.CompareTag("Preview")) return;
 
+
+        unit.foodSource = foodSource;
+        unit.genetiumSource = genetiumSource;
         unit.speed = speed;
         unit.interactionRadius = UnitHelperFunctions.Interpolate(legSize, new float[,]{{0.2f, 0.5f}, {0.6f, 0.6f}});
-        unit.areaCenter = areaCenter;
+        //unit.areaCenter = areaCenter;
 
 
-        unit.areaRadius = AreaRadiusFromSize();
+        //unit.areaRadius = AreaRadiusFromSize();
         unit.gameObject.tag = tag;
         unit.swimspeed = swimspeed;
 
@@ -119,20 +119,20 @@ public class Species
         }
     }
 
-    public float AreaRadiusFromSize()
-    {
-        switch (areaSize)
-        {
-            case 0: return 0f;
-            case 1: return 3f;
-            case 2: return 6f;
-            case 3: return 8.5f;
-            case 4: return 10f;
-            case 5: return 13f;
-            default:
-                throw new System.Exception("Size not defined");
-        }
-    }
+    //public float AreaRadiusFromSize()
+    //{
+    //    switch (areaSize)
+    //    {
+    //        case 0: return 0f;
+    //        case 1: return 3f;
+    //        case 2: return 6f;
+    //        case 3: return 8.5f;
+    //        case 4: return 10f;
+    //        case 5: return 13f;
+    //        default:
+    //            throw new System.Exception("Size not defined");
+    //    }
+    //}
 
     public List<Unit> GetAllUnitsOfSpecies() {
         List<Unit> units = new List<Unit>();

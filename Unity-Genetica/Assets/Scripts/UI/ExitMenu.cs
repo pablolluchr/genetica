@@ -5,18 +5,17 @@ using UnityEngine.UI;
 public class ExitMenu : MonoBehaviour
 {
     //TODO: make the exit button inside the bottom panel instead
-    public UnitInfo unitInfoPanel;
+    private GameObject panelToClose; //panel needs to have an open/close animator
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Button>().onClick.AddListener(ForceExitMenu);
+        panelToClose = transform.parent.gameObject;
+        GetComponent<Button>().onClick.AddListener(Exit);
     }
 
-    public void ForceExitMenu()
+    public void Exit()
     {
-
-        GameManager.gameManager.forceUnitSelectionExit = true;
-        unitInfoPanel.Hide();
+        panelToClose.SendMessage("Hide");
     }
 
     
