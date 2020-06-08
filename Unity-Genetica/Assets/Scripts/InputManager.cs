@@ -8,6 +8,10 @@ public class InputManager : MonoBehaviour {
     public Vector2 touchSpeed;
     public float touchDraggingThresholdSpeed = 0.1f;
     public float touchSpeedCorrection = 0.8f;
+    public bool wasDraggingInPrevFrame;
+    public bool wasButtonDown;
+    public float lastMouseX;
+    public float lastMouseY;
     private GameManager gm;
     public bool blockedByUI;
     // Update is called once per frame
@@ -88,9 +92,9 @@ public class InputManager : MonoBehaviour {
             //if (Input.GetTouch(0).phase == TouchPhase.Ended) return false;
         }
         if (Input.GetMouseButton(0)) {
-            if (gm.wasButtonDown) {
-                float mouseMoveX = Mathf.Pow(Input.GetAxis("Mouse X") - gm.lastMouseX, 2);
-                float mouseMoveY = Mathf.Pow(Input.GetAxis("Mouse Y") - gm.lastMouseY, 2);
+            if (wasButtonDown) {
+                float mouseMoveX = Mathf.Pow(Input.GetAxis("Mouse X") - lastMouseX, 2);
+                float mouseMoveY = Mathf.Pow(Input.GetAxis("Mouse Y") - lastMouseY, 2);
                 return mouseMoveX + mouseMoveY > 0.005f || gm.isDragging;
             }
         }
@@ -98,14 +102,13 @@ public class InputManager : MonoBehaviour {
     }
 
     private void saveFrameInfo() {
-        GameManager gm = GameManager.gameManager;
         if (Input.GetMouseButton(0)) {
-            gm.lastMouseX = Input.GetAxis("Mouse X");
-            gm.lastMouseY = Input.GetAxis("Mouse Y");
-            gm.wasButtonDown = true;
+            lastMouseX = Input.GetAxis("Mouse X");
+            lastMouseY = Input.GetAxis("Mouse Y");
+            wasButtonDown = true;
         } else {
-            gm.wasButtonDown = false;
+            wasButtonDown = false;
         }
-        gm.wasDraggingInPrevFrame = gm.isDragging;
+        //wasDraggingInPrevFrame = gm.isDragging;
     }
 }

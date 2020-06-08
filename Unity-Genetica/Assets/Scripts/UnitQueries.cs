@@ -6,10 +6,10 @@ public static class UnitQueries {
 
     // unit behaviour query functions here (not allowed to modify state)
 
-    public static bool AreaGraphicsState()
-    {
-        return GameManager.gameManager.areaGraphic.activeSelf;
-    }
+    //public static bool AreaGraphicsState()
+    //{
+    //    return GameManager.gameManager.areaGraphic.activeSelf;
+    //}
 
     #region hunger // ################################################################################
 

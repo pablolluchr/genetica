@@ -22,18 +22,19 @@ public class UnitInfoPanel : MovingUIPanel
         water = transform.Find("Water").GetComponent<Slider>();
         genetium = transform.Find("Genetium").GetComponent<TMPro.TextMeshProUGUI>();
         genetiumMax = transform.Find("GenetiumMax").GetComponent<TMPro.TextMeshProUGUI>();
-        transform.Find("Species").GetComponent<Button>().onClick.AddListener(OpenSpeciesPanel);
+        transform.Find("Species").GetComponent<Button>().onClick.AddListener(OpenAttributePanel);
         previewUnit.gameObject.SetActive(false);
         targetUnit = null;
         Hide();
         
     }
 
-    public void OpenSpeciesPanel()
+    public void OpenAttributePanel()
     {
         //todo: do this through a game manager state.
-        Hide();
-        GameManager.gameManager.attributePanel.GetComponent<AttributePanel>().OpenPanel(targetUnit.speciesName);
+        //Hide();
+        //GameManager.gameManager.attributePanel.OpenPanel(targetUnit.speciesName);
+        GameManager.gameManager.SetSpeciesAttributes(true);
     }
 
     private void Update()
@@ -61,8 +62,6 @@ public class UnitInfoPanel : MovingUIPanel
 
     new public void Hide()
     {
-        GameManager.gameManager.forceUnitSelectionExit = true;
-
         base.Hide();
         StartCoroutine(DisablePreviewUnitDelayed());
     }

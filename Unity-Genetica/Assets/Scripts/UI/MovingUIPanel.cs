@@ -14,10 +14,12 @@ public class MovingUIPanel : MonoBehaviour
 
     }
 
-    public void Hide()
+    public bool Hide() //returs true if succeeded, false if it was already closed
     {
+        if (anim.GetBool("shown") == false) return false;
         anim.SetBool("shown", false);
         StartCoroutine(DisablePanelDelayed());
+        return true;
     }
 
     public void Show()

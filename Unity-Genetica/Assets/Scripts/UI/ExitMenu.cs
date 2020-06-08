@@ -15,6 +15,7 @@ public class ExitMenu : MonoBehaviour
 
     public void Exit()
     {
+        GameManager.gameManager.forcePanelExit = true;
         panelToClose.SendMessage("Hide");
     }
 

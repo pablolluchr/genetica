@@ -23,7 +23,7 @@ public class SpeciesButton : MonoBehaviour
     public void SelectSpecies()
     {
         GameManager.gameManager.UpdateSelectedSpecies(species);
-        speciesSelectionPanel.Hide();
+        //speciesSelectionPanel.Hide();
         //todo: close species selection?
         //if (selected)
         //{ //Second click (only for pets)

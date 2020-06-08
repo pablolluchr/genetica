@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AttributePanel : MonoBehaviour
+public class AttributePanel : MovingUIPanel
 {
     public float headSize;
     public float legSize;
@@ -24,19 +24,17 @@ public class AttributePanel : MonoBehaviour
     //todo: extend this as movingUIpanel
     //todo: create attributeSelection gamestate and handle the closing and opening of the other panels from there
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        //headPanel = transform.Find("HeadPanel");
-        close.onClick.AddListener(ClosePanel);
         apply.onClick.AddListener(ApplyChanges);
-        gameObject.SetActive(false);
+        Hide();
     }
 
-    public void OpenPanel(string speciesName)
+    public void Show(string speciesName)
     {
         this.species = GameManager.gameManager.GetSpeciesFromName(speciesName);
-        gameObject.SetActive(true); //replace by sliding up animation
         SetupAttributeBars();
+        base.Show();
 
     }
 
@@ -56,12 +54,6 @@ public class AttributePanel : MonoBehaviour
         armPanel.Find("Bar").GetComponent<Slider>().value = (int) (armSize * 5);
     }
 
-    void ClosePanel()
-    {
-        //TODO: swipe down animation
-        gameObject.SetActive(false); //replace by sliding up animation
-    }
-
     void ApplyChanges()
     {
         //update species with the new values
@@ -77,6 +69,6 @@ public class AttributePanel : MonoBehaviour
         List<Unit> pets = species.GetAllUnitsOfSpecies();
         foreach (Unit pet in pets) pet.needsChange = true;
 
-        ClosePanel();
+        Hide();
     }
 }
