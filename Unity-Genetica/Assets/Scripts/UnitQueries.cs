@@ -24,17 +24,18 @@ public static class UnitQueries {
     public static bool IsVeryHungry(Unit unit) {
         return unit.amountFed / unit.maxFed <= unit.criticalHunger;
     }
-
-    public static bool SeesFood(Unit unit) {
-        return ClosestFoodInArea(unit) != null;
+    public static bool FoodSourceAvailable(Unit unit) {
+        Food foodComponent = unit.foodSource.GetComponent<Food>();
+        return unit.foodSource != null && foodComponent.availableFood > 5;
+        //todo: set this value as source specific?
     }
 
-    // null if no food in viewing range
-    public static GameObject ClosestFoodInArea(Unit unit) {
-        List<GameObject> foods = GameManager.gameManager.foodList; //TODO: add sources to list
-        List<GameObject> nonEmptyFoods = UnitHelperFunctions.FilterEmptyFoods(foods); 
-        return UnitHelperFunctions.GetClosetInAreaRange(unit, nonEmptyFoods);
-    }
+    //// null if no food in viewing range
+    //public static GameObject ClosestFoodInArea(Unit unit) {
+    //    List<GameObject> foods = GameManager.gameManager.foodList; //TODO: add sources to list
+    //    List<GameObject> nonEmptyFoods = UnitHelperFunctions.FilterEmptyFoods(foods); 
+    //    return UnitHelperFunctions.GetClosetInAreaRange(unit, nonEmptyFoods);
+    //}
 
     #endregion
 
@@ -132,32 +133,39 @@ public static class UnitQueries {
         return unit.horny;
     }
 
-    public static bool SeesMate(Unit unit) {
-        return ClosestMateInArea(unit) != null;
+    public static bool AvailableMate(Unit unit) {
+        List<Unit> unitsOfSpecies = GameManager.gameManager.
+            GetSpeciesFromName(unit.speciesName).GetAllUnitsOfSpecies();
+        foreach (var otherUnit in unitsOfSpecies) {
+            if (otherUnit.horny) return true;
+        }
+        return false;
     }
 
-    // returns null if does not see a mate
-    public static GameObject ClosestMateInArea(Unit unit) {
-        List<Unit> pets = GameManager.gameManager.petList;
-        List<Unit> hornyPets = UnitHelperFunctions.FilterUnmatable(unit, pets);
-        List<GameObject> hornyPetsGameObject = new List<GameObject>();
-        foreach (var enemy in hornyPets) hornyPetsGameObject.Add(enemy.gameObject);
-        return UnitHelperFunctions.GetClosetInAreaRange(unit, hornyPetsGameObject);
+    public static GameObject ClosestMate(Unit unit) {
+        List<Unit> unitsOfSpecies = GameManager.gameManager.
+            GetSpeciesFromName(unit.speciesName).GetAllUnitsOfSpecies();
+        Unit closestMate = null;
+        float minSquaredDistance = Mathf.Infinity;
+        foreach (var otherUnit in unitsOfSpecies) {
+            float squaredDistance = Vector3.SqrMagnitude(otherUnit.transform.position - unit.transform.position);
+            if (otherUnit.horny && squaredDistance < minSquaredDistance) {
+                closestMate = otherUnit;
+                minSquaredDistance = squaredDistance;
+            }
+        }
+        return closestMate.gameObject;
     }
 
     #endregion
 
     #region genetium // ################################################################################
 
-    public static bool SeesGenetium(Unit unit) {
-        if (unit.gameObject.tag == "Hostile") { return false; }
-        return ClosestGenetiumInArea(unit) != null;
-    }
+    public static bool GenetiumAvailable(Unit unit) {
+        return unit.genetiumSource != null
+            && unit.genetiumSource.GetComponent<Genetium>().currentAmount
+            > unit.genetiumSource.GetComponent<Genetium>().consideredEmpty;
 
-    public static GameObject ClosestGenetiumInArea(Unit unit) {
-        List<GameObject> genetiums = GameManager.gameManager.genetiumList;
-        List<GameObject> nonEmptyGenetiums = UnitHelperFunctions.FilterEmptyGenetium(genetiums);
-        return UnitHelperFunctions.GetClosetInAreaRange(unit, nonEmptyGenetiums);
     }
 
     public static bool IsCarryingGenetium(Unit unit) {
@@ -182,6 +190,7 @@ public static class UnitQueries {
 
     // null if not in range
     public static GameObject ClosestEnemyInThreatRange(Unit unit) {
+        //todo: redo using squared distance
         List<Unit> enemies;
         if (unit.enemyTag == "Hostile")
             enemies = GameManager.gameManager.enemyList;
@@ -192,7 +201,8 @@ public static class UnitQueries {
 
         //List<Unit> aliveEnemies = UnitHelperFunctions.FilterDeadEnemies(enemies);
         //TODO: units should be taken out of the gameobject array juust when they die
-        return UnitHelperFunctions.GetClosetInAreaRange(unit, enemiesGameObject);
+        //return UnitHelperFunctions.GetClosetInAreaRange(unit, enemiesGameObject);
+        return null;
     }
 
    

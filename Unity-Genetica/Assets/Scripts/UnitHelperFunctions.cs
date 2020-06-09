@@ -32,16 +32,16 @@ public static class UnitHelperFunctions {
         return objects.FindAll(e => (e.transform.position - areaCenter).magnitude < areaRadius);
     }
 
-    public static GameObject GetClosetInAreaRange(Unit unit, List<GameObject> objects)
-    {
-        List<GameObject> objectsInAreaRange = ObjectsInAreaRange(objects, unit.areaCenter, unit.areaRadius);
-        return GetClosest(unit, objectsInAreaRange);
-    }
+    //public static GameObject GetClosetInAreaRange(Unit unit, List<GameObject> objects)
+    //{
+    //    List<GameObject> objectsInAreaRange = ObjectsInAreaRange(objects, unit.areaCenter, unit.areaRadius);
+    //    return GetClosest(unit, objectsInAreaRange);
+    //}
 
-    // null if not in view
-    public static GameObject GetClosestInView(Unit unit, List<GameObject> objects) {
-        return GetClosestInRange(unit, objects, unit.viewDistance);
-    }
+    //// null if not in view
+    //public static GameObject GetClosestInView(Unit unit, List<GameObject> objects) {
+    //    return GetClosestInRange(unit, objects, unit.viewDistance);
+    //}
 
     public static List<Unit> FilterUnmatable(Unit unit, List<Unit> pets) {
         List<Unit> hornyPets = new List<Unit>();

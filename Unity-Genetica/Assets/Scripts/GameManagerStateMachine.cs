@@ -65,11 +65,12 @@ public static class GameManagerStateMachine {
                         gm.DeselectSpecies(); gm.ShowSpeciesSelectionPanel();
                         return GMState.FreeSelection;
                     }
-                    if (gm.IsObjectSelected()) { gm.DeselectSpecies(); gm.TargetObject(); return GMState.ObjectSelection; }
+                    if (gm.IsObjectSelected()) { gm.SetHabitatTargets(); return GMState.SpeciesSelection; }
+                    //if (gm.IsObjectSelected()) { gm.DeselectSpecies(); gm.TargetObject(); return GMState.ObjectSelection; }
 
                     if (gm.newSpeciesSelected) { gm.SelectSpecies(); return GMState.SpeciesSelection; }
-                    if (gm.IsObjectSelected()) { gm.SetHabitatTargets(); return GMState.SpeciesSelection; }
                     if (gm.IsUnitSelected()) { gm.SelectUnit(); gm.DeselectSpecies(); return GMState.UnitSelection; }
+                    //todo: is base selected
 
                     break;
                 }

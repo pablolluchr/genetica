@@ -24,12 +24,10 @@ public static class UnitActions {
         unit.GetComponent<Target>().Change(food,
             food.GetComponent<Food>().radius);
     }
-
     public static void Eat(Unit unit) {
         //eat from the source at most however much space they have on their stomach
-
-        if (unit.GetComponent<Target>() == null) return;
-        unit.amountFed += unit.GetComponent<Target>().targetGameObject.GetComponent<Food>().Eat(unit.maxFed - unit.amountFed);
+        unit.amountFed+=unit.foodSource.GetComponent<Food>().Eat(unit.maxFed - unit.amountFed);
+        //if (unit.GetComponent<Target>() == null) return;
     }
 
     public static void TurnFed(Unit unit) {
@@ -89,15 +87,16 @@ public static class UnitActions {
     #endregion
 
     #region mating // ################################################################################
-  
+
+
     public static void TargetMate(Unit unit) {
-        GameObject closestMate = UnitQueries.ClosestMateInArea(unit);
+        GameObject closestMate = UnitQueries.ClosestMate(unit);
         if (closestMate == null) return;
         unit.GetComponent<Target>().Change(closestMate, closestMate.GetComponent<Unit>().matingDistance);
     }
 
     public static void Mate(Unit unit) {
-        GameObject closestMateObj = UnitQueries.ClosestMateInArea(unit);
+        GameObject closestMateObj = UnitQueries.ClosestMate(unit);
         if (closestMateObj == null) return;
         Unit closestMate = closestMateObj.GetComponent<Unit>();
         closestMate.horny = false;
@@ -368,7 +367,7 @@ public static class UnitActions {
     public static void SetWanderingDestination(Unit unit) {
         //TODO: set position using the radius of a planet. rather than a raycast
         //random position somewhere in a sphere around the unit target
-        Vector3 position = (Random.onUnitSphere * unit.areaRadius + unit.areaCenter);
+        Vector3 position = (Random.onUnitSphere * GameManager.gameManager.wanderingRadius + unit.foodSource.transform.position);
 
         //project on planet. raycast has to be projected from the sky
         RaycastHit hitInfo = new RaycastHit();

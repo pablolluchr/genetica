@@ -11,15 +11,15 @@ public class Unit : MonoBehaviour {
     public UnitState unitState;
 
     [Header("General Attributes")]
-    public string speciesName;
-    public float viewDistance = 5f;
+    [HideInInspector] public string speciesName;
+    //public float viewDistance = 5f;
     public float interactionRadius;
-    public float areaRadius;
-    public bool swimming;
-    public bool needsChange;
-    public float swimspeed;
-    public float speed;
-    public int updateCycleCounter;
+    //public float areaRadius;
+    [HideInInspector] public bool swimming;
+    [HideInInspector] public bool needsChange;
+    [HideInInspector] public float swimspeed;
+    [HideInInspector] public float speed;
+    [HideInInspector] public int updateCycleCounter;
   
     //[Range(.01f, 3.0f)] public float speed = 1f;
     
@@ -27,39 +27,40 @@ public class Unit : MonoBehaviour {
 
     [Header("Health")]
     public float maxHealth;
-    public float health;
-    public float healthRegen;
-    public float criticalHealth;
-    public float deathPeriod;
-    public bool dead = false;
-    public float deathTimeStamp;
+    [HideInInspector] public float health;
+    [HideInInspector] public float healthRegen;
+    [HideInInspector] public float criticalHealth;
+    [HideInInspector] public float deathPeriod;
+    [HideInInspector] public bool dead;
+    [HideInInspector] public float deathTimeStamp;
 
 
     [Header("Eating Attributes")]
-    public float amountFed; //how much of the stomach is filled
-    public float maxFed;
-    public float feedingPerSecond;
     public float hungerPerSecond;
     public float hungerChanceExponent;
     public float hungerDamage;
-    public bool hungry;
     public float criticalHunger;
-    public GameObject foodSource;
+    [HideInInspector] public float amountFed; //how much of the stomach is filled
+    [HideInInspector] public float maxFed;
+    //public float feedingPerSecond;
+    [HideInInspector] public bool hungry;
+    [HideInInspector] public GameObject foodSource;
 
     [Header("Drinking Attributes")]
-    public float amountQuenched; //how much of the stomach is filled
     public float maxQuenched;
     public float thirstPerSecond;
     public float thirstChanceExponent;
     public float thirstDamage;
-    public bool thirsty;
     public float criticalThirst;
     public float quenchRate;
+    [HideInInspector] public float amountQuenched; //how much of the stomach is filled
+    [HideInInspector] public bool thirsty;
+
 
 
     [Header("Mating Attributes")]
     public float hornyChancePerSecond;
-    public bool horny;
+    [HideInInspector] public bool horny;
     public float matingDistance;
     public float hornyCurveExponent;
 
@@ -68,14 +69,14 @@ public class Unit : MonoBehaviour {
     public float attackRange;
     public float enemyDetectionRange;
     public float attackRate;
-    public float lastAttacked = 0;
+    [HideInInspector] public float lastAttacked = 0;
     public float aggression;
     public int attackForce;
     
     [Header("Genetium Attributes")]
     public float carryingCapacity;
-    public float currentGenetiumAmount;
-    public GameObject genetiumSource;
+    [HideInInspector] public float currentGenetiumAmount;
+    [HideInInspector] public GameObject genetiumSource;
 
     [Header("Animation")]
     public float walkAnimationSpeed = 10f;
@@ -127,12 +128,12 @@ public class Unit : MonoBehaviour {
 
     //TODO: make private
     [Header("State info")]
-    public bool isBeingOverride;
-    public float wanderTimeStamp;
-    public float eatRange = 1f;
-    public string enemyTag;
-    public int updateCounter;
-    public Vector3 areaCenter;
+    [HideInInspector] public bool isBeingOverride;
+    [HideInInspector] public float wanderTimeStamp;
+    //public float eatRange = 1f;
+    [HideInInspector] public string enemyTag;
+    [HideInInspector] public int updateCounter;
+    //public Vector3 areaCenter;
 
     
 
@@ -143,7 +144,7 @@ public class Unit : MonoBehaviour {
         if (gameObject.CompareTag("Pet")) healthbar.color = healthbarPetColor;
         else healthbar.color = healthbarHostileColor;
 
-
+        dead = false;
         health = maxHealth;
         isBeingOverride = false;
         amountFed = maxFed;

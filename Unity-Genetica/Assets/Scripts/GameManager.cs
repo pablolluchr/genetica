@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     [Header("Game state")]
     public int countsBetweenUpdates = 15;
     public float planetRadius;
+    public float wanderingRadius;
     public int maxUnits;
     [HideInInspector] public GMState gameState;
     [HideInInspector] public GameObject selectedObject;
@@ -299,10 +300,9 @@ public class GameManager : MonoBehaviour
     public bool IsObjectSelected() {
 
         return selectedObject &&  (
-            selectedObject.GetComponent<Food>() != null ||
-            
-            selectedObject.gameObject.CompareTag("Base")||
-            selectedObject.gameObject.CompareTag("Genetium")
+            selectedObject.CompareTag("Food") ||
+            selectedObject.CompareTag("Base")||
+            selectedObject.CompareTag("Genetium")
         );
     }
 
