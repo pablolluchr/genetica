@@ -51,7 +51,7 @@ public static class GameManagerStateMachine {
                     if (gm.forcePanelExit) { gm.FreePan(); gm.DeselectUnit(); gm.ShowSpeciesSelectionPanel(); return GMState.FreeSelection; }
                     if (gm.isDragging) { gm.FreePan(); return GMState.UnitSelection; }
                     if (gm.IsObjectSelected()) { gm.DeselectUnit(); gm.TargetObject(); return GMState.ObjectSelection; }
-                    if (gm.NewUnitSelected()) { gm.SelectUnit(); return GMState.UnitSelection; }
+                    if (gm.NewUnitSelected()) { UnitActions.DisableAllSelectionGraphics(); gm.SelectUnit(); return GMState.UnitSelection; }
                     if (gm.openSpeciesAttributes) {
                         gm.ShowSpeciesAttributes(); gm.DeselectUnit();
                         gm.FreePan(); return GMState.SpeciesAttributes;

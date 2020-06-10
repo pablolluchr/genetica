@@ -65,17 +65,20 @@ public class GameManager : MonoBehaviour
 
 
     [Header("Object references")]
+    public Color healthBarPetColor;
+    public Color healthBarEnemyColor;
     public static GameManager gameManager;
     public Transform objectPreview;
     public CameraController cameraController;
     public GameObject units;
     public Material unitFur;
     public GameObject unitPrefab;
+    public GameObject enemyPrefab;
     public GameObject sun;
     public List<Species> speciesList = new List<Species>();
     public List<Unit> petList;
     public List<Unit> enemyList;
-    public List<Unit> previewUnitList;
+    //public List<Unit> previewUnitList;
     public MeshFilter water;
     public List<GameObject> foodList;
     public List<GameObject> genetiumList;
@@ -105,21 +108,27 @@ public class GameManager : MonoBehaviour
         selectedSpecies = null;
         previousSelectedSpecies = null;
         forcePanelExit = false;
-        AddSpecies("Reds", "Pet", "red", 1, 0, 0, 0, 0, 0, 0);
-        AddSpecies("Blues", "Pet", "blue", 2, 0, 0, 0, 0, 0, 0);
-        //AddSpecies("Enemy", "blue", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, 4f, -4f), 3f, "Hostile", 0.7f);
-        //AddSpecies("FastEnemy", 1.5f, 0.2f, 0.2f, 0.2f, new Vector3(0, -4f, 4f), 2f, "Hostile", 0.7f);
+        AddPetSpecies("Reds", "red", 1, 0, 0, 0, 0, 0, 0);
+        AddEnemySpecies("Enemies", 1);
+        //AddSpecies("Blues", "Pet", "blue", 2, 0, 0, 0, 0, 0, 0);
+        //AddPetSpecies("Enemies", "Hostile", "blue", 2, 0, 0, 0, 0, 0, 0);
 
-        for (int i = 0; i < 5; i++) GetSpeciesFromName("Reds").Spawn(unitPrefab);
-        for (int i = 0; i < 5; i++) GetSpeciesFromName("Blues").Spawn(unitPrefab);
+
+        for (int i = 0; i < 5; i++) GetSpeciesFromName("Reds").Spawn();
+        for (int i = 0; i < 5; i++) GetSpeciesFromName("Enemies").Spawn();
+        //for (int i = 0; i < 5; i++) GetSpeciesFromName("Blues").Spawn(unitPrefab);
         //for (int i = 0; i < 5; i++) GetSpeciesFromName("Enemy").Spawn(unitPrefab);
 
 
 
     }
 
-    public void AddSpecies(string name,
-        string tag,
+    public void AddEnemySpecies(string name, float speed) { //todo: add all the necessary enemy attributes
+        Species newSpecies = new Species(name, speed);
+        speciesList.Add(newSpecies);
+    }
+
+    public void AddPetSpecies(string name,
         string color,
         float speed,
         float headSize,
@@ -129,7 +138,7 @@ public class GameManager : MonoBehaviour
         float earSize,
         float armSize
     ) {
-        Species newSpecies = new Species(name,tag, color, speed,
+        Species newSpecies = new Species(name, color, speed,
             headSize,legSize,bellySize,tailSize,earSize,armSize);
         speciesList.Add(newSpecies);
     }

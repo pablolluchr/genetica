@@ -122,8 +122,8 @@ public class Unit : MonoBehaviour {
     public Sprite attackSprite;
     public Canvas healthbarPivot;
     public SpriteRenderer healthbar;
-    public Color healthbarPetColor;
-    public Color healthbarHostileColor;
+    //public Color healthbarPetColor;
+    //public Color healthbarHostileColor;
 
 
     //TODO: make private
@@ -135,14 +135,15 @@ public class Unit : MonoBehaviour {
     [HideInInspector] public int updateCounter;
     //public Vector3 areaCenter;
 
-    
 
 
-    public void Start() {
+
+    private void Start() {
+        
 
         if (gameObject.CompareTag("Preview") ){ return; }
-        if (gameObject.CompareTag("Pet")) healthbar.color = healthbarPetColor;
-        else healthbar.color = healthbarHostileColor;
+        if (gameObject.CompareTag("Pet")) healthbar.color = GameManager.gameManager.healthBarPetColor;
+        if (gameObject.CompareTag("Hostile")) healthbar.color = GameManager.gameManager.healthBarEnemyColor;
 
         dead = false;
         health = maxHealth;
@@ -171,7 +172,6 @@ public class Unit : MonoBehaviour {
 
             
             UnitActions.SetThought(this);
-
             UnitActions.WanderIfDeadTarget(this);
             UnitActions.HungerEffect(this);
             UnitActions.ThirstEffect(this);
@@ -182,6 +182,11 @@ public class Unit : MonoBehaviour {
             unitState = UnitStateMachine.NextState(this);
         }
 
+    }
+
+    public IEnumerator Despawn() { //todo: handle this with object pooling to avoid garbage collection
+        yield return new WaitForSeconds(2f);
+        Destroy(this.gameObject);
     }
 
 

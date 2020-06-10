@@ -27,19 +27,14 @@ public static class UnitStateMachine {
         //if they don't start attacking do they run away?
 
         //todo: only show mating thought when having a baby (make the fucking process longer)
-        if (unit.dead) { UnitActions.Dead(unit); }
+        //todo: add actions that happen from every state here!
+        if (unit.dead) { UnitActions.Die(unit); }
 
         switch (unit.unitState) {
             case UnitState.Wander: {
 
                     //rethink this
-                    if (UnitQueries.IsThreatened(unit)) {
-                        if (UnitQueries.ShouldBeAggressive(unit)) {
-                            return UnitState.TargetEnemy;
-                        } else {
-                            return UnitState.Flee;
-                        }
-                    }
+                    if (UnitQueries.EnemyInRange(unit)) return UnitState.TargetEnemy;
                     if (UnitQueries.NeedsChange(unit)) { return UnitState.TargetBase; } //TODO this should probably override everything cause it seems like a bug otherwise
                     if (UnitQueries.IsHungry(unit) && UnitQueries.FoodSourceAvailable(unit))
                         { UnitActions.TargetFood(unit); return UnitState.TargetFood; }
@@ -53,7 +48,7 @@ public static class UnitStateMachine {
                     break;
                 }
             case UnitState.TargetWater: {
-                    if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                    if (UnitQueries.EnemyInRange(unit)) return UnitState.TargetEnemy;
                     //if (!UnitQueries.SeesWater(unit)) { return UnitState.Wander; }
                     if (UnitQueries.IsNearTarget(unit, false)) { return UnitState.Drink; }
 
@@ -61,20 +56,20 @@ public static class UnitStateMachine {
                 }
             case UnitState.TargetFood: {
                     //todo handle change of food source as its targetting
-                    if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                    if (UnitQueries.EnemyInRange(unit)) return UnitState.TargetEnemy;
                     //if (!UnitQueries.SeesFood(unit)) { return UnitState.Wander; }
                     if (UnitQueries.IsNearTarget(unit, false)) { return UnitState.Eat; }
                     break;
                 }
             case UnitState.TargetMate: {
                     UnitActions.TargetMate(unit);
-                    if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                    if (UnitQueries.EnemyInRange(unit)) return UnitState.TargetEnemy;
                     if (!UnitQueries.AvailableMate(unit)) { return UnitState.Wander; }
                     if (UnitQueries.IsNearTarget(unit, false)) { return UnitState.Mate; }
                     break;
                 }
             case UnitState.TargetGenetium: {
-
+                    if (UnitQueries.EnemyInRange(unit)) return UnitState.TargetEnemy;
                     //if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                     if (UnitQueries.IsHungry(unit) && UnitQueries.FoodSourceAvailable(unit))
                         { UnitActions.TargetFood(unit); return UnitState.TargetFood; }
@@ -86,7 +81,7 @@ public static class UnitStateMachine {
                 }
             case UnitState.TargetBase: {
                     UnitActions.TargetBase(unit);
-                    if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                    if (UnitQueries.EnemyInRange(unit)) return UnitState.TargetEnemy;
                     if (UnitQueries.IsHungry(unit) && UnitQueries.FoodSourceAvailable(unit)) { UnitActions.TargetFood(unit); return UnitState.TargetFood; }
                     if (UnitQueries.IsThirsty(unit)) { UnitActions.TargetWater(unit); return UnitState.TargetWater; }
                     if (UnitQueries.IsNearTarget(unit, false)) { UnitActions.ReachBase(unit); return UnitState.Wander; }
@@ -94,36 +89,35 @@ public static class UnitStateMachine {
                 }
             case UnitState.TargetEnemy: {
                     UnitActions.TargetEnemy(unit);
-                    if (UnitQueries.HasLowHealth(unit)) { return UnitState.Flee; }
-                    if (UnitQueries.IsVeryHungry(unit)) { return UnitState.Flee; }
-                    if (UnitQueries.IsVeryThirsty(unit)) { return UnitState.Flee; }
+                    //if (UnitQueries.HasLowHealth(unit)) { return UnitState.Flee; }
+                    //if (UnitQueries.IsVeryHungry(unit)) { return UnitState.Flee; }
+                    //if (UnitQueries.IsVeryThirsty(unit)) { return UnitState.Flee; }
                     if (UnitQueries.IsNearTarget(unit, true)) { return UnitState.Attack; }
-                    if (!UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                    if (!UnitQueries.EnemyInRange(unit)) { return UnitState.Wander; }
                     break;
                 }
             //todo: change food and genetium to be near the known food target
             case UnitState.Drink: {
-                    if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                    if (UnitQueries.EnemyInRange(unit)) return UnitState.TargetEnemy;
                     if (UnitQueries.IsQuenched(unit)) { UnitActions.TurnQuenched(unit); return UnitState.Wander; }
                     UnitActions.Drink(unit);
                     break;
                 }
             case UnitState.Eat: {
                     //todo handle change of food source as its eating
-                    //if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                    if (UnitQueries.EnemyInRange(unit)) return UnitState.TargetEnemy;
                     if (UnitQueries.IsFed(unit)) { UnitActions.TurnFed(unit); return UnitState.Wander; }
                     UnitActions.Eat(unit);
                     break;
                 }
             case UnitState.Mate: {
-                    if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
                     if (!UnitQueries.IsHorny(unit)) { return UnitState.Wander; }
                     UnitActions.Mate(unit);
                     break;
                 }
             case UnitState.Harvest: {
                     //todo handle change of genetium source as its harvesting
-                    if (UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                    if (UnitQueries.EnemyInRange(unit)) return UnitState.TargetEnemy;
                     if (!UnitQueries.IsNearTarget(unit, true)) { return UnitState.Wander; }
                     if (UnitQueries.IsStorageFull(unit)) { return UnitState.Wander; }
                     if (!UnitQueries.GenetiumAvailable(unit)) { return UnitState.Wander; }
@@ -133,13 +127,13 @@ public static class UnitStateMachine {
             case UnitState.Attack: {
                     if (UnitQueries.HasLowHealth(unit)) { return UnitState.Flee; }
                     if (!UnitQueries.IsNearTarget(unit, true)) { return UnitState.TargetEnemy; }
-                    if (!UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                    if (!UnitQueries.EnemyInRange(unit)) { return UnitState.Wander; }
                     UnitActions.Attack(unit);
                     break;
                 }
             case UnitState.Flee: {
                     UnitActions.Flee(unit);
-                    if (!UnitQueries.IsThreatened(unit)) { return UnitState.Wander; }
+                    if (!UnitQueries.EnemyInRange(unit)) { return UnitState.Wander; }
                     break;
                 }
             case UnitState.Override: {

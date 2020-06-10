@@ -106,7 +106,7 @@ public static class UnitActions {
         List<Unit> enemies = GameManager.gameManager.enemyList;
         if ( allies.Count + enemies.Count < GameManager.gameManager.maxUnits) {
             //todo: spawn in position of parents: force into orbit
-            GameManager.gameManager.GetSpeciesFromName(unit.speciesName).Spawn(GameManager.gameManager.unitPrefab);
+            GameManager.gameManager.GetSpeciesFromName(unit.speciesName).Spawn();
         }
     }
 
@@ -160,7 +160,7 @@ public static class UnitActions {
     #region attacking // ################################################################################
 
     public static void TargetEnemy(Unit unit) {
-        GameObject closestEnemy = UnitQueries.ClosestEnemyInThreatRange(unit);
+        GameObject closestEnemy = UnitQueries.ClosestEnemyInRange(unit);
         if (closestEnemy == null || closestEnemy.GetComponent<Unit>() == null) return;
         unit.GetComponent<Target>().Change(closestEnemy, closestEnemy.GetComponent<Unit>().interactionRadius);
     }
@@ -187,7 +187,7 @@ public static class UnitActions {
     }
 
     public static void Flee(Unit unit) {
-        GameObject closestEnemy = UnitQueries.ClosestEnemyInThreatRange(unit);
+        GameObject closestEnemy = UnitQueries.ClosestEnemyInRange(unit);
         if (closestEnemy == null || closestEnemy.GetComponent<Unit>() == null) return;
         SetFleeingTarget(unit, closestEnemy.GetComponent<Unit>());
     }
@@ -196,18 +196,15 @@ public static class UnitActions {
 
     #region health // ################################################################################
 
-    public static void Dead(Unit unit) {
-        //todo: handle this with a corroutine in die.
-        if (Time.time - unit.deathTimeStamp > unit.deathPeriod) {
-            Object.Destroy(unit.gameObject);
-        }
-    }
 
     public static void Die(Unit unit) {
-        unit.animator.enabled = false;
+        unit.animator.enabled = false; //todo: death animation
         unit.dead = true;
-        unit.deathTimeStamp =
-            Time.deltaTime * GameManager.gameManager.countsBetweenUpdates;
+        if (unit.CompareTag("Pet")) GameManager.gameManager.petList.Remove(unit);
+        else if (unit.CompareTag("Hostile")) GameManager.gameManager.enemyList.Remove(unit);
+        else throw new System.Exception("Only pets and enemies can die");
+
+        unit.StartCoroutine(unit.Despawn());
     }
 
     public static void HealthRegenEffect(Unit unit) {
@@ -243,6 +240,7 @@ public static class UnitActions {
     }
 
     public static void ResetSelectionGraphicPosition(Unit unit) {
+        //todo: the selectiongraphic position can be just positioned slightly offset to the planet as units no longer go up and down mountains
         //check first raycast collision
         RaycastHit hitInfo = new RaycastHit();
         Vector3 directionToCenter = - unit.transform.position.normalized;
@@ -393,11 +391,6 @@ public static class UnitActions {
 
     #endregion
 
-    // ###################################################################################################
-
-    //public static void GravityEffect(Unit unit) {
-    //    GameManager.gameManager.planet.GetComponent<GravityAttractor>().Attract(unit.transform);
-    //}
 
 
     public static void SetThought(Unit unit) {

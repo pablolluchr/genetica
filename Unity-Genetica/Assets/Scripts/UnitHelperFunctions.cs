@@ -7,7 +7,7 @@ public static class UnitHelperFunctions {
         float closestDistance = Mathf.Infinity;
         GameObject closestObj = null;
         foreach (GameObject obj in objects) {
-            float distance = (unit.transform.position - obj.transform.position).magnitude;
+            float distance = Vector3.SqrMagnitude(unit.transform.position - obj.transform.position);
             if (distance < closestDistance) {
                 closestDistance = distance;
                 closestObj = obj;
@@ -80,15 +80,14 @@ public static class UnitHelperFunctions {
         return nonEmptyGenetiums;
     }
 
-    public static GameObject[] FilterDeadEnemies(GameObject[] enemies) {
-        List<GameObject> aliveEnemies = new List<GameObject>();
-        foreach (GameObject enemy in enemies) {
-            Unit enemyComponent = enemy.GetComponent<Unit>();
-            if (!enemyComponent.dead) {
+    public static List<Unit> FilterDeadEnemies(List<Unit> enemies) {
+        List<Unit> aliveEnemies = new List<Unit>();
+        foreach (Unit enemy in enemies) {
+            if (!enemy.dead) {
                 aliveEnemies.Add(enemy);
             }
         }
-        return aliveEnemies.ToArray();
+        return aliveEnemies;
     }
 
     public static GameObject[] FilterSpecies(GameObject[] pets, string speciesName) {

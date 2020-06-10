@@ -8,16 +8,20 @@ public class Target : MonoBehaviour {
     public Vector3 obstacleToAvoid;
     public float radius; 
     public float dummyRadius = 0;
+    private Unit unit;
 
     private void Start()
     {
         ResetObstacle();
         targetVector3 = Vector3.zero;
+        unit = GetComponent<Unit>();
+
     }
     public void Update()
     {
+        if (unit.dead) return;
         if (targetGameObject) targetVector3 = targetGameObject.transform.position;
-        GetComponent<Unit>().destinationGizmo.transform.position = targetVector3;
+        unit.destinationGizmo.transform.position = targetVector3;
     }
 
     public void Change(GameObject target, float new_radius)

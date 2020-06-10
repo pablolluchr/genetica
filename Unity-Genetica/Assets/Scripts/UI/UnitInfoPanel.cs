@@ -6,13 +6,15 @@ using UnityEngine.UI;
 public class UnitInfoPanel : MovingUIPanel
 {
     public Unit targetUnit;
-    public GameObject previewUnit;
+    public GameObject previewPet;
+    public GameObject previewEnemy;
     public GameObject previewCamera;
     private Slider health;
     private Slider food;
     private Slider water;
     private TMPro.TextMeshProUGUI genetium;
     private TMPro.TextMeshProUGUI genetiumMax;
+    //todo: create enemyInfoPanel for enemies
 
     void Start()
     {
@@ -23,7 +25,8 @@ public class UnitInfoPanel : MovingUIPanel
         genetium = transform.Find("Genetium").GetComponent<TMPro.TextMeshProUGUI>();
         genetiumMax = transform.Find("GenetiumMax").GetComponent<TMPro.TextMeshProUGUI>();
         transform.Find("Species").GetComponent<Button>().onClick.AddListener(OpenAttributePanel);
-        previewUnit.gameObject.SetActive(false);
+        previewPet.gameObject.SetActive(false);
+        previewEnemy.gameObject.SetActive(false);
         targetUnit = null;
         Hide();
         
@@ -31,9 +34,6 @@ public class UnitInfoPanel : MovingUIPanel
 
     public void OpenAttributePanel()
     {
-        //todo: do this through a game manager state.
-        //Hide();
-        //GameManager.gameManager.attributePanel.OpenPanel(targetUnit.speciesName);
         GameManager.gameManager.SetSpeciesAttributes(true);
     }
 
@@ -48,15 +48,15 @@ public class UnitInfoPanel : MovingUIPanel
                 genetiumMax.text= Mathf.Round(targetUnit.carryingCapacity).ToString();
         }
     }
-    public void Show(Unit unit)
-    {
-
+    public void Show(Unit unit) {
         targetUnit = unit;
-        GameManager.gameManager.GetSpeciesFromName(unit.speciesName).UpdateUnit(previewUnit.GetComponent<Unit>());
-        previewUnit.SetActive(true);
         previewCamera.SetActive(true);
 
-        Show();
+        if (unit.CompareTag("Pet")) {
+            GameManager.gameManager.GetSpeciesFromName(unit.speciesName).UpdateUnit(previewPet.GetComponent<Unit>());
+            previewPet.SetActive(true);
+        } else previewEnemy.SetActive(true);
+            Show();
 
     }
 
@@ -69,7 +69,8 @@ public class UnitInfoPanel : MovingUIPanel
     IEnumerator DisablePreviewUnitDelayed()
     {
         yield return new WaitForSeconds(0.3f);
-        previewUnit.gameObject.SetActive(false);
+        previewPet.SetActive(false);
+        previewEnemy.SetActive(false);
 
     }
 

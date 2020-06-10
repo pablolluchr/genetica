@@ -15,6 +15,7 @@ public class Species
 
     public GameObject foodSource;
     public GameObject genetiumSource;
+    public GameObject unitPrefab;
     public string tag;
 
     //todo: this ones are inferred from body attribuets
@@ -22,8 +23,23 @@ public class Species
     public float swimspeed;
     public float walkspeed;
 
+
+    //enemy species
+    public Species(string name, float speed) {
+        this.speciesName = name;
+        this.speed = speed;
+        this.swimspeed = speed / 2f; //todo calculate!
+        this.walkspeed = speed;
+        this.tag = "Hostile";
+        this.unitPrefab = GameManager.gameManager.enemyPrefab;
+        this.foodSource = GameManager.gameManager.foodList[GameManager.gameManager.foodList.Count-1];
+
+
+    }
+
+
+    //pet species
     public Species(string name,
-        string tag,
         string color,
         float speed, //todo remove
         float headSize,
@@ -42,13 +58,14 @@ public class Species
         this.tailSize = tailSize;
         this.earSize = earSize;
         this.armSize = armSize;
-        this.tag = tag;
+        this.tag = "Pet";
+        this.unitPrefab = GameManager.gameManager.unitPrefab;
         this.swimspeed = speed/2f; //todo calculate!
         this.walkspeed = speed;
         this.foodSource = GameManager.gameManager.foodList[0];
     }
 
-    public GameObject Spawn(GameObject unitPrefab) {
+    public GameObject Spawn() {
         Vector3 spawnPosition = foodSource.transform.position + Random.onUnitSphere*2f;
         GameObject unit = MonoBehaviour.Instantiate(unitPrefab, spawnPosition,unitPrefab.transform.rotation);
         unit.transform.parent = GameManager.gameManager.units.transform;
@@ -57,8 +74,8 @@ public class Species
         UpdateUnit(unitComponent);
         UnitActions.DisableSelectionGraphic(unitComponent);
 
-        if (unitComponent.CompareTag("Preview"))
-            GameManager.gameManager.previewUnitList.Add(unitComponent);
+        //if (unitComponent.CompareTag("Preview"))
+        //    GameManager.gameManager.previewUnitList.Add(unitComponent);
         if (unitComponent.CompareTag("Pet"))
             GameManager.gameManager.petList.Add(unitComponent);
         else if (unitComponent.CompareTag("Hostile"))
@@ -68,24 +85,25 @@ public class Species
     }
 
     public void UpdateUnit(Unit unit) { //returns true if succeeds, false otherwise
-        //if (unit.speciesName != speciesName) { return false; } //cant modify another species
-        
-        //Update model
-        unit.UpdateHeadSize(headSize);
-        unit.UpdateLegSize(legSize);
-        unit.UpdateBellySize(bellySize);
-        unit.UpdateEarSize(earSize);
-        unit.UpdateTailSize(tailSize);
-        unit.UpdateArmSize(armSize);
-        unit.UpdateFurColor(color);
+        //if (unit.speciesName != speciesName) { return; } //cant modify another species
+
+        if (!unit.CompareTag("Hostile")) {
+            unit.UpdateHeadSize(headSize);
+            unit.UpdateLegSize(legSize);
+            unit.UpdateBellySize(bellySize);
+            unit.UpdateEarSize(earSize);
+            unit.UpdateTailSize(tailSize);
+            unit.UpdateArmSize(armSize);
+            unit.UpdateFurColor(color);
+        }
 
         if (unit.CompareTag("Preview")) return;
 
-
-        unit.foodSource = foodSource;
         unit.genetiumSource = genetiumSource;
+        unit.foodSource = foodSource;
         unit.speed = speed;
-        unit.interactionRadius = UnitHelperFunctions.Interpolate(legSize, new float[,]{{0.2f, 0.5f}, {0.6f, 0.6f}});
+        unit.interactionRadius = UnitHelperFunctions.Interpolate(legSize, new float[,]{{0.2f, 0.5f}, {0.6f, 0.6f}}); //todo: rethink this
+        
         //unit.areaCenter = areaCenter;
 
 

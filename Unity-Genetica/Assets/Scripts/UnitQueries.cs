@@ -167,7 +167,6 @@ public static class UnitQueries {
             > unit.genetiumSource.GetComponent<Genetium>().consideredEmpty;
 
     }
-
     public static bool IsCarryingGenetium(Unit unit) {
         return unit.currentGenetiumAmount / unit.carryingCapacity >= 0.01;
     }
@@ -184,25 +183,25 @@ public static class UnitQueries {
 
     #region attacking // ################################################################################
 
-    public static bool IsThreatened(Unit unit) {
-        return ClosestEnemyInThreatRange(unit) != null;
+    public static bool EnemyInRange(Unit unit) {
+        GameObject closestEnemy = ClosestEnemyInRange(unit);
+        return closestEnemy != null &&
+            Vector3.SqrMagnitude(closestEnemy.transform.position-unit.transform.position)<unit.enemyDetectionRange;
     }
 
     // null if not in range
-    public static GameObject ClosestEnemyInThreatRange(Unit unit) {
+    public static GameObject ClosestEnemyInRange(Unit unit) {
         //todo: redo using squared distance
         List<Unit> enemies;
         if (unit.enemyTag == "Hostile")
             enemies = GameManager.gameManager.enemyList;
         else enemies = GameManager.gameManager.petList;
 
+        List<Unit> aliveEnemies = UnitHelperFunctions.FilterDeadEnemies(enemies);
         List<GameObject> enemiesGameObject = new List<GameObject>();
-        foreach (var enemy in enemies) enemiesGameObject.Add(enemy.gameObject);
-
-        //List<Unit> aliveEnemies = UnitHelperFunctions.FilterDeadEnemies(enemies);
+        foreach (var enemy in aliveEnemies) enemiesGameObject.Add(enemy.gameObject);
         //TODO: units should be taken out of the gameobject array juust when they die
-        //return UnitHelperFunctions.GetClosetInAreaRange(unit, enemiesGameObject);
-        return null;
+        return UnitHelperFunctions.GetClosest(unit, enemiesGameObject);
     }
 
    
