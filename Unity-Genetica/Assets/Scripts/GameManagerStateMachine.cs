@@ -41,7 +41,8 @@ public static class GameManagerStateMachine {
                         gm.FreePan(); gm.HideObjectSelection();
                         gm.ShowSpeciesSelectionPanel(); return GMState.FreeSelection;
                     }
-                    if (gm.isDragging) { gm.FreePan(); gm.HideObjectSelection(); return GMState.FreeSelection; }
+                    if (gm.isDragging) { gm.FreePan(); gm.HideObjectSelection(); gm.ShowSpeciesSelectionPanel();
+                        return GMState.FreeSelection; }
                     if (gm.IsObjectSelected()) { gm.TargetObject(); return GMState.ObjectSelection; }
                     if (gm.IsUnitSelected()) { gm.SelectUnit(); gm.HideObjectSelection(); return GMState.UnitSelection; }
                     break;
@@ -66,6 +67,7 @@ public static class GameManagerStateMachine {
                         return GMState.FreeSelection;
                     }
                     if (gm.IsObjectSelected()) { gm.SetHabitatTargets(); return GMState.SpeciesSelection; }
+                    if (gm.isShortClick) { gm.OverrideSelectedSpeciesUnitTargets(); return GMState.SpeciesSelection; }
                     //if (gm.IsObjectSelected()) { gm.DeselectSpecies(); gm.TargetObject(); return GMState.ObjectSelection; }
 
                     if (gm.newSpeciesSelected) { gm.SelectSpecies(); return GMState.SpeciesSelection; }

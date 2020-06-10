@@ -198,8 +198,8 @@ public static class UnitActions {
 
 
     public static void Die(Unit unit) {
-        unit.animator.enabled = false; //todo: death animation
         unit.dead = true;
+        unit.animator.enabled = false; //todo: death animation handled from unit
         if (unit.CompareTag("Pet")) GameManager.gameManager.petList.Remove(unit);
         else if (unit.CompareTag("Hostile")) GameManager.gameManager.enemyList.Remove(unit);
         else throw new System.Exception("Only pets and enemies can die");
@@ -212,13 +212,13 @@ public static class UnitActions {
             unit.health += unit.healthRegen *
                 Time.deltaTime * GameManager.gameManager.countsBetweenUpdates;
         }
-    }
+    }   
 
     public static void TakeDamage(Unit unit, float damage) {
         if (unit.dead) return;
-        unit.health -= damage;
+        unit.health = Mathf.Max(0,unit.health - damage);
         unit.healthbar.size = new Vector2(unit.health / unit.maxHealth * 9f, 1);
-        if (unit.health <= 0) UnitActions.Die(unit);
+        if (unit.health == 0) Die(unit);
     }
 
     public static void SetHealthBarPivot(Unit unit) {
@@ -281,7 +281,7 @@ public static class UnitActions {
     public static void Move(Unit unit) {
         SetHealthBarPivot(unit);
         Target target = unit.GetComponent<Target>();
-        if (target.IsNear(unit, false)) return;
+        if (target.IsNear()) return;
 
         //if its near the target, then look to the center of the target gameobject
 
@@ -351,7 +351,12 @@ public static class UnitActions {
 
     public static void OverrideTarget(Unit unit, Vector3 target) {
         unit.GetComponent<Target>().Change(target);
-        unit.unitState = UnitState.Override;
+        unit.isBeingOverride = true;
+
+    }
+
+    public static void StopOverride(Unit unit) {
+        unit.isBeingOverride = false;
 
     }
 

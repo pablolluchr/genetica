@@ -55,7 +55,11 @@ public class UnitInfoPanel : MovingUIPanel
         if (unit.CompareTag("Pet")) {
             GameManager.gameManager.GetSpeciesFromName(unit.speciesName).UpdateUnit(previewPet.GetComponent<Unit>());
             previewPet.SetActive(true);
-        } else previewEnemy.SetActive(true);
+            previewEnemy.SetActive(false);
+        } else {
+            previewEnemy.SetActive(true);
+            previewPet.SetActive(false);
+        }
             Show();
 
     }

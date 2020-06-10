@@ -100,6 +100,8 @@ public class Unit : MonoBehaviour {
     public Transform destinationGizmo;
     public GameObject selectionGraphic;
     public GameObject targetGraphic;
+    public Animator animatorPet;
+    public Animator animatorSpider;
     public Animator animator;
     public Transform waterDetector;
 
@@ -142,8 +144,14 @@ public class Unit : MonoBehaviour {
         
 
         if (gameObject.CompareTag("Preview") ){ return; }
-        if (gameObject.CompareTag("Pet")) healthbar.color = GameManager.gameManager.healthBarPetColor;
-        if (gameObject.CompareTag("Hostile")) healthbar.color = GameManager.gameManager.healthBarEnemyColor;
+        if (gameObject.CompareTag("Pet")) {
+            healthbar.color = GameManager.gameManager.healthBarPetColor;
+            animator = animatorPet;
+        }
+        if (gameObject.CompareTag("Hostile")) {
+            healthbar.color = GameManager.gameManager.healthBarEnemyColor;
+            animator = animatorSpider;
+        }
 
         dead = false;
         health = maxHealth;

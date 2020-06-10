@@ -72,11 +72,9 @@ public class Target : MonoBehaviour {
 
     }
 
-    public bool IsNear(Unit unit,bool increasedRadius)
+    public bool IsNear()
     {
-        float buffer = 0;
-        if (increasedRadius) buffer = .1f;
-        return (unit.transform.position - targetVector3).magnitude <= radius + unit.interactionRadius+buffer;
+        return (unit.transform.position - targetVector3).sqrMagnitude <= radius + unit.interactionRadius;
     }
 }
 

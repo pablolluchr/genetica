@@ -7,6 +7,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 862861997152974777, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 862861997152974777, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492015175036755719, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1579311965357827306, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1579311965357827306, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1695426089585256672, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1695426089585256672, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2607430200384961418, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.206
+      objectReference: {fileID: 0}
     - target: {fileID: 3157180281133854162, guid: cc0c0bd3685024c1b84fdc341d63a629,
         type: 3}
       propertyPath: m_Name
@@ -80,6 +120,31 @@ PrefabInstance:
     - target: {fileID: 4932581812050077580, guid: cc0c0bd3685024c1b84fdc341d63a629,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980793887537101834, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5211613401579576199, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5211613401579576199, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6033806175248439968, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6033806175248439968, guid: cc0c0bd3685024c1b84fdc341d63a629,
+        type: 3}
+      propertyPath: m_ReceiveShadows
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

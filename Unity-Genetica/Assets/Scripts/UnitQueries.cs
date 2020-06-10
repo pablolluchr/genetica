@@ -26,7 +26,7 @@ public static class UnitQueries {
     }
     public static bool FoodSourceAvailable(Unit unit) {
         Food foodComponent = unit.foodSource.GetComponent<Food>();
-        return unit.foodSource != null && foodComponent.availableFood > 5;
+        return unit.foodSource != null && foodComponent.availableFood > foodComponent.maxFood*0.2;
         //todo: set this value as source specific?
     }
 
@@ -175,8 +175,8 @@ public static class UnitQueries {
         return unit.currentGenetiumAmount / unit.carryingCapacity >= 0.99;
     }
 
-    public static bool IsNearTarget(Unit unit, bool increasedRadius) {
-        return unit.GetComponent<Target>().IsNear(unit, increasedRadius);
+    public static bool IsNearTarget(Unit unit) {
+        return unit.GetComponent<Target>().IsNear();
     }
 
     #endregion
@@ -223,7 +223,7 @@ public static class UnitQueries {
         if (unit.GetComponent<Target>().targetVector3 == Vector3.zero) { return true; }
 
         ////destination already reached
-        if (UnitQueries.IsNearTarget(unit, false)) { return true; }
+        if (UnitQueries.IsNearTarget(unit)) { return true; }
         //if its wandering and couldn't reach the destination in 10 sec reset 
         if (Time.time - unit.wanderTimeStamp > 3f && unit.unitState == UnitState.Wander) { return true; }
 

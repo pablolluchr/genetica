@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
         previousSelectedSpecies = null;
         forcePanelExit = false;
         AddPetSpecies("Reds", "red", 1, 0, 0, 0, 0, 0, 0);
-        AddEnemySpecies("Enemies", 1);
+        AddEnemySpecies("Enemies", 2);
         //AddSpecies("Blues", "Pet", "blue", 2, 0, 0, 0, 0, 0, 0);
         //AddPetSpecies("Enemies", "Hostile", "blue", 2, 0, 0, 0, 0, 0, 0);
 
@@ -242,7 +242,12 @@ public class GameManager : MonoBehaviour
         genetiumInfoPanel.Hide();
         baseInfoPanel.Hide();
     }
-
+    public void OverrideSelectedSpeciesUnitTargets() {
+        List<Unit> unitsofSpecies = selectedSpecies.GetAllUnitsOfSpecies();
+        foreach (var unit in unitsofSpecies) {
+            UnitActions.OverrideTarget(unit, selectedPoint);
+        }
+    }
     public void OverrideUnit() {
         if (selectedUnit.CompareTag("Pet")) {
             UnitActions.OverrideTarget(selectedUnit, selectedPoint);
