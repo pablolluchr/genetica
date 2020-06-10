@@ -25,6 +25,8 @@ public class InputManager : MonoBehaviour {
         UpdateTouchSpeed();
         gm.isDragging = isDragging();
         gm.isShortClick = isShortClick();
+        gm.selectedObject = null;
+        gm.selectedPoint = Vector3.zero;
         if (gm.isShortClick) {
             if (IsPointerOverUIObject()) return;
             gm.selectedObject = objectHitWithRaycast();

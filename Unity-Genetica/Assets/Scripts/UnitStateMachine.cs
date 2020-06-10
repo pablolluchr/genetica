@@ -145,8 +145,9 @@ public static class UnitStateMachine {
                     break;
                 }
             case UnitState.Attack: {
+                    if (UnitQueries.IsTargettedEnemyDead(unit)) { return UnitState.Wander; }
                     //if (UnitQueries.HasLowHealth(unit)) { return UnitState.Flee; }
-                    if (!UnitQueries.EnemyInRange(unit)) { return UnitState.Wander; }
+                    //if (!UnitQueries.EnemyInRange(unit)) { return UnitState.Wander; }
                     if (!UnitQueries.IsNearTarget(unit)) { return UnitState.TargetEnemy; }
                     UnitActions.Attack(unit);
                     break;

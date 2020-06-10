@@ -204,6 +204,10 @@ public static class UnitQueries {
         return UnitHelperFunctions.GetClosest(unit, enemiesGameObject);
     }
 
+    public static bool IsTargettedEnemyDead(Unit unit) {
+        return unit.GetComponent<Target>().targetGameObject != null &&
+            unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>().dead;
+    }
    
 
     public static bool ShouldBeAggressive(Unit unit) {
