@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Food : MonoBehaviour
+public class Food : Object
 {
+    
     public float stomachFillPerSecond = 1f;
     public float regeneratePerSecond = .1f;
     public float maxFood = 100f;
@@ -11,9 +12,10 @@ public class Food : MonoBehaviour
     public float radius = 2f;
     public float consideredEmpty = 1f;
 
-    void Start()
+    new void Start()
     {
         availableFood = maxFood;
+        base.Start();
     }
 
     void Update()
@@ -29,4 +31,6 @@ public class Food : MonoBehaviour
         availableFood -= foodEaten;
         return foodEaten;
     }
+
+    
 }

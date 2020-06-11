@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Genetium : MonoBehaviour
+public class Genetium : Object
 {
 
     public float transferRate;
@@ -13,9 +13,11 @@ public class Genetium : MonoBehaviour
     public float consideredEmpty;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         currentAmount = capacity;
+        base.Start();
+
     }
 
     // Update is called once per frame
@@ -23,5 +25,7 @@ public class Genetium : MonoBehaviour
     {
         currentAmount = Mathf.Min(capacity, currentAmount + regenRate * Time.deltaTime);
     }
+
+    //todo harvest should be done here in the same fashion as in food eaten.
 
 }

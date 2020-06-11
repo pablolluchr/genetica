@@ -54,6 +54,7 @@ public class AttributePanel : MovingUIPanel
         armPanel.Find("Bar").GetComponent<Slider>().value = (int) (armSize * 5);
     }
 
+
     void ApplyChanges()
     {
         //update species with the new values

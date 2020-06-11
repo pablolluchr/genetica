@@ -51,8 +51,9 @@ public class GameManager : MonoBehaviour
     public float wanderingRadius;
     public int maxUnits;
     [HideInInspector] public GMState gameState;
+    [HideInInspector] public GameObject clickedObject;
     [HideInInspector] public GameObject selectedObject;
-    [HideInInspector] public Vector3 selectedPoint;
+    [HideInInspector] public Vector3 clickedPoint;
     [HideInInspector] public Unit selectedUnit;
     [HideInInspector] public string recallSpecies = null;
     [HideInInspector] public bool isDragging;
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool newSpeciesSelected;
     [HideInInspector] public bool forcePanelExit;
     [HideInInspector] public bool openSpeciesAttributes;
+
 
 
     [Header("Object references")]
@@ -174,14 +176,18 @@ public class GameManager : MonoBehaviour
 
     public bool NewUnitSelected()
     {
-        return selectedObject && selectedObject.GetComponent<Unit>()!=null &&
-            selectedUnit != selectedObject.GetComponent<Unit>();
+        return clickedObject && clickedObject.GetComponent<Unit>()!=null &&
+            selectedUnit != clickedObject.GetComponent<Unit>();
+    }
+
+    public bool NewObjectSelected() {
+        return IsObjectSelected() && selectedObject != clickedObject;
     }
 
     public void SetHabitatTargets()
     {
-        if (selectedObject.CompareTag("Genetium")) selectedSpecies.genetiumSource = selectedObject;
-        if (selectedObject.CompareTag("Food")) selectedSpecies.foodSource = selectedObject;
+        if (clickedObject.CompareTag("Genetium")) selectedSpecies.genetiumSource = clickedObject;
+        if (clickedObject.CompareTag("Food")) selectedSpecies.foodSource = clickedObject;
         selectedSpecies.UpdateAllUnits();
     }
 
@@ -200,8 +206,8 @@ public class GameManager : MonoBehaviour
        
     }
     public void SetTargetsToNull() {
-        selectedObject = null;
-        selectedPoint = Vector3.zero;
+        clickedObject = null;
+        clickedPoint = Vector3.zero;
     }
 
     public void ShowSpeciesSelectionPanel()
@@ -226,8 +232,8 @@ public class GameManager : MonoBehaviour
 
     public void SelectUnit() {
         forcePanelExit = false;
-        cameraController.StartFollowing(selectedObject.transform,"in");
-        selectedUnit = selectedObject.GetComponent<Unit>();
+        cameraController.StartFollowing(clickedObject.transform,"in");
+        selectedUnit = clickedObject.GetComponent<Unit>();
         UnitActions.EnableSelectionGraphic(selectedUnit);
         unitInfoPanel.Show(selectedUnit);
     }
@@ -235,7 +241,14 @@ public class GameManager : MonoBehaviour
     public void DeselectUnit()
     {
         unitInfoPanel.Hide();
-        UnitActions.DisableAllSelectionGraphics();
+        UnitActions.DisableSelectionGraphic(selectedUnit);
+        //UnitActions.DisableAllSelectionGraphics();
+        selectedUnit = null;
+    }
+
+    public void DeselectCurrentObject() {
+        selectedObject.SendMessage("Deselect");
+        selectedObject = null;
     }
     public void HideObjectSelection() {
         foodInfoPanel.Hide();
@@ -245,25 +258,28 @@ public class GameManager : MonoBehaviour
     public void OverrideSelectedSpeciesUnitTargets() {
         List<Unit> unitsofSpecies = selectedSpecies.GetAllUnitsOfSpecies();
         foreach (var unit in unitsofSpecies) {
-            UnitActions.OverrideTarget(unit, selectedPoint);
+            UnitActions.OverrideTarget(unit, clickedPoint);
         }
     }
     public void OverrideUnit() {
         if (selectedUnit.CompareTag("Pet")) {
-            UnitActions.OverrideTarget(selectedUnit, selectedPoint);
+            UnitActions.OverrideTarget(selectedUnit, clickedPoint);
             UnitActions.ShowTargetGraphic(selectedUnit);
             UnitActions.DisableAllSelectionGraphics();
         }
         FreePan();
     }
 
-    public void TargetObject() {
+    public void SelectObject() {
         forcePanelExit = false;
-        cameraController.StartFollowing(selectedObject.transform,"in");
+        cameraController.StartFollowing(clickedObject.transform,"in");
+        selectedObject = clickedObject;
+        selectedObject.SendMessage("Select");
 
-        if (selectedObject.CompareTag("Food")) foodInfoPanel.Show();
-        if (selectedObject.CompareTag("Genetium")) genetiumInfoPanel.Show();
-        if (selectedObject.CompareTag("Base")) baseInfoPanel.Show();
+
+        if (clickedObject.CompareTag("Food")) foodInfoPanel.Show();
+        if (clickedObject.CompareTag("Genetium")) genetiumInfoPanel.Show();
+        if (clickedObject.CompareTag("Base")) baseInfoPanel.Show();
 
     }
 
@@ -297,13 +313,20 @@ public class GameManager : MonoBehaviour
         speciesInfoPanel.Hide();
     }
 
+    public void DeselectNonSelectedObjects() {
+        foreach (var food in foodList) {
+            if (food == clickedObject) return;
+            food.GetComponent<Food>().Deselect();
+        }
+    }
+
 
     #endregion
 
     #region QUERIES ##############################################################################
 
     public bool IsUnitSelected() {
-        return selectedObject && selectedObject.GetComponent<Unit>() != null;
+        return clickedObject && clickedObject.GetComponent<Unit>() != null;
     }
 
     public bool IsSpeciesSelected()
@@ -313,16 +336,18 @@ public class GameManager : MonoBehaviour
 
     public bool IsObjectSelected() {
 
-        return selectedObject &&  (
-            selectedObject.CompareTag("Food") ||
-            selectedObject.CompareTag("Base")||
-            selectedObject.CompareTag("Genetium")
+        return clickedObject &&  (
+            clickedObject.CompareTag("Food") ||
+            clickedObject.CompareTag("Base")||
+            clickedObject.CompareTag("Genetium")
         );
     }
 
     public bool PointSelected() {
-        return selectedPoint != Vector3.zero;
+        return clickedPoint != Vector3.zero;
     }
+
+    
 
     #endregion
 

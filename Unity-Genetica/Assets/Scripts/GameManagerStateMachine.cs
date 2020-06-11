@@ -18,7 +18,7 @@ public static class GameManagerStateMachine {
         switch (gm.gameState) {
             case GMState.FreeSelection: {
                     if (gm.IsObjectSelected()) {
-                        gm.TargetObject(); gm.HideSpeciesSelectionPanel();
+                        gm.SelectObject(); gm.HideSpeciesSelectionPanel();
                         return GMState.ObjectSelection;
                     }
                     if (gm.IsSpeciesSelected()) {
@@ -38,20 +38,24 @@ public static class GameManagerStateMachine {
 
             case GMState.ObjectSelection: {
                     if (gm.forcePanelExit) {
-                        gm.FreePan(); gm.HideObjectSelection();
+                        gm.FreePan(); gm.HideObjectSelection(); gm.DeselectCurrentObject();
                         gm.ShowSpeciesSelectionPanel(); return GMState.FreeSelection;
                     }
+
                     if (gm.isDragging) { gm.FreePan(); gm.HideObjectSelection(); gm.ShowSpeciesSelectionPanel();
-                        return GMState.FreeSelection; }
-                    if (gm.IsObjectSelected()) { gm.TargetObject(); return GMState.ObjectSelection; }
-                    if (gm.IsUnitSelected()) { gm.SelectUnit(); gm.HideObjectSelection(); return GMState.UnitSelection; }
+                        gm.DeselectCurrentObject(); return GMState.FreeSelection; }
+                    if (gm.NewObjectSelected()) { gm.DeselectCurrentObject(); gm.SelectObject(); return GMState.ObjectSelection; }
+                    if (gm.IsObjectSelected()) { gm.SelectObject(); return GMState.ObjectSelection; }
+
+                    if (gm.IsUnitSelected()) {
+                        gm.DeselectCurrentObject(); gm.SelectUnit(); gm.HideObjectSelection(); return GMState.UnitSelection; }
                     break;
                 }
 
             case GMState.UnitSelection: {
                     if (gm.forcePanelExit) { gm.FreePan(); gm.DeselectUnit(); gm.ShowSpeciesSelectionPanel(); return GMState.FreeSelection; }
                     if (gm.isDragging) { gm.FreePan(); return GMState.UnitSelection; }
-                    if (gm.IsObjectSelected()) { gm.DeselectUnit(); gm.TargetObject(); return GMState.ObjectSelection; }
+                    if (gm.IsObjectSelected()) { gm.DeselectUnit(); gm.SelectObject(); return GMState.ObjectSelection; }
                     if (gm.NewUnitSelected()) { UnitActions.DisableAllSelectionGraphics(); gm.SelectUnit(); return GMState.UnitSelection; }
                     if (gm.openSpeciesAttributes) {
                         gm.ShowSpeciesAttributes(); gm.DeselectUnit();
@@ -66,18 +70,18 @@ public static class GameManagerStateMachine {
                         gm.DeselectSpecies(); gm.ShowSpeciesSelectionPanel();
                         return GMState.FreeSelection;
                     }
-                    if (gm.IsObjectSelected()) { gm.SetHabitatTargets(); return GMState.SpeciesSelection; }
+                    if (gm.IsObjectSelected()) {  gm.SetHabitatTargets(); return GMState.SpeciesSelection; }
                     if (gm.PointSelected()) { gm.OverrideSelectedSpeciesUnitTargets(); return GMState.SpeciesSelection; }
                     //if (gm.IsObjectSelected()) { gm.DeselectSpecies(); gm.TargetObject(); return GMState.ObjectSelection; }
 
                     if (gm.newSpeciesSelected) { gm.SelectSpecies(); return GMState.SpeciesSelection; }
-                    if (gm.IsUnitSelected()) { gm.SelectUnit(); gm.DeselectSpecies(); return GMState.UnitSelection; }
+                    if (gm.IsUnitSelected()) {  gm.SelectUnit(); gm.DeselectSpecies(); return GMState.UnitSelection; }
                     //todo: is base selected
 
                     break;
                 }
             case GMState.SpeciesAttributes: {
-                    if (gm.forcePanelExit) { gm.HideSpeciesSelectionPanel(); return GMState.FreeSelection; }
+                    if (gm.forcePanelExit) { gm.ShowSpeciesSelectionPanel(); return GMState.FreeSelection; }
                     break;
                 }
         }

@@ -18,19 +18,20 @@ public class InputManager : MonoBehaviour {
     private void Start()
     {
          gm = GameManager.gameManager;
+         
 
     }
     void Update() {
-
+        gm.clickedObject = null;
+        gm.clickedPoint = Vector3.zero;
         UpdateTouchSpeed();
         gm.isDragging = isDragging();
         gm.isShortClick = isShortClick();
-        gm.selectedObject = null;
-        gm.selectedPoint = Vector3.zero;
+        
         if (gm.isShortClick) {
             if (IsPointerOverUIObject()) return;
-            gm.selectedObject = objectHitWithRaycast();
-            gm.selectedPoint = pointHitWithRaycast();
+            gm.clickedObject = objectHitWithRaycast();
+            gm.clickedPoint = pointHitWithRaycast();
         }
         saveFrameInfo();
     }
@@ -61,6 +62,10 @@ public class InputManager : MonoBehaviour {
             touchSpeed = new Vector2(0f, 0f);
             lastTouch = Vector2.zero;
         }
+    }
+
+    private void ObjectTouchFeedback() {
+        if (gm.clickedObject.CompareTag("Food")) gm.clickedObject.GetComponent<Food>().Select();
     }
 
     private Vector3 pointHitWithRaycast() {

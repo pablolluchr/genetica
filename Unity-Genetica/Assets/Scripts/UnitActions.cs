@@ -136,7 +136,7 @@ public static class UnitActions {
     public static void TargetBase(Unit unit) {
         //TODO: create variables for base and target and set them in inspector
         GameObject home = GameObject.FindGameObjectWithTag("Base");
-        unit.GetComponent<Target>().Change(home, 2f);
+        unit.GetComponent<Target>().Change(home, 6f);
     }
 
     public static void ReachBase(Unit unit) {
