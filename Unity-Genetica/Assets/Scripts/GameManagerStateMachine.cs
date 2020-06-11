@@ -66,7 +66,7 @@ public static class GameManagerStateMachine {
 
             case GMState.SpeciesSelection: {
                     if (gm.isDragging) { gm.FreePan(); return GMState.SpeciesSelection; }
-                    if (!gm.IsSpeciesSelected()) {
+                    if (gm.forcePanelExit) { 
                         gm.DeselectSpecies(); gm.ShowSpeciesSelectionPanel();
                         return GMState.FreeSelection;
                     }

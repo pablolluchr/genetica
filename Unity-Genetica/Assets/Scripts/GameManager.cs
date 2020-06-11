@@ -186,9 +186,11 @@ public class GameManager : MonoBehaviour
 
     public void SetHabitatTargets()
     {
+        HideSpeciesLightbeams();
         if (clickedObject.CompareTag("Genetium")) selectedSpecies.genetiumSource = clickedObject;
         if (clickedObject.CompareTag("Food")) selectedSpecies.foodSource = clickedObject;
         selectedSpecies.UpdateAllUnits();
+        ShowSpeciesLightbeams();
     }
 
     public Material GetFurMaterial(string color)
@@ -295,22 +297,35 @@ public class GameManager : MonoBehaviour
     }
     public void SelectSpecies()
     {
+        forcePanelExit = false;
         speciesInfoPanel.Show(selectedSpecies);
         UnitActions.SelectAllUnitsOfSpecies(selectedSpecies);
-
-        //todo: find average point of species units and go there instead?
+        ShowSpeciesLightbeams();
         cameraController.StartFollowing(selectedSpecies.foodSource.transform, "out");
         newSpeciesSelected = false;
     }
+    public void ShowSpeciesLightbeams() {
+        selectedSpecies.foodSource.GetComponent<Food>().ShowBeam();
+        if (selectedSpecies.genetiumSource != null)
+            selectedSpecies.genetiumSource.GetComponent<Genetium>().ShowBeam();
+    }
+
+    public void HideSpeciesLightbeams() {
+        selectedSpecies.foodSource.GetComponent<Food>().HideBeam();
+        if (selectedSpecies.genetiumSource != null)
+            selectedSpecies.genetiumSource.GetComponent<Genetium>().HideBeam();
+    }
 
     public void DeselectSpecies() {
-        selectedSpecies = null;
         UnitActions.DisableAllSelectionGraphics();
+        HideSpeciesLightbeams();
         //SetTargetsToNull();
         FreePan();
 
         cameraController.zoomType = "in";
         speciesInfoPanel.Hide();
+        selectedSpecies = null;
+
     }
 
     public void DeselectNonSelectedObjects() {

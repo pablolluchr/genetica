@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectionGraphic: {fileID: 2901520118551638665}
   anim: {fileID: 442834682626079854}
+  lightbeam: {fileID: 4593083376926260489}
   stomachFillPerSecond: 1
   regeneratePerSecond: 0.1
   maxFood: 100
@@ -296,7 +297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4593083376926260495
 Transform:
   m_ObjectHideFlags: 0
@@ -337,7 +338,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a350cbe6fe7f44c0bafd09c23e9f5a2b, type: 2}
+  - {fileID: 2100000, guid: 0d9fb84e619544cf09de31e90b460d0d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -17,7 +17,7 @@ public class SpeciesInfoPanel : MovingUIPanel
 
     new public void Hide()
     {
-        GameManager.gameManager.selectedSpecies = null;
+        GameManager.gameManager.forcePanelExit = true;
         base.Hide();
 
     }
