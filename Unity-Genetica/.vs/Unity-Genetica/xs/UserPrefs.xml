@@ -1,19 +1,11 @@
 ﻿<Properties StartupConfiguration="{4C7EB0CC-8906-19E4-8AD1-8C53653A637D}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/SpeciesInfoPanel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManagerStateMachine.cs">
     <Files>
       <File FileName="Assets/Scripts/UI/IncreaseAttributeButton.cs" Line="1" Column="1" IsPinned="True" />
-      <File FileName="Assets/Scripts/UI/AttributePanel.cs" />
-      <File FileName="Assets/Scripts/UnitActions.cs" Line="261" Column="24" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="310" Column="51" />
-      <File FileName="Assets/Scripts/GameManagerStateMachine.cs" Line="78" Column="75" />
-      <File FileName="Assets/Scripts/UI/ExitMenu.cs" Line="19" Column="42" />
-      <File FileName="Assets/Scripts/Food.cs" Line="18" Column="22" />
-      <File FileName="Assets/Scripts/Object.cs" Line="33" Column="35" />
-      <File FileName="Assets/Scripts/Genetium.cs" Line="29" Column="27" />
-      <File FileName="Assets/Scripts/InputManager.cs" Line="26" Column="40" />
-      <File FileName="Assets/Scripts/Base.cs" Line="17" Column="8" />
-      <File FileName="Assets/Scripts/UI/SpeciesSelectionPanel.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/UI/SpeciesInfoPanel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="276" Column="43" />
+      <File FileName="Assets/Scripts/UnitActions.cs" Line="365" Column="8" />
+      <File FileName="Assets/Scripts/InputManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameManagerStateMachine.cs" Line="74" Column="47" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -21,9 +13,8 @@
           <Node name="Unity-Genetica" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="UI" expanded="True">
-                  <Node name="SpeciesInfoPanel.cs" selected="True" />
-                </Node>
+                <Node name="UI" expanded="True" />
+                <Node name="GameManagerStateMachine.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -33,7 +24,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="74056542-20c2-4b69-bb78-db3e09e80429" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="e041aabe-4541-4ce3-9d56-b713fed84e47" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

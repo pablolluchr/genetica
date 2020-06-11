@@ -1639,6 +1639,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Genetium
       objectReference: {fileID: 0}
+    - target: {fileID: 4787688736803941336, guid: fe421970b8448467f81c2ae54d539d71,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.73438823
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787688736803941336, guid: fe421970b8448467f81c2ae54d539d71,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 18.887867
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787688736803941336, guid: fe421970b8448467f81c2ae54d539d71,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.73438823
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe421970b8448467f81c2ae54d539d71, type: 3}
 --- !u!1 &410089910
@@ -4031,6 +4046,8 @@ MonoBehaviour:
   furMaterials:
   - {fileID: 2100000, guid: cd86988d6910c40e899f0b2e584a112f, type: 2}
   - {fileID: 2100000, guid: 17b6adac5be7d4cd68a4dac30c51c3d5, type: 2}
+  targetSelection: {fileID: 2080074178661988962, guid: 67b252e2e578f418ea58a61c5077e1bc,
+    type: 3}
   unitInfoPanel: {fileID: 1886622151}
   speciesInfoPanel: {fileID: 1063418907}
   foodInfoPanel: {fileID: 339551092}
@@ -6352,7 +6369,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: fa7f11dbcba104575ac18a2453d137be,
         type: 3}
       propertyPath: m_Name
-      value: planet4
+      value: planet
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: fa7f11dbcba104575ac18a2453d137be,
         type: 3}
@@ -12523,6 +12540,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Range
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740044384632978739, guid: 8d2c2f7fa507f4dcfbf9085860a6d276,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.3941196
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740044384632978739, guid: 8d2c2f7fa507f4dcfbf9085860a6d276,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740044384632978739, guid: 8d2c2f7fa507f4dcfbf9085860a6d276,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 14.664346
       objectReference: {fileID: 0}
     - target: {fileID: 4667597951944645554, guid: 8d2c2f7fa507f4dcfbf9085860a6d276,
         type: 3}

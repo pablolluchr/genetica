@@ -71,7 +71,7 @@ public static class GameManagerStateMachine {
                         return GMState.FreeSelection;
                     }
                     if (gm.IsObjectSelected()) {  gm.SetHabitatTargets(); return GMState.SpeciesSelection; }
-                    if (gm.PointSelected()) { gm.OverrideSelectedSpeciesUnitTargets(); return GMState.SpeciesSelection; }
+                    if (gm.PointSelected()) { gm.ShowTargetSelectionGraphic(); gm.OverrideSelectedSpeciesUnitTargets(); return GMState.SpeciesSelection; }
                     //if (gm.IsObjectSelected()) { gm.DeselectSpecies(); gm.TargetObject(); return GMState.ObjectSelection; }
 
                     if (gm.newSpeciesSelected) { gm.SelectSpecies(); return GMState.SpeciesSelection; }

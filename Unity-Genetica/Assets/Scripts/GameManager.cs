@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> foodList;
     public List<GameObject> genetiumList;
     public List<Material> furMaterials;
+    public GameObject targetSelection;
 
     [Header("UI stuff")]
     public UnitInfoPanel unitInfoPanel;
@@ -95,6 +96,7 @@ public class GameManager : MonoBehaviour
     public SpeciesSelectionPanel speciesSelectionPanel;
     public AttributePanel speciesAttributePanel;
 
+    //todo: tidy functions (put them into blocks)
 
 
     private void Awake()
@@ -172,7 +174,6 @@ public class GameManager : MonoBehaviour
     }
 
     #region ACTIONS ##############################################################################
-
 
     public bool NewUnitSelected()
     {
@@ -263,13 +264,19 @@ public class GameManager : MonoBehaviour
             UnitActions.OverrideTarget(unit, clickedPoint);
         }
     }
-    public void OverrideUnit() {
-        if (selectedUnit.CompareTag("Pet")) {
-            UnitActions.OverrideTarget(selectedUnit, clickedPoint);
-            UnitActions.ShowTargetGraphic(selectedUnit);
-            UnitActions.DisableAllSelectionGraphics();
-        }
-        FreePan();
+    //public void OverrideUnit() {
+    //    if (selectedUnit.CompareTag("Pet")) {
+    //        UnitActions.OverrideTarget(selectedUnit, clickedPoint);
+    //        UnitActions.ShowTargetGraphic(selectedUnit);
+    //        UnitActions.DisableAllSelectionGraphics();
+    //    }
+    //    FreePan();
+    //}
+
+    public void ShowTargetSelectionGraphic() {
+
+        Destroy(MonoBehaviour.Instantiate(targetSelection, clickedPoint,
+            Quaternion.FromToRotation(Vector3.forward, clickedPoint)),1f);
     }
 
     public void SelectObject() {
@@ -297,6 +304,7 @@ public class GameManager : MonoBehaviour
     }
     public void SelectSpecies()
     {
+        //todo: maybe move camera to the units average point instead?
         forcePanelExit = false;
         speciesInfoPanel.Show(selectedSpecies);
         UnitActions.SelectAllUnitsOfSpecies(selectedSpecies);

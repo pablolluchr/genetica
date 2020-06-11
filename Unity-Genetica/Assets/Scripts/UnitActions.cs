@@ -360,11 +360,11 @@ public static class UnitActions {
 
     }
 
-    public static void ShowTargetGraphic(Unit unit)
-    {
-        MonoBehaviour.Instantiate(unit.targetGraphic).GetComponent<TargetGraphic>()
-            .SetPosition(unit.GetComponent<Target>().targetVector3, Vector3.zero);
-    }
+    //public static void ShowTargetGraphic(Unit unit)
+    //{
+    //    MonoBehaviour.Instantiate(unit.targetGraphic).GetComponent<TargetGraphic>()
+    //        .SetPosition(unit.GetComponent<Target>().targetVector3, Vector3.zero);
+    //}
 
     //Find a random point in planet's surface 
     public static void SetWanderingDestination(Unit unit) {
