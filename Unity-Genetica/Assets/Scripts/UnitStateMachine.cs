@@ -28,8 +28,7 @@ public static class UnitStateMachine {
 
         //todo: only show mating thought when having a baby (make the fucking process longer)
         //todo: add actions that happen from every state here!
-
-        if (unit.dead) { UnitActions.Die(unit); return UnitState.Dead; }
+        if (unit.shouldDie) { UnitActions.Die(unit); return UnitState.Dead; }
 
         switch (unit.unitState) {
             case UnitState.Wander: {
@@ -145,10 +144,14 @@ public static class UnitStateMachine {
                     break;
                 }
             case UnitState.Attack: {
-                    if (UnitQueries.IsTargettedEnemyDead(unit)) { return UnitState.Wander; }
+                    //if (unit.isBeingOverride) return UnitState.Override;
+
+                    if (UnitQueries.IsTargettedEnemyDead(unit)) {return UnitState.Wander;}
+                    if (!UnitQueries.EnemyInRange(unit)) { return UnitState.Wander; }
                     //if (UnitQueries.HasLowHealth(unit)) { return UnitState.Flee; }
-                    //if (!UnitQueries.EnemyInRange(unit)) { return UnitState.Wander; }
+
                     if (!UnitQueries.IsNearTarget(unit)) { return UnitState.TargetEnemy; }
+
                     UnitActions.Attack(unit);
                     break;
                 }
@@ -158,6 +161,7 @@ public static class UnitStateMachine {
                     break;
                 }
             case UnitState.Override: {
+                    //todo: think how override behaves with enemies in range
                     if (UnitQueries.IsNearTarget(unit)) {
                         UnitActions.StopOverride(unit); return UnitState.Wander; }
                     if (UnitQueries.EnemyInRange(unit)) { return UnitState.TargetEnemy;}

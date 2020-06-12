@@ -27,11 +27,12 @@ public class Unit : MonoBehaviour {
 
     [Header("Health")]
     public float maxHealth;
-    [HideInInspector] public float health;
+    public float health;
     [HideInInspector] public float healthRegen;
     [HideInInspector] public float criticalHealth;
     [HideInInspector] public float deathPeriod;
     [HideInInspector] public bool dead;
+    [HideInInspector] public bool shouldDie;
     [HideInInspector] public float deathTimeStamp;
 
 
@@ -72,6 +73,7 @@ public class Unit : MonoBehaviour {
     [HideInInspector] public float lastAttacked = 0;
     public float aggression;
     public int attackForce;
+    public float lastDamaged;
     
     [Header("Genetium Attributes")]
     public float carryingCapacity;
@@ -154,6 +156,7 @@ public class Unit : MonoBehaviour {
         }
 
         dead = false;
+        shouldDie = false;
         health = maxHealth;
         isBeingOverride = false;
         amountFed = maxFed;
@@ -180,7 +183,7 @@ public class Unit : MonoBehaviour {
 
             
             UnitActions.SetThought(this);
-            UnitActions.WanderIfDeadTarget(this);
+            //UnitActions.WanderIfDeadTarget(this);
             UnitActions.HungerEffect(this);
             UnitActions.ThirstEffect(this);
             UnitActions.TurnHungryChance(this);
@@ -196,6 +199,7 @@ public class Unit : MonoBehaviour {
         yield return new WaitForSeconds(2f);
         Destroy(this.gameObject);
     }
+
 
 
     // visual update functions

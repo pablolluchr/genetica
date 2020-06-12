@@ -1,11 +1,15 @@
 ﻿<Properties StartupConfiguration="{4C7EB0CC-8906-19E4-8AD1-8C53653A637D}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManagerStateMachine.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Unit.cs">
     <Files>
       <File FileName="Assets/Scripts/UI/IncreaseAttributeButton.cs" Line="1" Column="1" IsPinned="True" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="276" Column="43" />
-      <File FileName="Assets/Scripts/UnitActions.cs" Line="365" Column="8" />
       <File FileName="Assets/Scripts/InputManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameManagerStateMachine.cs" Line="74" Column="47" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="122" Column="30" />
+      <File FileName="Assets/Scripts/UnitActions.cs" Line="205" Column="39" />
+      <File FileName="Assets/Scripts/UnitStateMachine.cs" Line="157" Column="36" />
+      <File FileName="Assets/Scripts/GameManagerStateMachine.cs" Line="74" Column="59" />
+      <File FileName="Assets/Scripts/UnitQueries.cs" Line="209" Column="91" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="196" Column="24" />
+      <File FileName="Assets/Scripts/Target.cs" Line="29" Column="35" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,7 +18,7 @@
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
                 <Node name="UI" expanded="True" />
-                <Node name="GameManagerStateMachine.cs" selected="True" />
+                <Node name="Unit.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -24,9 +28,12 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="e041aabe-4541-4ce3-9d56-b713fed84e47" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="45d3dad0-91b8-4291-99ea-d7dfdb82b9a2" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/pablolluch/Documents/UnityProjects/Genetica/Unity-Genetica/Assets/Scripts/UnitActions.cs" relfile="Assets/Scripts/UnitActions.cs" line="225" column="1" />
+      <Breakpoint file="/Users/pablolluch/Documents/UnityProjects/Genetica/Unity-Genetica/Assets/Scripts/UnitStateMachine.cs" relfile="Assets/Scripts/UnitStateMachine.cs" line="148" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

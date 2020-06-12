@@ -178,11 +178,9 @@ public static class UnitActions {
     public static void Attack(Unit unit) {
         if (Time.time - unit.lastAttacked < unit.attackRate) return;
         unit.lastAttacked = Time.time;
-        if (unit.GetComponent<Target>().targetGameObject == null) return;
+        //if (unit.GetComponent<Target>().targetGameObject == null) return;
         Unit enemy = unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>();
         UnitActions.TakeDamage(enemy, unit.attackDamage);
-
-        //todo: handle this properly. rethink how attacking will work.
         //todo:attack animation (simulate force)
     }
 
@@ -196,7 +194,11 @@ public static class UnitActions {
 
     #region health // ################################################################################
 
+    public static void SetShouldDie(Unit unit, bool value) {
+        unit.shouldDie = value;
+        Debug.Log("should die");
 
+    }
     public static void Die(Unit unit) {
         unit.dead = true;
         unit.animator.enabled = false; //todo: death animation handled from unit
@@ -208,6 +210,7 @@ public static class UnitActions {
     }
 
     public static void HealthRegenEffect(Unit unit) {
+        if (Time.time - unit.lastDamaged<2f) return;
         if (unit.health < unit.maxHealth) {
             unit.health += unit.healthRegen *
                 Time.deltaTime * GameManager.gameManager.countsBetweenUpdates;
@@ -215,10 +218,18 @@ public static class UnitActions {
     }   
 
     public static void TakeDamage(Unit unit, float damage) {
-        if (unit.dead) return;
-        unit.health = Mathf.Max(0,unit.health - damage);
+        //if (unit.dead) return;
+
+        unit.health = Mathf.Max(0f,unit.health - damage);
         unit.healthbar.size = new Vector2(unit.health / unit.maxHealth * 9f, 1);
-        if (unit.health == 0) Die(unit);
+        unit.lastDamaged = Time.time;
+
+        if (unit.health == 0)
+            SetShouldDie(unit,true);
+    }
+
+    public static void SetTargetToNull(Unit unit) {
+        unit.GetComponent<Target>().Reset();
     }
 
     public static void SetHealthBarPivot(Unit unit) {
@@ -384,15 +395,15 @@ public static class UnitActions {
         unit.wanderTimeStamp = Time.time;
     }
 
-    public static void WanderIfDeadTarget(Unit unit) {
-        if (
-            unit.GetComponent<Target>().targetGameObject
-            && unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>()
-            && unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>().dead
-        ) {
-            unit.unitState = UnitState.Wander;
-        }
-    }
+    //public static void WanderIfDeadTarget(Unit unit) {
+    //    if (
+    //        unit.GetComponent<Target>().targetGameObject
+    //        && unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>()
+    //        && unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>().dead
+    //    ) {
+    //        unit.unitState = UnitState.Wander;
+    //    }
+    //}
 
     #endregion
 

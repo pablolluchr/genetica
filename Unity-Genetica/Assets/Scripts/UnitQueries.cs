@@ -205,8 +205,8 @@ public static class UnitQueries {
     }
 
     public static bool IsTargettedEnemyDead(Unit unit) {
-        return unit.GetComponent<Target>().targetGameObject != null &&
-            unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>().dead;
+
+        return unit.GetComponent<Target>().targetGameObject.GetComponent<Unit>().dead;
     }
    
 
